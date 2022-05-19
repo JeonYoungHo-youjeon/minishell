@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 16:54:41 by mher              #+#    #+#             */
-/*   Updated: 2022/05/19 17:26:52 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/19 18:18:34 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_pwd(void)
 	buf = getcwd(NULL, 0);
 	if (buf == 0)
 	{
-		//print_error();
+		//print_error(); ??
 		return (-1);
 	}
 	printf("%s\n", buf);
@@ -29,7 +29,7 @@ int	ft_pwd(void)
 	return (0);
 }
 
-int	main(void) //test
+int	main(void)
 {
 	ft_pwd();
 	return (0);
