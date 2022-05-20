@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 18:36:23 by mher              #+#    #+#             */
-/*   Updated: 2022/05/20 20:33:19 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/20 20:38:27 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,20 @@ static void	echo_env_value(const char *key, char *envp[])
 	char	*value;
 	(void)envp;
 
-//todo: exit_status를 전역변수로 받으면 이런식으로 처리 가능
+//	todo: exit_status를 전역변수로 받으면 이런식으로 처리 가능
 //	if (key[1] == '?')
 //		print_exit_status();
 //	else
 //	{
-		value = getenv(key); //todo: minishell 자체 ft_getenv() 로 바꿔야함
+//		todo: minishell 자체 ft_getenv() 로 바꿔야함
+		value = getenv(key); 
 		write(STDOUT_FILENO, value, ft_strlen(value));
 //	}
 //
 //	else
 //	{
 //		value = ft_getenv(key, envp);
+//		write(STDOUT_FILENO, value, ft_strlen(value));
 //	}
 }
 
