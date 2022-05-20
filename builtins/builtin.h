@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 16:54:41 by mher              #+#    #+#             */
-/*   Updated: 2022/05/20 17:49:07 by mher             ###   ########.fr       */
+/*   Created: 2022/05/20 17:41:40 by mher              #+#    #+#             */
+/*   Updated: 2022/05/20 18:07:49 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./builtin.h"
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
-int	ft_pwd(void)
-{
-	char	*buf;
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
 
-	buf = getcwd(NULL, 0);
-	if (buf == 0)
-	{
-		//print_error(); ??
-		return (-1);
-	}
-	printf("%s\n", buf);
-	free(buf);
-	return (0);
-}
+# include "libft/include/libft.h"
+
+int	update_envp(const char *key, const char *value);
+int	ft_cd(const char *path);
+void	ft_env(char *envp[]);
+int	ft_pwd(void);
+
+#endif

@@ -1,28 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   update_envp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 16:54:41 by mher              #+#    #+#             */
-/*   Updated: 2022/05/20 17:49:07 by mher             ###   ########.fr       */
+/*   Created: 2022/05/20 17:43:34 by mher              #+#    #+#             */
+/*   Updated: 2022/05/20 17:49:39 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./builtin.h"
-
-int	ft_pwd(void)
+int	update_envp(const char *key, const char *value)
 {
-	char	*buf;
-
-	buf = getcwd(NULL, 0);
-	if (buf == 0)
-	{
-		//print_error(); ??
-		return (-1);
-	}
-	printf("%s\n", buf);
-	free(buf);
 	return (0);
 }
+
