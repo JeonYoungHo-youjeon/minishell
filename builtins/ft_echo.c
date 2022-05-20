@@ -6,26 +6,36 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 18:36:23 by mher              #+#    #+#             */
-/*   Updated: 2022/05/20 20:38:27 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/20 22:53:25 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./builtin.h"
 
+static int	is_option_n(char *str)
+{
+	if (ft_strncmp(str, "-n", 2) != 0)
+		return (0);
+	++str;
+	while (*str == 'n')
+		str++;
+	if (*str != 0)
+		return (0);
+	return (1);
+}
+
 static int	check_option_n(int argc, char *argv[], int *idx)
 {
-	int i;
-	int n_option;
+	int	i;
+	int	n_option;
 
 	i = 1;
 	n_option = 0;
 	if (argc < 2)
-		return (n_option);
-	while (i < argc && ft_strncmp(argv[i], "-n", 2) == 0)
-	{
-		n_option = 1;
+		return (0);
+	n_option = is_option_n(argv[i]);
+	while (i < argc && is_option_n(argv[i])) 
 		++i;
-	}
 	*idx = i;
 	return (n_option);
 }
