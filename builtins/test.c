@@ -1,19 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_builtins.c                                    :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 01:50:33 by mher              #+#    #+#             */
-/*   Updated: 2022/05/20 17:07:43 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/20 18:23:10 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft/include/libft.h" 
+#include "./builtin.h"
 
 int	ft_pwd(void);
 int	ft_cd(const char *path);
@@ -39,6 +36,9 @@ void	pwd_test(void)
 
 int main(int argc, char *argv[], char *envp[])
 {
+	(void)argc;
+	(void)argv;
+	(void)envp;
 	cd_test();
 	return (0);
 }
