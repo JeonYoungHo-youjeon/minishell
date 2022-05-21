@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 01:50:33 by mher              #+#    #+#             */
-/*   Updated: 2022/05/20 19:23:13 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/21 17:51:57 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,49 @@ void	echo_test(int argc, char *argv[], char *envp[])
 	ft_echo(argc, argv, envp);
 }
 
+char **copy_env(char **envp)
+{
+	int	i;
+	size_t	j;
+	int	len;
+	char	**ret;
+	
+	len = 0;
+	while (envp[len])
+		++len;
+	ret = (char **)malloc(len * sizeof(char *) + 1);
+	i = 0;
+	while (i < len)
+	{
+		ret[i] = (char *)malloc(ft_strlen(envp[i]) * sizeof(char) + 1);
+		j = 0;
+		while (j <= ft_strlen(envp[i]))
+		{
+				ret[j] = envp[j];
+				++j;
+		}
+		++i;
+	}
+	ret[i] = NULL;
+	return (ret);
+}
+
+void	exprot_test(char **envp, char *key_value)
+{
+	char **tmp;
+	char **new;
+
+	tmp = copy_env(envp);
+	ft_env(tmp);
+	new = ft_export(tmp, key_value);
+	ft_env(new);
+	free(new);
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
-	echo_test(argc, argv, envp);
+	(void)argc;
+	(void)argv;
+	exprot_test(envp, "TEST=1234");
 	return (0);
 }

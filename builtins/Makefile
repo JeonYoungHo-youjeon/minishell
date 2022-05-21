@@ -6,7 +6,7 @@
 #    By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 15:50:40 by mher              #+#    #+#              #
-#    Updated: 2022/05/20 19:06:34 by mher             ###   ########.fr        #
+#    Updated: 2022/05/21 16:46:15 by mher             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 	
@@ -25,6 +25,7 @@ SRCS	= \
 	  ft_env.c \
 	  ft_cd.c \
 	  ft_echo.c \
+	  ft_export.c \
 	  update_envp.c \
 
 OBJS	= $(SRCS:.c=.o)
