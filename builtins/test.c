@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 01:50:33 by mher              #+#    #+#             */
-/*   Updated: 2022/05/21 19:16:22 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/21 20:30:43 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,24 @@ void	exprot_test(char **envp, char *key_value)
 	free(new);
 }
 
+void	unset_test(char **envp)
+{
+	char **tmp;
+	char **new;
+
+	tmp = copy_env(envp);
+	ft_env(tmp);
+	new = ft_export(tmp, "TEST=1234");
+	ft_env(new);
+	printf("------------------------------------\n");
+	ft_unset(&new, "TEST");
+	ft_env(new);
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
 	(void)argc;
 	(void)argv;
-	exprot_test(envp, "1234A=1234");
+	unset_test(envp);
 	return (0);
 }
