@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 01:50:33 by mher              #+#    #+#             */
-/*   Updated: 2022/05/21 17:51:57 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/21 19:16:22 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ int main(int argc, char *argv[], char *envp[])
 {
 	(void)argc;
 	(void)argv;
-	exprot_test(envp, "TEST=1234");
+	exprot_test(envp, "1234A=1234");
 	return (0);
 }

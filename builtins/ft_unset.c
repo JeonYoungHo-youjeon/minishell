@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export.c                                        :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/20 23:05:45 by mher              #+#    #+#             */
-/*   Updated: 2022/05/21 19:17:53 by mher             ###   ########.fr       */
+/*   Created: 2022/05/21 18:17:22 by mher              #+#    #+#             */
+/*   Updated: 2022/05/21 18:17:37 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static int	get_key_len(char *key_value)
 	len = 0;
 	while(key_value[len] != '=')
 		++len;
-	if (key_value[len] == 0)
-		return (-1);
 	return (len);
 }
 
@@ -31,13 +29,6 @@ static int	find_key_idx(char *key_value, char **envp)
 	
 	i = 0;
 	key_len = get_key_len(key_value);
-	if (key_len == -1)
-		return (-1);
-	while (i < key_len && ft_isdigit(key_value[i]))
-		i++;
-	if (key_value[i] == '=')
-		return (-1);
-	i = 0;
 	while (envp[i] && ft_strncmp(key_value, envp[i], key_len + 1))
 		++i;
 	if (envp[i] == NULL)
@@ -83,10 +74,8 @@ char	**ft_export(char **envp, char *key_value)
 	int	idx;
 	
 	idx = find_key_idx(key_value, envp);
-	if (idx == -1)
-		return (envp);
-	else if (idx == 0)
-		return (append_env(envp, key_value));
-	else
+	if (idx != 0)
 		return (change_env(envp, key_value, idx));
+	else
+		return (append_env(envp, key_value));
 }
