@@ -6,17 +6,17 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 17:37:24 by mher              #+#    #+#             */
-/*   Updated: 2022/05/20 17:48:34 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/23 22:28:26 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./builtin.h"
 
-void	ft_env(char *envp[])
+void	ft_env(t_env *cur)
 {
-	while (*envp)
+	while (cur != 0)
 	{
-		printf("%s\n", *envp);
-		++envp;
+		printf("%s=%s\n", cur->key, cur->value);
+		cur = cur->next;
 	}
 }
