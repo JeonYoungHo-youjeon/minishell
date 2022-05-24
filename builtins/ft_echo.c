@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 18:36:23 by mher              #+#    #+#             */
-/*   Updated: 2022/05/20 22:53:25 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/24 18:30:05 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,21 @@ static int	check_option_n(int argc, char *argv[], int *idx)
 	return (n_option);
 }
 
-static void	echo_env_value(const char *key, char *envp[])
+static void	echo_env_value(t_env *env_head, char *key)
 {
-	char	*value;
-	(void)envp;
+	t_env	*env;
 
+	env = compare_env_key(env_head, key);
 //	todo: exit_status를 전역변수로 받으면 이런식으로 처리 가능
 //	if (key[1] == '?')
 //		print_exit_status();
 //	else
 //	{
-//		todo: minishell 자체 ft_getenv() 로 바꿔야함
-		value = getenv(key); 
-		write(STDOUT_FILENO, value, ft_strlen(value));
-//	}
-//
-//	else
-//	{
-//		value = ft_getenv(key, envp);
-//		write(STDOUT_FILENO, value, ft_strlen(value));
+		write(STDOUT_FILENO, env->value, ft_strlen(env->value));
 //	}
 }
 
-int	ft_echo(int argc, char *argv[], char *envp[])
+int	ft_echo(int argc, char *argv[], t_env *env_head)
 {
 	int	i;
 	int	n_option;
@@ -72,7 +64,7 @@ int	ft_echo(int argc, char *argv[], char *envp[])
 	while (i < argc)
 	{
 		if (argv[i][0] == '$')
-			echo_env_value(argv[i], envp);
+			echo_env_value(env_head, argv[i] + 1);
 		else
 			write(STDOUT_FILENO, argv[i], ft_strlen(argv[i]));
 		if (i + 1 != argc)

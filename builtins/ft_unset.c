@@ -6,55 +6,32 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 18:17:22 by mher              #+#    #+#             */
-/*   Updated: 2022/05/21 20:30:19 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/24 18:14:08 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./builtin.h"
 
-static int	get_key_len(char *key)
+static void	remove_env(t_env *env)
 {
-	int	len;
+	t_env	*next;
+	t_env	*prev;
 
-	len = 0;
-	while(key[len])
-		++len;
-	return (len);
+	next = env->next;
+	prev = env->prev;
+	prev->next = env->next;
+	next->prev = env->prev;
+	free(env->key);
+	free(env->value);
 }
 
-static int	find_key_idx(char *key, char **envp)
+void	ft_unset(t_env *env_head, char *key)
 {
-	int	i;
-	int	key_len;
+	t_env	*env;
 	
-	i = 0;
-	key_len = get_key_len(key);
-	while (envp[i])
-	{
-		if (ft_strncmp(key, envp[i], key_len) == 0)
-			if (envp[i][key_len] == '=')
-				return (i);
-		++i;
-	}
-	return (-1);
-}
-
-static void	remove_env(char ***envp, int idx)
-{
-	while ((*envp)[idx + 2])
-	{
-		(*envp)[idx] = (*envp)[idx + 1];
-		++idx;
-	}
-}
-
-void	ft_unset(char ***envp, char *key)
-{
-	int	idx;
-	
-	idx = find_key_idx(key, *envp);
-	if (idx == -1)
+	env = compare_env_key(env_head, key);
+	if (env->key == NULL)
 		return ;
 	else
-		return (remove_env(envp, idx));
+		return (remove_env(env));
 }

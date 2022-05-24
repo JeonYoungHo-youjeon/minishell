@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:41:40 by mher              #+#    #+#             */
-/*   Updated: 2022/05/23 22:23:44 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/24 19:25:49 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,17 @@ typedef struct s_env
 	struct s_env	*prev;
 }	t_env;
 
-int	update_envp(const char *key, const char *value);
-int	ft_cd(const char *path);
 int	ft_pwd(void);
-int	ft_echo(int argc, char *args[], char *envp[]);
-char	**ft_export(char **envp, char *key_value);
-void	ft_unset(char ***envp, char *key);
-
+int	ft_cd(const char *path);
+int	ft_echo(int argc, char *argv[], t_env *env_head);
+void	ft_unset(t_env *env_head, char *key);
 void	ft_env(t_env *env_head);
+int	ft_export(t_env *env_head, char *key, char *value);
 
-//builtin test
-
-char	**copy_env(char **envp);
-int	init_env(t_env *env, char **envp);
+//env_utils
+int	init_env_list(t_env *cur, char **envp);
+char	*get_env_key(char *env);
+char	*get_env_value(char *env);
+t_env	*compare_env_key(t_env *env_head, char *key);
 
 #endif

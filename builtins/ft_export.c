@@ -6,87 +6,53 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 23:05:45 by mher              #+#    #+#             */
-/*   Updated: 2022/05/21 19:17:53 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/24 18:31:27 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./builtin.h"
 
-static int	get_key_len(char *key_value)
+static int	append_env(t_env *env, char *key, char *value)
 {
-	int	len;
+	t_env	*new;
 
-	len = 0;
-	while(key_value[len] != '=')
-		++len;
-	if (key_value[len] == 0)
+	new = (t_env *)malloc(sizeof(t_env));
+	if (new == 0)
 		return (-1);
-	return (len);
+	new->key = 0;
+	new->value = 0;
+	new->next = 0;
+	new->prev = env;
+
+	env->key = key;
+	env->value = value;
+	env->next = new;
+	return (0);
 }
 
-static int	find_key_idx(char *key_value, char **envp)
+static int	change_env(t_env *env, char *value)
+{
+	free(env->value);
+	env->value = value;
+	return (0);
+}
+
+// malloc 에러 -1
+// 정상 종료 0
+int	ft_export(t_env *env_head, char *key, char *value)
 {
 	int	i;
-	int	key_len;
-	
+	t_env	*env;
+
+	// kye 에 숫자만 들어가는 경우 체크
 	i = 0;
-	key_len = get_key_len(key_value);
-	if (key_len == -1)
-		return (-1);
-	while (i < key_len && ft_isdigit(key_value[i]))
-		i++;
-	if (key_value[i] == '=')
-		return (-1);
-	i = 0;
-	while (envp[i] && ft_strncmp(key_value, envp[i], key_len + 1))
+	while (ft_isdigit(key[i]))
 		++i;
-	if (envp[i] == NULL)
+	if (key[i] == 0)
 		return (0);
-	return (i);
-}
-
-static char	**append_env(char **envp, char *key_value)
-{
-	int	i;
-	char	**new_envp;
-	char	**tmp;
-
-	i = 0;
-	while (envp[i])
-		++i;
-	new_envp = (char **)malloc(i * sizeof(char *) + 2);
-	if (new_envp == NULL)
-		return (NULL);
-	i = 0;
-	while (envp[i])
-	{
-		new_envp[i] = envp[i];
-		++i;
-	}
-	new_envp[i++] = key_value;
-	new_envp[i] = NULL;
-	tmp = envp;
-	envp = new_envp;
-	free(tmp);
-	return (new_envp);
-}
-
-static char	**change_env(char **envp, char *key_value, int idx)
-{
-	free(envp[idx]);
-	envp[idx] = key_value; 
-	return (envp);
-}
-
-char	**ft_export(char **envp, char *key_value)
-{
-	int	idx;
-	
-	idx = find_key_idx(key_value, envp);
-	if (idx == -1)
-		return (envp);
-	else if (idx == 0)
-		return (append_env(envp, key_value));
+	env = compare_env_key(env_head, key);
+	if (env->key != 0)
+		return (change_env(env, value));
 	else
-		return (change_env(envp, key_value, idx));
+		return (append_env(env, key, value));
 }
