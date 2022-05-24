@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 16:54:41 by mher              #+#    #+#             */
-/*   Updated: 2022/05/20 17:49:07 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/24 22:17:12 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	ft_pwd(void)
 		//print_error(); ??
 		return (-1);
 	}
-	printf("%s\n", buf);
+	write(STDOUT_FILENO, buf, ft_strlen(buf));
+	write(STDOUT_FILENO, "\n", 1);
 	free(buf);
 	return (0);
 }

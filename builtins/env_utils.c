@@ -12,45 +12,49 @@
 
 #include "./builtin.h"
 
-char	*get_env_key(char *env)
+char	*get_env_key(char *key_value)
 {
 	size_t	i;
 	size_t	len;
 	char	*key;
 
 	len = 0;
-	while(env[len] != '=')
+	while(key_value[len] != 0 && key_value[len] != '=')
 		++len;
+	if (key_value[len] == 0)
+		return (NULL);
 	key = (char *)malloc(len * sizeof(char) + 1);
 	if (key == NULL)
 		return (NULL);
 	i = 0;
 	while (i < len)
 	{
-		key[i] = env[i];
+		key[i] = key_value[i];
 		++i;
 	}
 	key[i] = 0;
 	return (key);
 }
 
-char	*get_env_value(char *env)
+char	*get_env_value(char *key_value)
 {
 	size_t	i;
 	size_t	len;
 	char	*value;
 
 	len = 0;
-	while(*env != '=')
-		++env;
-	len = ft_strlen(++env);
+	while(key_value[len] != 0 && key_value[len] != '=')
+		++key_value;
+	if (key_value[len] == 0)
+		return (NULL);
+	len = ft_strlen(++key_value);
 	value = (char *)malloc(len * sizeof(char) + 1);
 	if (value == NULL)
 		return (NULL);
 	i = 0;
 	while (i < len)
 	{
-		value[i] = env[i];
+		value[i] = key_value[i];
 		++i;
 	}
 	value[i] = 0;

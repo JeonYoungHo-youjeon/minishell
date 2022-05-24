@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:48:13 by mher              #+#    #+#             */
-/*   Updated: 2022/05/20 22:28:56 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/24 22:33:25 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ static int	cd_home(const char *path)
 
 int	ft_cd(const char *path)
 {
-	if (path == 0)
+	//'cd'
+	if (path == 0)		
 		return (cd_home(path));
-	else if (ft_strncmp("~", path, 1) == 0)
+	//'cd ~', 'cd ~/path'
+	else if (ft_strncmp("~", path, 1) == 0) 
 		return (cd_home(path));
+	//'cd path'
 	else
 		return (chdir(path));
 }

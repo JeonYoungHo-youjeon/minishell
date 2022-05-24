@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 18:36:23 by mher              #+#    #+#             */
-/*   Updated: 2022/05/24 18:30:05 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/24 22:21:40 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ static int	is_option_n(char *str)
 static int	check_option_n(int argc, char *argv[], int *idx)
 {
 	int	i;
-	int	n_option;
+	int	option_n;
 
 	i = 1;
-	n_option = 0;
+	option_n = 0;
 	if (argc < 2)
 		return (0);
-	n_option = is_option_n(argv[i]);
+	option_n = is_option_n(argv[i]);
 	while (i < argc && is_option_n(argv[i])) 
 		++i;
 	*idx = i;
-	return (n_option);
+	return (option_n);
 }
 
 static void	echo_env_value(t_env *env_head, char *key)
@@ -45,33 +45,35 @@ static void	echo_env_value(t_env *env_head, char *key)
 	t_env	*env;
 
 	env = compare_env_key(env_head, key);
-//	todo: exit_status를 전역변수로 받으면 이런식으로 처리 가능
+	if (env->key == NULL)
+		return ;
+//	todo: exit_status를 전역변수로 받으면 이런식으로 처리 할듯?
 //	if (key[1] == '?')
 //		print_exit_status();
 //	else
 //	{
-		write(STDOUT_FILENO, env->value, ft_strlen(env->value));
+	write(STDOUT_FILENO, env->value, ft_strlen(env->value));
 //	}
 }
 
 int	ft_echo(int argc, char *argv[], t_env *env_head)
 {
-	int	i;
-	int	n_option;
+	int	idx;
+	int	option_n;
 
-	i = 1;
-	n_option = check_option_n(argc, argv, &i);
-	while (i < argc)
+	idx = 1;
+	option_n = check_option_n(argc, argv, &idx);
+	while (idx < argc)
 	{
-		if (argv[i][0] == '$')
-			echo_env_value(env_head, argv[i] + 1);
+		if (argv[idx][0] == '$')
+			echo_env_value(env_head, argv[idx] + 1);
 		else
-			write(STDOUT_FILENO, argv[i], ft_strlen(argv[i]));
-		if (i + 1 != argc)
+			write(STDOUT_FILENO, argv[idx], ft_strlen(argv[idx]));
+		if (idx + 1 != argc)
 			write(STDOUT_FILENO, " ", 1);
-		++i;
+		++idx;
 	}
-	if (n_option == 0)
+	if (option_n == 0)
 		write(STDOUT_FILENO, "\n", 1);
 	return (0);
 }
