@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 17:37:24 by mher              #+#    #+#             */
-/*   Updated: 2022/05/26 18:06:20 by mher             ###   ########.fr       */
+/*   Created: 2022/05/26 17:44:54 by mher              #+#    #+#             */
+/*   Updated: 2022/05/26 17:45:17 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./builtin.h"
+#include "../include/libft.h"
 
-int	ft_env(t_env *cur)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	while (cur->key != 0)
+	unsigned char	*t1;
+	unsigned char	*t2;
+	size_t		len;
+
+	t1 = (unsigned char *)s1;
+	t2 = (unsigned char *)s2;
+	while (*t1)
 	{
-		write(STDOUT_FILENO, cur->key, ft_strlen(cur->key));
-		write(STDOUT_FILENO, "=", 1);
-		write(STDOUT_FILENO, cur->value, ft_strlen(cur->value));
-		write(STDOUT_FILENO, "\n", 1);
-		cur = cur->next;
+		if (*t1 != *t2 || !*t1 || !*t2)
+			return (*t1 - *t2);
+		++t1;
+		++t2;
 	}
-	return (0);
+	return (*t1 - *t2);
 }

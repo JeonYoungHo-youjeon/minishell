@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 14:45:24 by mher              #+#    #+#             */
-/*   Updated: 2022/04/16 01:31:29 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/26 17:45:36 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ size_t			ft_strlcat(char *dst, const char *src, size_t size);
 size_t			ft_strlcpy(char *dst, const char *src, size_t size);
 size_t			ft_strlen(const char *s);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			*ft_strnstr(const char *haystack, const char *needle,
 					size_t len);

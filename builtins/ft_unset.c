@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 18:17:22 by mher              #+#    #+#             */
-/*   Updated: 2022/05/26 16:34:23 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/26 18:07:00 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	remove_env(t_env *env)
 	free(env);
 }
 
-void	unset(t_env *env_head, char *key)
+static void	unset(t_env *env_head, char *key)
 {
 	t_env	*env;
 	
@@ -37,16 +37,17 @@ void	unset(t_env *env_head, char *key)
 		remove_env(env);
 }
 
-void	ft_unset(int argc, char *argv[], t_env *env_head)
+int	ft_unset(int argc, char *argv[], t_env *env_head)
 {
 	int	i;
 
 	if (argc < 2)
-		return ;
+		return (0);
 	i = 1;
 	while (i < argc)
 	{
 		unset(env_head, argv[i]);
 		++i;
 	};
+	return (0);
 }
