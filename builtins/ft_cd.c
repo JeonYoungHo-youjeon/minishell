@@ -6,13 +6,13 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:48:13 by mher              #+#    #+#             */
-/*   Updated: 2022/05/24 22:33:25 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/26 16:39:58 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./builtin.h"
 
-static int	cd_home(const char *path)
+static int	cd_home(char *path)
 {
 	char	*home;
 	int	ret;
@@ -37,7 +37,7 @@ static int	cd_home(const char *path)
 	return (ret);
 }
 
-int	ft_cd(const char *path)
+int	ft_cd(char *path)
 {
 	//'cd'
 	if (path == 0)		

@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 23:05:45 by mher              #+#    #+#             */
-/*   Updated: 2022/05/24 22:52:20 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/26 16:14:34 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,14 @@ static int	change_env(t_env *env, char *value)
 	return (0);
 }
 
-int	ft_export(t_env *env_head, char *key_value)
+static int	export(t_env *env_head, char *key_value)
 {
 	int	i;
 	t_env	*env;
 	char	*key;
 	char	*value;
 
-	//key_value 인자가 "kye=value" 형태인지get_env_key(), get_env_value()
-	//함수에서 검사 해줌
+	//key_value 인자가 "kye=value" 형태인지get_env_key(),get_env_value() 함수에서 검사 해줌
 	key = get_env_key(key_value);
 	if (key == NULL)
 		return (0);
@@ -58,4 +57,22 @@ int	ft_export(t_env *env_head, char *key_value)
 		return (change_env(env, value));
 	else // key가 존재하지 않는 경우 환경변수 마지막에 추가
 		return (append_env(env, key, value));
+}
+
+int	ft_export(int argc, char *argv[], t_env *env_head)
+{
+	int	i;
+	int	ret;
+
+	if (argc < 2)
+		return (0);
+	i = 1;
+	while (i < argc)
+	{
+		ret = export(env_head, argv[i]);
+		if (ret == -1)
+			break ;
+		++i;
+	}
+	return (ret);
 }

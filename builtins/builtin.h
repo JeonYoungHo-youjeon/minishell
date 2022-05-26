@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:41:40 by mher              #+#    #+#             */
-/*   Updated: 2022/05/24 23:48:43 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/26 16:39:37 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ typedef struct s_env
 }	t_env;
 
 int	ft_pwd(void);
-int	ft_cd(const char *path);
-int	ft_echo(int argc, char *argv[], t_env *env_head);
-void	ft_unset(t_env *env_head, char *key);
+int	ft_cd(char *path);
 void	ft_env(t_env *env_head);
-int	ft_export(t_env *env_head, char *key_value);
+int	ft_echo(int argc, char *argv[], t_env *env_head);
+void	ft_unset(int argc, char *argv[], t_env *env_head);
+int	ft_export(int argc, char *argv[], t_env *env_head);
 
 //env_utils
 int	init_env_list(t_env *cur, char **envp);
