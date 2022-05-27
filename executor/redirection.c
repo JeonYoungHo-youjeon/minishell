@@ -6,34 +6,47 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:06:24 by mher              #+#    #+#             */
-/*   Updated: 2022/05/26 22:42:41 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/27 19:27:56 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
 //todo: 에러처리 해야함
-void	redirect_std_fd(t_arg *arg, t_cmd *cmd)
+int	redirect_outfile(t_arg *arg, char *outfile, int o_flag)
 {
 	int	fd;
 
-	if (cmd->input)
+	fd = open(outfile, arg->o_flag, 0644);
+	if (fd == -1)
+		perror("outfile open fail");
+	dup2(arg->fd1[READ], STDIN_FILENO);
+	dup2(fd, STDOUT_FILENO);
+	return (0);
+}
+
+//todo: 에러처리 해야함
+void	redirect_std_fd(t_arg *arg)
+{
+	int	fd;
+
+	if (arg->infile)
 	{
-		fd = open(cmd->input, O_RDONLY);
+		fd = open(arg->infile, O_RDONLY);
 		if (fd == -1)
 			perror("infile open fail");
 		dup2(fd, STDIN_FILENO);
 		dup2(arg->fd2[WRITE], STDOUT_FILENO);
 	}
-	else if (cmd->output)
+	else if (arg->outfile)
 	{
-		fd = open(cmd->output, arg->o_flag, 0644);
+		fd = open(arg->outfile, arg->o_flag, 0644);
 		if (fd == -1)
 			perror("outfile open fail");
 		dup2(arg->fd1[READ], STDIN_FILENO);
 		dup2(fd, STDOUT_FILENO);
 	}
-	else if (cmd->pipe)
+	else if (arg->pipe)
 	{
 		dup2(arg->fd1[READ], STDIN_FILENO);
 		dup2(arg->fd2[WRITE], STDOUT_FILENO);

@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/05/26 22:42:05 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/27 19:14:14 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,32 @@ typedef struct	s_cmd
 {
 	int		argc;
 	char		**argv;
-	int		pipe;
-	int		heredoc;
-	int		append;
-	char		*input;
-	char		*output;
+	int		is_pipe;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
-	t_env		*env_head; //??
 }	t_cmd;
 
 typedef struct s_arg
 {
+	char	**envp;
+	char	**path_env;
+	char	**cmd_options;
+	char	*infile;
+	//char	*outfile;
+	char	*append;
+	int	heredoc;
+	int	pipe;
+	int	redirection;
 	int	fd1[2];
 	int	fd2[2];
-	pid_t	pid;
 	int	o_flag;
+	pid_t	pid;
+
+	t_env	*env_head;
 }	t_arg;
 
-void	redirect_std_fd(t_arg *arg, t_cmd *cmd);
+int	redirect_outfile(t_arg *arg, char *outfile, int o_flag);
+void	redirect_std_fd(t_arg *arg);
 void	close_unused_fd(t_arg *arg);
 
 #endif
