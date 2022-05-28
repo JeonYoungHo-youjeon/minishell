@@ -6,11 +6,24 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:06:24 by mher              #+#    #+#             */
-/*   Updated: 2022/05/28 15:09:37 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/28 17:16:26 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
+
+//todo: 에러처리 해야함
+int	redirect_infile(t_arg *arg, char *infile, int o_flag)
+{
+	int	fd;
+
+	fd = open(infile, o_flag);
+	if (fd == -1)
+		perror("infile open fail");
+	dup2(fd, STDIN_FILENO);
+	dup2(arg->fd2[WRITE], STDOUT_FILENO);
+	return (0);
+}
 
 //todo: 에러처리 해야함
 int	redirect_outfile(t_arg *arg, char *outfile, int o_flag)

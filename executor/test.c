@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 01:50:33 by mher              #+#    #+#             */
-/*   Updated: 2022/05/28 15:24:28 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/28 16:56:10 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int main(int argc, char *argv[], char *envp[])
 	cmd.is_pipe = 0;
 	cmd.next = 0;
 	cmd.prev = 0;
-	executor(&cmd);
 
+	executor(&cmd);
 	return (0);
 }
