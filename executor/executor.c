@@ -6,17 +6,17 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/05/27 19:30:08 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/28 15:24:39 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../builtins/builtin.h"
 #include "./executor.h"
 
 int	execute_cmd(t_cmd *cmd, t_env *env_head)
 {
 	int	ret;
 
+	ret = 0;
 	if (ft_strcmp(cmd->argv[0], "cd") == 0)
 		ret = ft_cd(cmd->argv[1]);
 	else if (ft_strcmp(cmd->argv[0], "pwd") == 0) //fork
@@ -49,7 +49,7 @@ int	is_need_fork(char *cmd)
 
 void	updata_arg(t_arg *arg, t_cmd *cmd)
 {
-	size_t	i;
+	int	i;
 
 	if (ft_strcmp(cmd->argv[0], "<") == 0)
 		arg->infile = cmd->argv[1];
@@ -72,7 +72,7 @@ void	updata_arg(t_arg *arg, t_cmd *cmd)
 //cat > a > b
 int	redirection_process(t_arg *arg, t_cmd *cmd)
 {
-	size_t	i;
+	int	i;
 	int	o_flag;
 
 	i = 1;
@@ -103,16 +103,38 @@ int	redirection_process(t_arg *arg, t_cmd *cmd)
 
 
 int	pipe_process(t_arg *arg, t_cmd *cmd)
-{}
+{
+	(void)arg;
+	(void)cmd;
+	return (0);
+}
 
 int	nomal_process(t_arg *arg, t_cmd *cmd)
-{}
+{
+	execute_cmd(cmd, arg->env_head);
+	return (0);
+}
+
+int	init_arg(t_arg	*arg, t_cmd *cmd)
+{
+	arg->envp = cmd->envp;
+	arg->infile = 0;
+	arg->append = 0;
+	arg->heredoc = 0;
+	arg->pipe = 0;
+	arg->redirection = 0;
+	arg->o_flag = 0;
+	arg->pid = 0;
+	init_env_list(arg->env_head, arg->envp);
+	return (0);
+}
 
 int	executor(t_cmd *cmd)
 {
 	t_arg	arg;
-	int	exit_status;
+	//int	exit_status;
 
+	init_arg(&arg, cmd);
 	while (cmd != 0)
 	{
 		updata_arg(&arg, cmd);
@@ -126,30 +148,8 @@ int	executor(t_cmd *cmd)
 				pipe_process(&arg, cmd);
 			else
 				nomal_process(&arg, cmd);
-			cmd = cmd->next;	
 		}
+		cmd = cmd->next;	
 	}
 	return (0);
 }
-
-		//if (pipe(arg.fd2) < 0)
-		//	return (-1);
-		//if (is_need_fork(cmd->argv[0]) == 0)
-		//	executor(cmd);
-		//else
-		//{
-		//	redirect_std_fd(&arg);
-		//	arg.pid = fork();
-		//	if (arg.pid == -1)
-		//		return (-1);
-		//	if (arg.pid == 0)
-		//	{
-		//		close_unused_fd(&arg);
-		//		execute_cmd(cmd, arg.env_head);
-		//	}
-		//	else
-		//	{
-		//		close_unused_fd(&arg);
-		//		arg.fd1[0] = arg.fd2[0];
-		//	}
-		//}

@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/05/27 19:14:14 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/28 15:15:00 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include "../builtins/builtin.h"
+# include "./builtins/builtin.h"
+# include "./libft/include/libft.h"
 
 typedef struct	s_cmd
 {
 	int		argc;
 	char		**argv;
+	char		**envp;
 	int		is_pipe;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
@@ -33,8 +35,8 @@ typedef struct	s_cmd
 typedef struct s_arg
 {
 	char	**envp;
-	char	**path_env;
-	char	**cmd_options;
+	//char	**path_env;
+	//char	**cmd_options;
 	char	*infile;
 	//char	*outfile;
 	char	*append;
@@ -52,5 +54,13 @@ typedef struct s_arg
 int	redirect_outfile(t_arg *arg, char *outfile, int o_flag);
 void	redirect_std_fd(t_arg *arg);
 void	close_unused_fd(t_arg *arg);
+
+int	execute_cmd(t_cmd *cmd, t_env *env_head);
+int	is_need_fork(char *cmd);
+void	updata_arg(t_arg *arg, t_cmd *cmd);
+int	redirection_process(t_arg *arg, t_cmd *cmd);
+int	pipe_process(t_arg *arg, t_cmd *cmd);
+int	nomal_process(t_arg *arg, t_cmd *cmd);
+int	executor(t_cmd *cmd);
 
 #endif
