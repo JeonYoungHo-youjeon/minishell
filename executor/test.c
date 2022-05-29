@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 01:50:33 by mher              #+#    #+#             */
-/*   Updated: 2022/05/28 16:56:10 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/29 16:07:12 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ void	unset_test(int argc, char *argv[], t_env *env_head)
 
 int main(int argc, char *argv[], char *envp[])
 {
-	t_env	env_head;
-	t_cmd	cmd;
+	//t_env	env_head;
+	//t_cmd	cmd;
 
 	(void)argc;
 	(void)argv;
-	if (init_env_list(&env_head, envp) == -1)
-		return (-1);
+	//if (init_env_list(&env_head, envp) == -1)
+	//	return (-1);
 	//env_test(&env_head);
 	//exprot_test(argc, argv, &env_head);
 	//unset_test(argc, argv, &env_head);
@@ -66,13 +66,23 @@ int main(int argc, char *argv[], char *envp[])
 	//pwd_test();
 	//cd_test();
 
-	cmd.argc = argc - 1;
-	cmd.argv = argv + 1;
-	cmd.envp = envp;
-	cmd.is_pipe = 0;
-	cmd.next = 0;
-	cmd.prev = 0;
+	t_cmd	cmd1;
+	t_cmd	cmd2;
 
-	executor(&cmd);
+	cmd1.argc = 2;
+	cmd1.argv = ft_split("export TSET=1234", ' ');
+	cmd1.envp = envp;
+	cmd1.is_pipe = 1;
+	cmd1.prev = 0;
+	cmd1.next = &cmd2;
+
+	cmd2.argc = 1;
+	cmd2.argv = ft_split("env", ' ');
+	cmd2.envp = envp;
+	cmd2.is_pipe = 0;
+	cmd2.prev = &cmd1;
+	cmd2.next = 0;
+
+	executor(&cmd1);
 	return (0);
 }

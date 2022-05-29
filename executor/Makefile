@@ -6,14 +6,14 @@
 #    By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 15:50:40 by mher              #+#    #+#              #
-#    Updated: 2022/05/28 15:15:51 by mher             ###   ########.fr        #
+#    Updated: 2022/05/29 02:26:06 by mher             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 	
 NAME	= test
 
 RM	= rm -f
-CC	= gcc
+CC	= gcc -fsanitize=address -g3
 CFLAGS	= -Wall -Wextra -Werror
 
 FT_DIR	= ./libft
@@ -30,6 +30,7 @@ SRCS	= \
 	  ./builtins/env_utils.c \
 	  executor.c \
 	  redirection.c \
+	  path.c \
 	  test.c \
 
 OBJS	= $(SRCS:.c=.o)

@@ -6,37 +6,70 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/05/28 17:32:35 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/29 16:33:09 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./executor.h"
+#include "builtins/builtin.h"
+#include "libft/include/libft.h"
+#include <stdlib.h>
 
-int	execute_cmd(t_arg *arg, t_cmd *cmd)
+int	origin_cmd(t_cmd *cmd)
 {
-	int	ret;
 	int	i;
+	int	ret;
+	char	**path;
+	char	*cmd_path;
 
-	ret = 0;
+	path = ft_split(getenv("PATH"), ':');
+//	if (path);
+//		return ()
+	cmd_path = get_path_cmd(path, cmd->argv[0]);
+	//if (arg->cmd_path == NULL)
+		//exit_with_perror("command not found", 127);
+	ret = execve(cmd_path, cmd->argv, cmd->envp);
+	//if (ret == -1)
+		//exit_with_perror("execve fail", EXIT_FAILURE);
 	i = 0;
-	if (arg->infile || arg->heredoc)
-		i = 2;
-	if (ft_strcmp(cmd->argv[i], "cd") == 0)
-		ret = ft_cd(cmd->argv[i + 1]);
-	else if (ft_strcmp(cmd->argv[i], "pwd") == 0)
+	while(path[i])
+		free(path[i++]);
+	free(path);
+	free(cmd_path);
+	return (ret);
+}
+
+int	execute_needed_fork_cmd(t_cmd *cmd, t_env *env_head)
+{
+	int	i;
+	int	ret;
+
+	i = 0;
+	ret = -1;
+	if (ft_strcmp(cmd->argv[i], "pwd") == 0)
 		ret = ft_pwd();
 	else if (ft_strcmp(cmd->argv[i], "env") == 0)
-		ret = ft_env(arg->env_head);
+		ret = ft_env(env_head);
 	else if (ft_strcmp(cmd->argv[i], "echo") == 0)
-		ret = ft_echo(cmd->argc, cmd->argv, arg->env_head);
-	else if (ft_strcmp(cmd->argv[i], "export") == 0)
-		ret = ft_export(cmd->argc, cmd->argv, arg->env_head);
-	else if (ft_strcmp(cmd->argv[i], "unset") == 0)
-		ret = ft_unset(cmd->argc, cmd->argv, arg->env_head);
+		ret = ft_echo(cmd->argc, cmd->argv, env_head);
 	else if (ft_strcmp(cmd->argv[i], "exit") == 0)
-		ret = ft_exit(cmd->argc, cmd->argv, arg->env_head);
-	//else //todo: linux builtin 함수 실행
-	//	builtin();
+		ret = ft_exit(cmd->argc, cmd->argv, env_head);
+	else
+		origin_cmd(cmd);
+	exit(EXIT_SUCCESS);
+}
+
+int	execute_unneeded_fork_cmd(t_cmd *cmd, t_env *env_head)
+{
+	int	ret;
+
+	ret = -1;
+	if (ft_strcmp(cmd->argv[0], "cd") == 0)
+		ret = ft_cd(cmd->argv[1]);
+	else if (ft_strcmp(cmd->argv[0], "export") == 0)
+		ret = ft_export(cmd->argc, cmd->argv, env_head);
+	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
+		ret = ft_unset(cmd->argc, cmd->argv, env_head);
 	return (ret);
 }
 
@@ -51,154 +84,120 @@ int	is_need_fork(char *cmd)
 	return (1);
 }
 
-void	updata_arg(t_arg *arg, t_cmd *cmd)
+int	redirect_input(t_cmd *cmd)
 {
-	int	i;
+	int	fd;
 
+	if (cmd->prev != 0 && cmd->prev->is_pipe)
+		dup2(cmd->prev->fd[READ], STDIN_FILENO);
 	if (ft_strcmp(cmd->argv[0], "<") == 0)
-		arg->infile = cmd->argv[1];
-	else if (ft_strcmp(cmd->argv[0], "<<") == 0)
-		arg->heredoc = 1;
-	i = 1;
-	while (i < cmd->argc)
 	{
-		if (ft_strcmp(cmd->argv[i], ">") == 0)
-			arg->redirection = 1;
-		else if (ft_strcmp(cmd->argv[i], ">>") == 0)
-			arg->redirection = 1;
-		if (arg->redirection == 1)
-			break ;
-		++i;
+		fd = open(cmd->argv[1], O_RDONLY);
+		if (fd == -1)
+			perror("infile open error");
+		dup2(fd, STDIN_FILENO);
+		cmd->argv += 2;
 	}
-}
-
-int	heredoc(t_arg *arg, t_cmd *cmd)
-{
-	(void)arg;
-	(void)cmd;
 	return (0);
 }
 
-int	infile(t_arg *arg, t_cmd *cmd)
-{
-	(void)arg;
-	(void)cmd;
-	int	o_flag;
 
-	o_flag = O_RDONLY;
-	redirect_infile(arg, arg->infile, o_flag);
-	return (0);
-}
-
-//ls -l | cat > a > b
-//cat > a > b
-int	redirection_process(t_arg *arg, t_cmd *cmd)
+int	redirect_output(t_cmd *cmd)
 {
 	int	i;
-	int	o_flag;
+	int	fd;
 
+	if (cmd->is_pipe)
+		dup2(cmd->fd[WRITE], STDOUT_FILENO);
+	fd = 0;
 	i = 1;
-	if (arg->infile)
-		infile(arg, cmd);
-	else if (arg->heredoc)
-		heredoc(arg, cmd);
 	while (i < cmd->argc)
 	{
 		if (ft_strcmp(cmd->argv[i], ">") == 0)
-			break;
+			fd = open(cmd->argv[i + 1] , O_RDWR | O_CREAT | O_TRUNC, 0644);
 		else if (ft_strcmp(cmd->argv[i], ">>") == 0)
-			break;
+			fd = open(cmd->argv[i + 1] , O_WRONLY | O_CREAT | O_APPEND, 0644);
+		close(fd);
 		++i;
 	}
+	if (fd != 0)
+	{
+		if (ft_strcmp(cmd->argv[cmd->argc - 2], ">") == 0)
+			fd = open(cmd->argv[cmd->argc - 1] , O_RDWR | O_CREAT | O_TRUNC, 0644);
+		else if (ft_strcmp(cmd->argv[cmd->argc - 2], ">>") == 0)
+			fd = open(cmd->argv[cmd->argc - 1] , O_WRONLY | O_CREAT | O_APPEND, 0644);
+		dup2(fd, STDOUT_FILENO);
+	}
+	i = 1;
 	while (i < cmd->argc)
 	{
-		if (ft_strcmp(cmd->argv[i], ">") == 0)
-			o_flag = O_RDWR | O_CREAT | O_TRUNC;
-		else if (ft_strcmp(cmd->argv[i], ">>") == 0)
-			o_flag = O_WRONLY | O_CREAT | O_APPEND;
-		redirect_outfile(arg, cmd->argv[i + 1], o_flag);
-		arg->pid = fork();
-		if (arg->pid == -1) //todo: perror()
-			return (-1);
-		if (arg->pid == 0)
-			execute_cmd(arg, cmd);
-		i += 2;
+		if (ft_strcmp(cmd->argv[i], ">") == 0 || ft_strcmp(cmd->argv[i], ">>") == 0)
+		{
+			cmd->argv[i++] = 0;
+			while (i < cmd->argc)
+			{
+				free(cmd->argv[i]);
+				++i;
+			}
+		}
+		else
+			++i;
 	}
 	return (0);
 }
 
-
-int	pipe_process(t_arg *arg, t_cmd *cmd)
+int	redirect(t_cmd *cmd)
 {
-	(void)arg;
-	(void)cmd;
-	if (arg->infile)
-		infile(arg, cmd);
-	else if (arg->heredoc)
-		heredoc(arg, cmd);
+	redirect_input(cmd);
+	redirect_output(cmd);
 	return (0);
 }
 
-int	nomal_process(t_arg *arg, t_cmd *cmd)
+int	close_unused_fd(t_cmd *cmd, pid_t pid)
 {
-	if (arg->infile)
-		infile(arg, cmd);
-	else if (arg->heredoc)
-		heredoc(arg, cmd);
-	execute_cmd(arg, cmd);
-	return (0);
-}
-
-
-int	init_arg(t_arg	*arg, t_cmd *cmd)
-{
-	arg->envp = cmd->envp;
-	arg->infile = 0;
-	arg->append = 0;
-	arg->heredoc = 0;
-	arg->pipe = 0;
-	arg->redirection = 0;
-	arg->fd1[READ] = STDIN_FILENO;
-	arg->fd2[WRITE] = STDOUT_FILENO;
-	arg->o_flag = 0;
-	arg->pid = 0;
-	init_env_list(arg->env_head, arg->envp);
+	if (pid == 0)
+	{
+		if (cmd->prev != 0)
+			close(cmd->prev->fd[WRITE]);
+		close(cmd->fd[READ]);
+	}
+	else
+	{
+		if (cmd->prev != 0)
+			close(cmd->prev->fd[READ]);
+		close(cmd->fd[WRITE]);
+	}
 	return (0);
 }
 
 int	executor(t_cmd *cmd)
 {
-	t_arg	arg;
+	t_env	env_head;
+	pid_t	pid;
 	//int	exit_status;
 	
-	int	tmp;
-	tmp = 0;
-
-	init_arg(&arg, cmd);
+	init_env_list(&env_head, cmd->envp);
 	while (cmd != 0)
 	{
-		updata_arg(&arg, cmd);
 		if (is_need_fork(cmd->argv[0]) == 0)
-			execute_cmd(&arg, cmd);
+			execute_unneeded_fork_cmd(cmd, &env_head);
 		else
 		{
-			if (arg.redirection)
+			pipe(cmd->fd);
+			pid = fork();
+			if (pid == 0)
 			{
-				printf("----------1\n");
-				redirection_process(&arg, cmd);
-			}
-			else if (arg.pipe)
-			{
-				printf("----------2\n");
-				pipe_process(&arg, cmd);
+				redirect(cmd);
+				close_unused_fd(cmd, pid);
+				execute_needed_fork_cmd(cmd, &env_head);
+				exit(EXIT_FAILURE);
 			}
 			else
-			{
-				printf("----------3\n");
-				nomal_process(&arg, cmd);
-			}
+				close_unused_fd(cmd, pid);
 		}
 		cmd = cmd->next;	
 	}
+	while (wait(0) != -1)
+		;
 	return (0);
 }
