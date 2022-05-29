@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 01:50:33 by mher              #+#    #+#             */
-/*   Updated: 2022/05/29 17:09:54 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/29 17:40:07 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int main(int argc, char *argv[], char *envp[])
 
 	t_cmd	cmd1;
 	t_cmd	cmd2;
+	t_cmd	cmd3;
 
 	cmd1.argc = 2;
 	cmd1.argv = ft_split("cat infile", ' ');
@@ -78,11 +79,18 @@ int main(int argc, char *argv[], char *envp[])
 	//cmd1.next = 0;
 
 	cmd2.argc = 2;
-	cmd2.argv = ft_split("grep .c", ' ');
+	cmd2.argv = ft_split("grep c", ' ');
 	cmd2.envp = envp;
-	cmd2.is_pipe = 0;
+	cmd2.is_pipe = 1;
 	cmd2.prev = &cmd1;
-	cmd2.next = 0;
+	cmd2.next = &cmd3;
+
+	cmd3.argc = 2;
+	cmd3.argv = ft_split("grep h", ' ');
+	cmd3.envp = envp;
+	cmd3.is_pipe = 0;
+	cmd3.prev = &cmd2;
+	cmd3.next = 0;
 
 	executor(&cmd1);
 	return (0);

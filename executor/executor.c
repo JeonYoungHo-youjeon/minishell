@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/05/29 17:23:32 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/29 17:39:06 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,14 +168,14 @@ int	close_unused_fd(t_cmd *cmd, pid_t pid)
 {
 	if (pid == 0)
 	{
-	//	if (cmd->prev != 0)
-	//		close(cmd->prev->fd[WRITE]);
+		if (cmd->prev != 0)
+			close(cmd->prev->fd[WRITE]);
 		close(cmd->fd[READ]);
 	}
 	else
 	{
-	//	if (cmd->prev != 0)
-	//		close(cmd->prev->fd[READ]);
+		if (cmd->prev != 0)
+			close(cmd->prev->fd[READ]);
 		close(cmd->fd[WRITE]);
 	}
 	return (0);
