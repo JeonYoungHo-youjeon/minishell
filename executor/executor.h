@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/05/29 02:46:29 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/29 16:37:44 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,6 @@ typedef struct	s_cmd
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }	t_cmd;
-
-typedef struct s_arg
-{
-	char	*infile;
-	char	*append;
-	int	heredoc;
-	int	pipe;
-	int	redirection;
-	int	o_flag;
-	pid_t	pid;
-}	t_arg;
-
 
 int	is_need_fork(char *cmd);
 int	execute_cmd(t_cmd *cmd, t_env *env_head);

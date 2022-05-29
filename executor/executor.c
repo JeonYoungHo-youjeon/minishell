@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/05/29 16:33:09 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/29 17:23:32 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,9 @@ int	redirect_input(t_cmd *cmd)
 	int	fd;
 
 	if (cmd->prev != 0 && cmd->prev->is_pipe)
+	{
 		dup2(cmd->prev->fd[READ], STDIN_FILENO);
+	}
 	if (ft_strcmp(cmd->argv[0], "<") == 0)
 	{
 		fd = open(cmd->argv[1], O_RDONLY);
@@ -106,21 +108,30 @@ int	redirect_output(t_cmd *cmd)
 {
 	int	i;
 	int	fd;
+	int	is_outfile;
 
 	if (cmd->is_pipe)
 		dup2(cmd->fd[WRITE], STDOUT_FILENO);
-	fd = 0;
 	i = 1;
+	fd = -1;
+	is_outfile = 0;
 	while (i < cmd->argc)
 	{
 		if (ft_strcmp(cmd->argv[i], ">") == 0)
+		{
 			fd = open(cmd->argv[i + 1] , O_RDWR | O_CREAT | O_TRUNC, 0644);
+			is_outfile = 1;
+			close(fd);
+		}
 		else if (ft_strcmp(cmd->argv[i], ">>") == 0)
+		{
 			fd = open(cmd->argv[i + 1] , O_WRONLY | O_CREAT | O_APPEND, 0644);
-		close(fd);
+			is_outfile = 1;
+			close(fd);
+		}
 		++i;
 	}
-	if (fd != 0)
+	if (is_outfile)
 	{
 		if (ft_strcmp(cmd->argv[cmd->argc - 2], ">") == 0)
 			fd = open(cmd->argv[cmd->argc - 1] , O_RDWR | O_CREAT | O_TRUNC, 0644);
@@ -157,14 +168,14 @@ int	close_unused_fd(t_cmd *cmd, pid_t pid)
 {
 	if (pid == 0)
 	{
-		if (cmd->prev != 0)
-			close(cmd->prev->fd[WRITE]);
+	//	if (cmd->prev != 0)
+	//		close(cmd->prev->fd[WRITE]);
 		close(cmd->fd[READ]);
 	}
 	else
 	{
-		if (cmd->prev != 0)
-			close(cmd->prev->fd[READ]);
+	//	if (cmd->prev != 0)
+	//		close(cmd->prev->fd[READ]);
 		close(cmd->fd[WRITE]);
 	}
 	return (0);
@@ -190,7 +201,6 @@ int	executor(t_cmd *cmd)
 				redirect(cmd);
 				close_unused_fd(cmd, pid);
 				execute_needed_fork_cmd(cmd, &env_head);
-				exit(EXIT_FAILURE);
 			}
 			else
 				close_unused_fd(cmd, pid);

@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 01:50:33 by mher              #+#    #+#             */
-/*   Updated: 2022/05/29 16:07:12 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/29 17:09:54 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,15 @@ int main(int argc, char *argv[], char *envp[])
 	t_cmd	cmd2;
 
 	cmd1.argc = 2;
-	cmd1.argv = ft_split("export TSET=1234", ' ');
+	cmd1.argv = ft_split("cat infile", ' ');
 	cmd1.envp = envp;
 	cmd1.is_pipe = 1;
 	cmd1.prev = 0;
 	cmd1.next = &cmd2;
+	//cmd1.next = 0;
 
-	cmd2.argc = 1;
-	cmd2.argv = ft_split("env", ' ');
+	cmd2.argc = 2;
+	cmd2.argv = ft_split("grep .c", ' ');
 	cmd2.envp = envp;
 	cmd2.is_pipe = 0;
 	cmd2.prev = &cmd1;
