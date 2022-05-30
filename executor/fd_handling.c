@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:22 by mher              #+#    #+#             */
-/*   Updated: 2022/05/31 00:35:39 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/31 02:56:44 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 //execve(cmd_path, cmd->argv, cmd->envp); 를 수행할때 ">", ">>", "<" 등 리다이렉션 문자는 있으면 안되기 때문에 커맨드, 옵션 만 남기고 제거한다.
 //direction == 1 인 경우 처음만난 set을 기준으로 오른쪽에 있는 문자열을 제거한다.
-//direction == -1 인 경우 처음만난 set을 기준으로 왼쪽에 있는 문자열을 제거한다.
-static void	trim_cmd_argv(t_cmd *cmd, const char *set, int direction)
+//direction == -1 인 경우 처음만난 set을 기준으로 set 포함 왼쪽에 있는 문자열을 제거한다.
+void	trim_cmd_argv(t_cmd *cmd, const char *set, int direction)
 {
 	int	i;
 	int	tmp;
@@ -58,14 +58,13 @@ static int	redirect_infile(t_cmd *cmd)
 {
 	int	fd;
 
-	if (ft_strcmp(cmd->argv[0], "<") == 0)
-	{
-		fd = open(cmd->argv[1], O_RDONLY);
-		if (fd == -1)
-			perror("file open error");
-		dup2(fd, STDIN_FILENO);
-		trim_cmd_argv(cmd, cmd->argv[1], -1);
-	}
+	if (ft_strcmp(cmd->argv[0], "<"))
+		return (0);
+	fd = open(cmd->argv[1], O_RDONLY);
+	if (fd == -1)
+		perror("file open error");
+	dup2(fd, STDIN_FILENO);
+	trim_cmd_argv(cmd, cmd->argv[1], -1);
 	return (0);
 }
 

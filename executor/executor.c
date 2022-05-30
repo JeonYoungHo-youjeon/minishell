@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/05/31 00:40:21 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/31 03:53:29 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,13 @@ static int	execute_do_fork_cmd(t_cmd *cmd, t_env *env_head)
 {
 	int	ret;
 
-	if (ft_strcmp(cmd->argv[0], "pwd") == 0)
+	if (ft_strcmp(cmd->argv[0], "cd") == 0)
+		return (ft_cd(cmd->argv[1]));
+	else if (ft_strcmp(cmd->argv[0], "export") == 0)
+		return (ft_export(cmd->argc, cmd->argv, env_head));
+	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
+		return (ft_unset(cmd->argc, cmd->argv, env_head));
+	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
 		ret = ft_pwd();
 	else if (ft_strcmp(cmd->argv[0], "env") == 0)
 		ret = ft_env(env_head);
@@ -92,12 +98,13 @@ int	executor(t_cmd *cmd, t_env *env_head)
 			execute_not_fork_cmd(cmd, env_head);
 		else
 		{
-			pipe(cmd->fd);
+			pipe(cmd->fd); //
 			pid = fork();
 			//if (pid == -1)
 			//	perror();
 			if (pid == 0)
-			{
+		 	{
+				heredoc(cmd);
 				redirect(cmd);
 				close_unused_fd(cmd, pid);
 				execute_do_fork_cmd(cmd, env_head);
@@ -105,7 +112,7 @@ int	executor(t_cmd *cmd, t_env *env_head)
 			else
 				close_unused_fd(cmd, pid);
 		}
-		cmd = cmd->next;	
+		cmd = cmd->next;
 	}
 	while (wait(0) != -1)
 		;

@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/05/31 00:40:45 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/31 03:51:35 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,12 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
 # include "./builtins/builtin.h"
 # include "./libft/include/libft.h"
+# include "./libgnl/include/get_next_line.h"
 
 typedef struct	s_cmd
 {
@@ -29,13 +33,16 @@ typedef struct	s_cmd
 	char		**envp;
 	int		is_pipe;
 	int		fd[2];
+	int		hd_fd[2];
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }	t_cmd;
 
 int	executor(t_cmd *cmd, t_env *env_head);
 int	redirect(t_cmd *cmd);
+void	heredoc(t_cmd *cmd);
 int	close_unused_fd(t_cmd *cmd, pid_t pid);
 char	*get_cmd_path(char *cmd, char **path);
+void	trim_cmd_argv(t_cmd *cmd, const char *set, int direction);
 
 #endif
