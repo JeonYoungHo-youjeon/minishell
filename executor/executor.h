@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/05/30 18:57:10 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/31 00:40:45 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ typedef struct	s_cmd
 int	executor(t_cmd *cmd, t_env *env_head);
 int	redirect(t_cmd *cmd);
 int	close_unused_fd(t_cmd *cmd, pid_t pid);
-char	*get_path_cmd(char **path_env, char *cmd);
+char	*get_cmd_path(char *cmd, char **path);
 
 #endif

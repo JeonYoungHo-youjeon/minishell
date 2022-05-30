@@ -6,13 +6,13 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:55:17 by mher              #+#    #+#             */
-/*   Updated: 2022/05/28 21:18:45 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/31 00:40:32 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-char	*get_path_cmd(char **path_env, char *cmd)
+char	*get_cmd_path(char *cmd, char **path)
 {
 	int		i;
 	char	*ret;
@@ -24,9 +24,9 @@ char	*get_path_cmd(char **path_env, char *cmd)
 	tmp = ft_strjoin("/", cmd);
 	if (tmp == NULL)
 		return (NULL);
-	while (path_env[i])
+	while (path[i])
 	{
-		ret = ft_strjoin(path_env[i], tmp);
+		ret = ft_strjoin(path[i], tmp);
 		if (ret == NULL)
 			return (NULL);
 		if (access(ret, X_OK) == 0)

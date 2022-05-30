@@ -6,14 +6,14 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:22 by mher              #+#    #+#             */
-/*   Updated: 2022/05/30 23:38:48 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/31 00:35:39 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-//execve(cmd_path, cmd->argv, cmd->envp); 를 수행할때 ">", ">>", "<" 등 리다이렉션 문자는 있으면 안되기 때문에 커멘드 와 옵션 만 남기고 제거한다.
-//direction == 1 인 경우 처음만난 set을 기준으로 오른쪽에 있는 문자열을 제거하고
+//execve(cmd_path, cmd->argv, cmd->envp); 를 수행할때 ">", ">>", "<" 등 리다이렉션 문자는 있으면 안되기 때문에 커맨드, 옵션 만 남기고 제거한다.
+//direction == 1 인 경우 처음만난 set을 기준으로 오른쪽에 있는 문자열을 제거한다.
 //direction == -1 인 경우 처음만난 set을 기준으로 왼쪽에 있는 문자열을 제거한다.
 static void	trim_cmd_argv(t_cmd *cmd, const char *set, int direction)
 {
@@ -77,7 +77,9 @@ static int	redirect_outfile(t_cmd *cmd)
 
 	i = 1;
 	fd = -1;
-	while (i < cmd->argc)
+	// "cat infile > a > b > c" 같은 경우 a, b, c 파일모두 생성 되지만 출력은 c 에만 된다.
+	// 따라서 while 문을 돌면서 a, b, c 파일모두 생성 해준다.
+	while (i < cmd->argc) 
 	{
 		o_flag = 0;
 		if (ft_strcmp(cmd->argv[i], ">") == 0)

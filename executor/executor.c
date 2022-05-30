@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/05/30 23:21:08 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/31 00:40:21 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	is_need_fork(char *cmd)
 	return (1);
 }
 
+//리눅스 자체 builtin 명령어 수행
 static int	origin_cmd(t_cmd *cmd)
 {
 	int	i;
@@ -33,7 +34,7 @@ static int	origin_cmd(t_cmd *cmd)
 	path = ft_split(getenv("PATH"), ':');
 //	if (path);
 //		return ()
-	cmd_path = get_path_cmd(path, cmd->argv[0]);
+	cmd_path = get_cmd_path(cmd->argv[0], path);
 	//if (arg->cmd_path == NULL)
 		//exit_with_perror("command not found", 127);
 	ret = execve(cmd_path, cmd->argv, cmd->envp);
@@ -47,6 +48,7 @@ static int	origin_cmd(t_cmd *cmd)
 	return (ret);
 }
 
+//fork() 가 필요한 명령어 실행
 static int	execute_do_fork_cmd(t_cmd *cmd, t_env *env_head)
 {
 	int	ret;
@@ -66,6 +68,7 @@ static int	execute_do_fork_cmd(t_cmd *cmd, t_env *env_head)
 	exit(EXIT_SUCCESS);
 }
 
+//fork() 가 필요없는 명령어 실행
 static int	execute_not_fork_cmd(t_cmd *cmd, t_env *env_head)
 {
 	if (ft_strcmp(cmd->argv[0], "cd") == 0)
@@ -91,6 +94,8 @@ int	executor(t_cmd *cmd, t_env *env_head)
 		{
 			pipe(cmd->fd);
 			pid = fork();
+			//if (pid == -1)
+			//	perror();
 			if (pid == 0)
 			{
 				redirect(cmd);

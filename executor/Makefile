@@ -6,7 +6,7 @@
 #    By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 15:50:40 by mher              #+#    #+#              #
-#    Updated: 2022/05/30 18:25:21 by mher             ###   ########.fr        #
+#    Updated: 2022/05/31 00:36:23 by mher             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 	
@@ -29,9 +29,8 @@ SRCS	= \
 	  ./builtins/ft_exit.c \
 	  ./builtins/env_utils.c \
 	  executor.c \
-	  redirection.c \
-	  path.c \
 	  fd_handling.c \
+	  path.c \
 	  test.c \
 
 OBJS	= $(SRCS:.c=.o)
