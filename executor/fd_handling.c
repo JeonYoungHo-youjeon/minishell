@@ -6,34 +6,51 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:22 by mher              #+#    #+#             */
-/*   Updated: 2022/05/30 20:52:47 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/30 23:38:48 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-static int	redirect_pipe(t_cmd *cmd)
-{
-	if (cmd->prev != 0 && cmd->prev->is_pipe) // cmd 가 파이프로 입력을 받는 경우
-		dup2(cmd->prev->fd[READ], STDIN_FILENO);
-	if (cmd->is_pipe) // cmd 가 파이프로 출력하는 경우
-		dup2(cmd->fd[WRITE], STDOUT_FILENO);
-	return (0);
-}
-
-static int	trim_cmd(t_cmd *cmd, char *set, int direction)
+//execve(cmd_path, cmd->argv, cmd->envp); 를 수행할때 ">", ">>", "<" 등 리다이렉션 문자는 있으면 안되기 때문에 커멘드 와 옵션 만 남기고 제거한다.
+//direction == 1 인 경우 처음만난 set을 기준으로 오른쪽에 있는 문자열을 제거하고
+//direction == -1 인 경우 처음만난 set을 기준으로 왼쪽에 있는 문자열을 제거한다.
+static void	trim_cmd_argv(t_cmd *cmd, const char *set, int direction)
 {
 	int	i;
-	char	**argv;
+	int	tmp;
+	int	argc;
 
-	i = 0;
-	argv = cmd->argv;
-	while (i < cmd->argc)
+	i = -1;
+	argc = cmd->argc;
+	while (++i < argc)
+		if (ft_strcmp(cmd->argv[i], set) == 0)
+			break ; 
+	if (direction == 1)
 	{
-		if (!ft_strcmp(argv[i], ">") || !ft_strcmp(argv[i], ">>"))
-			break ;
-		++i;
+		cmd->argv[i] = 0;
+		cmd->argc -= argc - i;
+		while (i < argc)
+			free(cmd->argv[++i]);
 	}
+	else if (direction == -1)
+	{
+		tmp = i;
+		while (i >= 0)
+			free(cmd->argv[i--]);
+		cmd->argv += tmp + 1;
+		cmd->argc -= tmp + 1;
+	}
+}
+
+static int	redirect_pipe(t_cmd *cmd)
+{
+	// cmd 가 파이프로 입력을 받는 경우
+	if (cmd->prev != 0 && cmd->prev->is_pipe) 
+		dup2(cmd->prev->fd[READ], STDIN_FILENO);
+	// cmd 가 파이프로 출력하는 경우
+	if (cmd->is_pipe) 
+		dup2(cmd->fd[WRITE], STDOUT_FILENO);
 	return (0);
 }
 
@@ -47,8 +64,7 @@ static int	redirect_infile(t_cmd *cmd)
 		if (fd == -1)
 			perror("file open error");
 		dup2(fd, STDIN_FILENO);
-		cmd->argv += 2; //argv 시작주소를 옮김
-		cmd->argc -= 2; // todo: 이전 주소들 free 해줘야함
+		trim_cmd_argv(cmd, cmd->argv[1], -1);
 	}
 	return (0);
 }
@@ -76,21 +92,8 @@ static int	redirect_outfile(t_cmd *cmd)
 	}
 	if (fd != -1)
 		dup2(fd, STDOUT_FILENO);
-	i = 1;
-	while (i < cmd->argc)
-	{
-		if (ft_strcmp(cmd->argv[i], ">") == 0 || ft_strcmp(cmd->argv[i], ">>") == 0)
-		{
-			cmd->argv[i++] = 0;
-			while (i < cmd->argc)
-			{
-				free(cmd->argv[i]);
-				++i;
-			}
-		}
-		else
-			++i;
-	}
+	trim_cmd_argv(cmd, ">", 1);
+	trim_cmd_argv(cmd, ">>", 1);
 	return (0);
 }
 

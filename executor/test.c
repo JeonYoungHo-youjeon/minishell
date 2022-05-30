@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 01:50:33 by mher              #+#    #+#             */
-/*   Updated: 2022/05/30 19:52:21 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/30 23:26:21 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ int main(int argc, char *argv[], char *envp[])
 	t_cmd	cmd2;
 	t_cmd	cmd3;
 
-	cmd1.argc = 3;
-	cmd1.argv = ft_split("< infile cat", ' ');
+	cmd1.argc = 7;
+	cmd1.argv = ft_split("< infile cat >> a >  b", ' ');
 	cmd1.envp = envp;
 	cmd1.is_pipe = 1;
 	cmd1.prev = 0;
@@ -79,7 +79,7 @@ int main(int argc, char *argv[], char *envp[])
 	//cmd1.next = 0;
 
 	cmd2.argc = 2;
-	cmd2.argv = ft_split("cat a", ' ');
+	cmd2.argv = ft_split("cat b", ' ');
 	cmd2.envp = envp;
 	cmd2.is_pipe = 1;
 	cmd2.prev = &cmd1;

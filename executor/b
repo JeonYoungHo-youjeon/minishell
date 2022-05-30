@@ -1,0 +1,15 @@
+total 152
+drwxr-xr-x  14 min  staff    448  5 28 16:46 .
+drwxr-xr-x   8 min  staff    256  5 28 16:10 ..
+-rw-r--r--   1 min  staff   1564  5 28 15:15 Makefile
+drwxr-xr-x  20 min  staff    640  5 28 16:11 builtins
+-rw-r--r--   1 min  staff   4339  5 28 16:45 executor.c
+-rw-r--r--   1 min  staff   1954  5 28 16:41 executor.h
+-rw-r--r--   1 min  staff   4352  5 28 16:45 executor.o
+-rw-r--r--   1 min  staff      0  5 28 16:46 infile
+drwxr-xr-x   6 min  staff    192  5 28 16:11 libft
+-rw-r--r--   1 min  staff   2317  5 28 16:45 redirection.c
+-rw-r--r--   1 min  staff   1400  5 28 16:45 redirection.o
+-rwxr-xr-x   1 min  staff  35937  5 28 16:45 test
+-rw-r--r--   1 min  staff   2005  5 28 15:31 test.c
+-rw-r--r--   1 min  staff   1936  5 28 16:11 test.o
