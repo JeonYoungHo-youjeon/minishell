@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:41:40 by mher              #+#    #+#             */
-/*   Updated: 2022/05/28 15:14:15 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/30 18:03:49 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ t_env	*new_env(char *key_value);
 char	*get_env_key(char *key_value);
 char	*get_env_value(char *key_value);
 t_env	*compare_env_key(t_env *env_head, char *key);
+char	*ft_getenv(t_env *env_head, char *key);
 
 #endif

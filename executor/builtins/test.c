@@ -6,11 +6,11 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 01:50:33 by mher              #+#    #+#             */
-/*   Updated: 2022/05/30 19:52:21 by mher             ###   ########.fr       */
+/*   Updated: 2022/05/30 18:12:08 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./executor.h"
+#include "./builtin.h"
 
 void	cd_test(void)
 {
@@ -53,7 +53,6 @@ void	unset_test(int argc, char *argv[], t_env *env_head)
 int main(int argc, char *argv[], char *envp[])
 {
 	t_env	env_head;
-	//t_cmd	cmd;
 
 	(void)argc;
 	(void)argv;
@@ -65,33 +64,7 @@ int main(int argc, char *argv[], char *envp[])
 	//echo_test(argc, argv, &env_head);
 	//pwd_test();
 	//cd_test();
+	printf("%s\n",ft_getenv(&env_head, "PWD"));
 
-	t_cmd	cmd1;
-	t_cmd	cmd2;
-	t_cmd	cmd3;
-
-	cmd1.argc = 3;
-	cmd1.argv = ft_split("< infile cat", ' ');
-	cmd1.envp = envp;
-	cmd1.is_pipe = 1;
-	cmd1.prev = 0;
-	cmd1.next = &cmd2;
-	//cmd1.next = 0;
-
-	cmd2.argc = 2;
-	cmd2.argv = ft_split("cat a", ' ');
-	cmd2.envp = envp;
-	cmd2.is_pipe = 1;
-	cmd2.prev = &cmd1;
-	cmd2.next = &cmd3;
-
-	cmd3.argc = 2;
-	cmd3.argv = ft_split("grep h", ' ');
-	cmd3.envp = envp;
-	cmd3.is_pipe = 0;
-	cmd3.prev = &cmd2;
-	cmd3.next = 0;
-
-	executor(&cmd1, &env_head);
 	return (0);
 }
