@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/01 20:14:40 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/02 01:28:30 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,26 +90,33 @@ static int	execute_not_fork_cmd(t_cmd *cmd, t_env *env_head)
 int	executor(t_cmd *cmd, t_env *env_head)
 {
 	pid_t	pid;
+	int	hd_flag;
 	//int	exit_status;
 	
+	hd_flag = -1;
 	while (cmd != 0)
 	{
 		if (is_need_fork(cmd->argv[0]) == 0)
 			execute_not_fork_cmd(cmd, env_head);
 		else
 		{
-			heredoc(cmd);
+			hd_flag = ft_strcmp(cmd->argv[0], "<<");
 			if (pipe(cmd->fd) == -1)
 				return (-1);
 			pid = fork();
 			if (pid == 0)
 		 	{
+				heredoc(cmd);
 				redirect(cmd);
 				close_unused_fd(cmd, pid);
 				execute_do_fork_cmd(cmd, env_head);
 			}
 			else
+			{
 				close_unused_fd(cmd, pid);
+				if (hd_flag == 0)
+					waitpid(pid, 0, 0);
+			}
 		}
 		cmd = cmd->next;
 	}

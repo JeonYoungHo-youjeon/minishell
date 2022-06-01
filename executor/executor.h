@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/06/01 21:14:58 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/02 01:48:09 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,8 @@ int	heredoc(t_cmd *cmd);
 int	close_unused_fd(t_cmd *cmd, pid_t pid);
 char	*get_cmd_path(char *cmd, char **path);
 void	trim_cmd_argv(t_cmd *cmd, const char *set, int direction);
+
+int	get_tmp_file_no(void);
+char	*get_tmp_file_name(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 01:50:33 by mher              #+#    #+#             */
-/*   Updated: 2022/06/01 23:57:09 by mher             ###   ########.fr       */
+/*   Updgted: 2022/06/02 00:34:34 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,16 @@ int main(int argc, char *argv[], char *envp[])
 	t_cmd	cmd2;
 	t_cmd	cmd3;
 
-	cmd1.argc = 4;
-	cmd1.argv = ft_split("echo < infile hi", ' ');
+	cmd1.argc = 3;
+	cmd1.argv = ft_split("<< ttt cat", ' ');
 	cmd1.envp = envp;
-	cmd1.is_pipe = 0;
+	cmd1.is_pipe = 1;
 	cmd1.prev = 0;
-	//cmd1.next = &cmd2;
-	cmd1.next = 0;
+	cmd1.next = &cmd2;
+	//cmd1.next = 0;
 
-	cmd2.argc = 2;
-	cmd2.argv = ft_split("sleep 5", ' ');
+	cmd2.argc = 1;
+	cmd2.argv = ft_split("cat", ' ');
 	cmd2.envp = envp;
 	cmd2.is_pipe = 0;
 	cmd2.prev = &cmd1;

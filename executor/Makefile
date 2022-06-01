@@ -6,7 +6,7 @@
 #    By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/17 15:50:40 by mher              #+#    #+#              #
-#    Updated: 2022/05/31 02:38:23 by mher             ###   ########.fr        #
+#    Updated: 2022/06/02 01:52:03 by mher             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 	
@@ -36,6 +36,7 @@ SRCS	= \
 	  fd_handling.c \
 	  heredoc.c \
 	  path.c \
+	  file.c \
 	  test.c \
 
 OBJS	= $(SRCS:.c=.o)
