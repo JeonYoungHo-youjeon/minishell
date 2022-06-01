@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 01:50:33 by mher              #+#    #+#             */
-/*   Updated: 2022/06/01 22:53:31 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/01 23:57:09 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ int main(int argc, char *argv[], char *envp[])
 	t_cmd	cmd2;
 	t_cmd	cmd3;
 
-	cmd1.argc = 6;
-	cmd1.argv = ft_split("echo hi > a >> b", ' ');
+	cmd1.argc = 4;
+	cmd1.argv = ft_split("echo < infile hi", ' ');
 	cmd1.envp = envp;
 	cmd1.is_pipe = 0;
 	cmd1.prev = 0;

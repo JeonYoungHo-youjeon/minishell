@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:22 by mher              #+#    #+#             */
-/*   Updated: 2022/06/01 22:56:01 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/01 23:37:24 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	redirect_infile(t_cmd *cmd)
 	if (fd == -1)
 		perror("file open error");
 	dup2(fd, STDIN_FILENO);
-	trim_cmd_argv(cmd, cmd->argv[0], 2);
+	trim_cmd_argv(cmd, "<", 2);
 	return (0);
 }
 
@@ -42,13 +42,10 @@ void	trim_cmd_argv(t_cmd *cmd, const char *set, int size)
 	int	i;
 	int	tmp;
 
-	i = 0;
-	while (cmd->argv[i])
-	{
+	i = -1;
+	while (cmd->argv[++i])
 		if (ft_strcmp(cmd->argv[i], set) == 0)
 			break ; 
-		++i;
-	}
 	if (cmd->argv[i] == NULL)
 		return ;
 	tmp = i;
@@ -73,15 +70,12 @@ static int	redirect_outfile(t_cmd *cmd)
 
 	while (1)
 	{
-		i = 0;
+		i = -1;
 		fd = -1;
 		o_flag = 0;
-		while (cmd->argv[i])
-		{
+		while (cmd->argv[++i])
 			if (!ft_strcmp(cmd->argv[i], ">") || !ft_strcmp(cmd->argv[i], ">>"))
 				break ; 
-			++i;
-		}
 		if (cmd->argv[i] == NULL)
 			return (0);
 		if (ft_strcmp(cmd->argv[i], ">") == 0)
