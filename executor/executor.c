@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/05/31 03:53:29 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/01 20:14:40 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,12 @@ int	executor(t_cmd *cmd, t_env *env_head)
 			execute_not_fork_cmd(cmd, env_head);
 		else
 		{
-			pipe(cmd->fd); //
+			heredoc(cmd);
+			if (pipe(cmd->fd) == -1)
+				return (-1);
 			pid = fork();
-			//if (pid == -1)
-			//	perror();
 			if (pid == 0)
 		 	{
-				heredoc(cmd);
 				redirect(cmd);
 				close_unused_fd(cmd, pid);
 				execute_do_fork_cmd(cmd, env_head);
@@ -116,5 +115,6 @@ int	executor(t_cmd *cmd, t_env *env_head)
 	}
 	while (wait(0) != -1)
 		;
+	//TODO: delete_file();
 	return (0);
 }
