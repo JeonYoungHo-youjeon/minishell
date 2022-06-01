@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 17:31:34 by youjeon           #+#    #+#             */
-/*   Updated: 2022/05/26 14:21:18 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/01 22:31:10 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h> 
+# include "./builtins/builtin.h"
+
+extern int g_exit_code;
 
 typedef struct			s_cmd
 {

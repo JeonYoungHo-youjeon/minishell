@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/05/30 00:18:57 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/01 22:44:50 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char		*ft_strdup(const char *src)
 	return (str);
 }
 
-int			ft_strlen(const char *str)
+int			ft_strlen_int(const char *str)
 {
 	int i;
 
@@ -89,7 +89,7 @@ size_t		ft_strlcpy(char *dest, const char *src, size_t size)
 	return (j);
 }
 
-char	*ft_strjoin_char(char const *s1, char s2)
+char	*ft_strjoin_char(char *s1, char s2)
 {
 	char	*ret;
 	size_t	s1_len;
@@ -100,12 +100,13 @@ char	*ft_strjoin_char(char const *s1, char s2)
 		return (ft_strdup(&s2));
 	else if (!s2)
 		return (ft_strdup(s1));
-	s1_len = ft_strlen(s1);
+	s1_len = ft_strlen_int(s1);
 	ret = (char *)malloc(sizeof(char) * (s1_len + 2));
 	if (!ret)
 		return (0);
 	ft_strlcpy(ret, s1, s1_len + 1);
 	ft_strlcpy(ret + s1_len, &s2, 2);
+	free(s1);
 	return (ret);
 }
 
@@ -298,7 +299,7 @@ static char		**set_worddup(char const *s, char c, char **mem)
 	return (mem);
 }
 
-char			**ft_split(char const *s, char c, int *argc)
+char			**ft_split_argc(char const *s, char c, int *argc)
 {
 	char	**new_mem;
 
@@ -332,7 +333,7 @@ void	parse(char *line, t_cmd *cmd)
 				printf("test exit: ||\n");
 			// 현재 구조체에 값을 입력하고 다음 리스트로 넘어감
 			cmd->is_pipe = true;
-			cmd->argv = ft_split(str, ' ', &(cmd->argc));
+			cmd->argv = ft_split_argc(str, ' ', &(cmd->argc));
 			next = ft_list_init();
 			cmd->next = next;
 			next->prev = cmd;
@@ -354,10 +355,11 @@ void	parse(char *line, t_cmd *cmd)
 		printf("test exit: quotes error\n");
 	if (str != NULL) // 마지막에 문자열이 남은 경우 처리
 	{
-		cmd->argv = ft_split(str, ' ', &(cmd->argc));
+		cmd->argv = ft_split_argc(str, ' ', &(cmd->argc));
 		str = ft_free(str);
 	}
 }
+
 
 void	test_print_cmd(t_cmd *cmd)
 {
@@ -372,6 +374,7 @@ void	test_print_cmd(t_cmd *cmd)
 			printf("[%d] argv[%d]: %s\n", index, i, cmd->argv[i]);
 			i++;
 		}
+		
 		if (cmd->is_pipe)
 		{
 			printf("[%d] is_pipe: true\n", index);
@@ -386,8 +389,73 @@ void	test_print_cmd(t_cmd *cmd)
 	}
 }
 
-// replace
-// 작은 따옴표, 큰 따옴표를 고려하면서 문자열의 값(특히 $)을 변경한다
+void	replace(t_cmd *cmd, t_env *head)
+{
+	int		index;
+	t_cmd	*ptr;
+	char	*new;
+	char	*env;
+	int		dollar;
+	int		quotes;
+
+	new = NULL;
+	quotes = 0;
+	dollar = 0;
+	while (cmd)
+	{
+		index = 0;
+		ptr = cmd; // 현재 cmd의 포인터 저장
+		while (index < cmd->argc)
+		{
+			while (*(cmd->argv[index]))
+			{
+				quotes = parse_set_quotes(*(cmd->argv[index]), quotes);
+
+				if (*(cmd->argv[index]) == '$' && quotes != 1 && dollar == 0)
+				{
+					dollar = 1; // 작은 따옴표가 아닐때 $ 상태에 돌입
+				}
+				else if (dollar == 1)
+				{
+					if (ft_isalnum(*(cmd->argv[index])))
+					{
+						env = ft_strjoin_char(env, *(cmd->argv[index])); // 특수문자 혹은 띄어쓰기가 아니면 env 문자열에 차곡차곡 저장
+					}
+					else if (*(cmd->argv[index]) == '?' && env == NULL)
+					{
+						// $? 일때 에러 코드 반환
+						env = ft_itoa(g_exit_code);
+						new = ft_strjoin(new, env);
+						dollar = 0;						
+						// printf("test $?: %d", g_exit_code);
+						// TODO: 에러 처리 이후에 에러 코드 저장 후 출력 구현
+					}
+					else
+					{
+						new = ft_strjoin(new, ft_getenv(head, env));
+						dollar = 0;
+						// 특문이나 해당 글자를 추가로 저장(따옴표 제외)...?
+						// FIXME: 좀 헷갈리는데 테스트 후 살릴지 지울지 정할것
+						// if (!(*(cmd->argv[index]) == '\"' && quotes != 1) && !(*(cmd->argv[index]) == '\'' && quotes != 2)) 
+						// 	new = ft_strjoin_char(new, *(cmd->argv[index]));
+					//FIXME: strjoin, getenv 에서 free 해주는지 확인 필요. 안해주면 해당 함수에서 하는 쪽으로 변경
+					}
+				}
+				else 
+				{
+					// 따옴표 안에 들어가있지 않은 따옴표는 입력하지않음
+					if (!(*(cmd->argv[index]) == '\"' && quotes != 1) && !(*(cmd->argv[index]) == '\'' && quotes != 2)) 
+						new = ft_strjoin_char(new, *(cmd->argv[index]));
+				}
+				(cmd->argv[index])++;
+			}
+			ptr->argv[index] = ft_free(ptr->argv[index]);
+			ptr->argv[index] = new;
+			index++;
+		}
+		cmd = cmd->next;
+	}
+}
 
 // 1차 test
 // 평가 시뮬레이션 대로 입력해보고 구조체가 정확히 출력 되는지 확인
@@ -395,12 +463,12 @@ void	test_print_cmd(t_cmd *cmd)
 // 예외 처리
 // 완성 후 생각나는대로 추가
 
-// int	main(int argc, char *argv[], char *envp[])
-int	main()
+int	main(int argc, char *argv[], char *envp[])
 {
 	struct termios	term;
     char			*line;
 	t_cmd			*cmd;
+	t_env			env_head;
 
 	// signal 입력시 나오는 잔향(Echo) 삭제
 	tcgetattr(STDIN_FILENO, &term);
@@ -410,7 +478,13 @@ int	main()
 	// signal handling
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler); 
+
+	// make error 해결
+	(void)argc;
+	(void)argv;
 	
+	g_exit_code = 0;
+	init_env_list(&env_head, envp);
 	// 화면에 minishell $ 출력 및 입력 대기
 	while ((line = readline("minishell $ "))) 
 	{
@@ -424,12 +498,12 @@ int	main()
 			parse(line, cmd); // 입력받은 문자열을 링크드 리스트에 저장
 			test_print_cmd(cmd); // 리스트 내 내용물 출력
 
-			// replace(cmd, envp); // 실행전에 $, ', " 등 replace
-			// test_print_cmd(cmd);  // 리스트 내 내용물 출력
+			replace(cmd, &env_head); // 실행전에 $, ', " 등 replace
+			test_print_cmd(cmd);  // 리스트 내 내용물 출력
 
-			// // exec(cmd, envp) // 완성된 cmd를 실행부에 전달
+			// exec(cmd, envp) // 완성된 cmd를 실행부에 전달
 
-			// // ft_free_list(cmd); // 다음 line으로 넘어가기 전에 free
+			// ft_free_list(cmd); // 다음 line으로 넘어가기 전에 free
 		}
 
 		// 파싱 완료한다음 '반드시' free 해줘야함
