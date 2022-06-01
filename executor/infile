@@ -1,0 +1,22 @@
+total 352
+drwxr-xr-x  21 min  staff    672  6  1 22:26 .
+drwxr-xr-x   8 min  staff    256  6  1 20:03 ..
+-rw-r--r--   1 min  staff   1905  5 31 02:38 Makefile
+-rw-r--r--   1 min  staff      1  6  1 22:23 a
+drwxr-xr-x  23 min  staff    736  6  1 22:00 builtins
+-rw-r--r--   1 min  staff   3390  6  1 20:14 executor.c
+-rw-r--r--   1 min  staff   1606  6  1 21:14 executor.h
+-rw-r--r--   1 min  staff  15712  6  1 22:00 executor.o
+-rw-r--r--   1 min  staff   2598  6  1 22:25 fd_handling.c
+-rw-r--r--   1 min  staff  11952  6  1 22:22 fd_handling.o
+-rw-r--r--   1 min  staff   1536  6  1 20:20 heredoc.c
+-rw-r--r--   1 min  staff   7480  6  1 22:00 heredoc.o
+-rw-r--r--   1 min  staff      0  6  1 22:26 infile
+drwxr-xr-x   6 min  staff    192  6  1 22:00 libft
+drwxr-xr-x   6 min  staff    192  6  1 22:00 libgnl
+-rw-r--r--   1 min  staff   1324  5 31 00:40 path.c
+-rw-r--r--   1 min  staff   4872  6  1 22:00 path.o
+-rwxr-xr-x   1 min  staff  83089  6  1 22:23 test
+-rw-r--r--   1 min  staff   2382  6  1 22:26 test.c
+-rw-r--r--   1 min  staff  11896  6  1 22:23 test.o
+-rw-------   1 min  staff     90  6  1 20:12 tmp_file

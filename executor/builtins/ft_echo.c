@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 18:36:23 by mher              #+#    #+#             */
-/*   Updated: 2022/06/01 20:48:07 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/01 20:54:17 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	check_option_n(int argc, char *argv[], int *idx)
 	return (option_n);
 }
 
-static int	check_redirection(char *argv[], int *idx)
+static int	check_infile_redirection(char *argv[], int *idx)
 {
 	if (ft_strcmp(argv[*idx], "<"))
 		return (0);
@@ -73,7 +73,7 @@ int	ft_echo(int argc, char *argv[], t_env *env_head)
 	option_n = check_option_n(argc, argv, &idx);
 	while (idx < argc)
 	{
-		if (check_redirection(argv, &idx) == 1)
+		if (check_infile_redirection(argv, &idx) == 1)
 			continue ;
 		if (argv[idx][0] == '$')
 			echo_env_value(env_head, argv[idx] + 1);
