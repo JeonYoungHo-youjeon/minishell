@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 18:36:23 by mher              #+#    #+#             */
-/*   Updated: 2022/05/24 22:21:40 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/01 20:48:07 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ static int	check_option_n(int argc, char *argv[], int *idx)
 	return (option_n);
 }
 
+static int	check_redirection(char *argv[], int *idx)
+{
+	if (ft_strcmp(argv[*idx], "<"))
+		return (0);
+	*idx += 2;
+	return (1);
+}
+
 static void	echo_env_value(t_env *env_head, char *key)
 {
 	t_env	*env;
@@ -65,6 +73,8 @@ int	ft_echo(int argc, char *argv[], t_env *env_head)
 	option_n = check_option_n(argc, argv, &idx);
 	while (idx < argc)
 	{
+		if (check_redirection(argv, &idx) == 1)
+			continue ;
 		if (argv[idx][0] == '$')
 			echo_env_value(env_head, argv[idx] + 1);
 		else
