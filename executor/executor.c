@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 01:28:30 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/02 17:13:55 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,21 @@ static int	is_need_fork(char *cmd)
 }
 
 //리눅스 자체 builtin 명령어 수행
-static int	origin_cmd(t_cmd *cmd)
+static int	origin_cmd(t_cmd *cmd, char *envp[])
 {
 	int	i;
 	int	ret;
 	char	**path;
 	char	*cmd_path;
 
+	ret = 0; //
 	path = ft_split(getenv("PATH"), ':');
 //	if (path);
 //		return ()
 	cmd_path = get_cmd_path(cmd->argv[0], path);
 	//if (arg->cmd_path == NULL)
 		//exit_with_perror("command not found", 127);
-	ret = execve(cmd_path, cmd->argv, cmd->envp);
+	ret = execve(cmd_path, cmd->argv, envp);
 	//if (ret == -1)
 		//exit_with_perror("execve fail", EXIT_FAILURE);
 	i = 0;
@@ -49,7 +50,7 @@ static int	origin_cmd(t_cmd *cmd)
 }
 
 //fork() 가 필요한 명령어 실행
-static int	execute_do_fork_cmd(t_cmd *cmd, t_env *env_head)
+static int	execute_do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 {
 	int	ret;
 
@@ -68,7 +69,7 @@ static int	execute_do_fork_cmd(t_cmd *cmd, t_env *env_head)
 	else if (ft_strcmp(cmd->argv[0], "exit") == 0)
 		ret = ft_exit(cmd->argc, cmd->argv, env_head);
 	else
-		ret = origin_cmd(cmd);
+		ret = origin_cmd(cmd, envp);
 	//if (ret == -1)
 	//	perror();
 	exit(EXIT_SUCCESS);
@@ -87,12 +88,12 @@ static int	execute_not_fork_cmd(t_cmd *cmd, t_env *env_head)
 		return (-1);
 }
 
-int	executor(t_cmd *cmd, t_env *env_head)
+int	executor(t_cmd *cmd, t_env *env_head, char *envp[])
 {
 	pid_t	pid;
 	int	hd_flag;
 	//int	exit_status;
-	
+
 	hd_flag = -1;
 	while (cmd != 0)
 	{
@@ -109,7 +110,7 @@ int	executor(t_cmd *cmd, t_env *env_head)
 				heredoc(cmd);
 				redirect(cmd);
 				close_unused_fd(cmd, pid);
-				execute_do_fork_cmd(cmd, env_head);
+				execute_do_fork_cmd(cmd, env_head, envp);
 			}
 			else
 			{

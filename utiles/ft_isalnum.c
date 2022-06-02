@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 17:31:34 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/02 17:27:35 by youjeon          ###   ########.fr       */
+/*   Created: 2021/11/16 14:36:50 by mher              #+#    #+#             */
+/*   Updated: 2022/06/02 15:53:49 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "utiles.h"
 
-# include <unistd.h>
-# include <signal.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <term.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdbool.h>
+int	ft_isalpha(int c)
+{
+	return (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z'));
+}
 
-# include "./utiles/utiles.h"
-# include "./builtins/builtin.h"
-# include "./executor/executor.h"
-# include "struct.h"
+int	ft_isdigit(int c)
+{
+	return ('0' <= c && c <= '9');
+}
 
-#endif
+int	ft_isalnum(int c)
+{
+	return (ft_isalpha(c) || ft_isdigit(c));
+}

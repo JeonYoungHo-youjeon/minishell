@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 17:31:34 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/02 17:27:35 by youjeon          ###   ########.fr       */
+/*   Created: 2021/11/17 10:26:09 by mher              #+#    #+#             */
+/*   Updated: 2022/06/02 15:54:14 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "utiles.h"
 
-# include <unistd.h>
-# include <signal.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <term.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdbool.h>
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
 
-# include "./utiles/utiles.h"
-# include "./builtins/builtin.h"
-# include "./executor/executor.h"
-# include "struct.h"
-
-#endif
+	i = 0;
+	while (*s)
+	{
+		++i;
+		++s;
+	}
+	return (i);
+}

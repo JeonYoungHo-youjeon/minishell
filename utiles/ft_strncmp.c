@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 17:31:34 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/02 17:27:35 by youjeon          ###   ########.fr       */
+/*   Created: 2021/11/17 20:10:33 by mher              #+#    #+#             */
+/*   Updated: 2022/06/02 15:54:16 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "utiles.h"
 
-# include <unistd.h>
-# include <signal.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <term.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdbool.h>
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	unsigned char	*t1;
+	unsigned char	*t2;
 
-# include "./utiles/utiles.h"
-# include "./builtins/builtin.h"
-# include "./executor/executor.h"
-# include "struct.h"
-
-#endif
+	t1 = (unsigned char *)s1;
+	t2 = (unsigned char *)s2;
+	while (n-- > 0)
+	{
+		if (*t1 != *t2 || !*t1 || !*t2)
+			return (*t1 - *t2);
+		++t1;
+		++t2;
+	}
+	return (0);
+}
