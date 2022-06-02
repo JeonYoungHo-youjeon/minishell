@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:41:40 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 14:21:59 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/02 16:05:37 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-# include "../libft/include/libft.h"
+# include "../utiles/utiles.h"
 
 typedef struct s_env
 {

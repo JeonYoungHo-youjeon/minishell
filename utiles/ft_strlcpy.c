@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 14:40:28 by mher              #+#    #+#             */
-/*   Updated: 2021/11/24 16:21:21 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/02 15:58:53 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "utiles.h"
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t destsize)
 {

@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/17 20:10:33 by mher              #+#    #+#             */
-/*   Updated: 2021/11/19 14:18:29 by mher             ###   ########.fr       */
+/*   Created: 2022/05/26 17:44:54 by mher              #+#    #+#             */
+/*   Updated: 2022/06/02 15:54:09 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "utiles.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	unsigned char	*t1;
 	unsigned char	*t2;
 
 	t1 = (unsigned char *)s1;
 	t2 = (unsigned char *)s2;
-	while (n-- > 0)
+	while (*t1)
 	{
 		if (*t1 != *t2 || !*t1 || !*t2)
 			return (*t1 - *t2);
 		++t1;
 		++t2;
 	}
-	return (0);
+	return (*t1 - *t2);
 }

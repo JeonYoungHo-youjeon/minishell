@@ -6,11 +6,13 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/01 22:44:50 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/02 16:06:23 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_code;
 
 void	signal_handler(int signo)
 {
@@ -29,28 +31,7 @@ void	signal_handler(int signo)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	
-}
 
-char		*ft_strdup(const char *src)
-{
-	char	*str;
-	int		size;
-	int		i;
-
-	size = 0;
-	i = 0;
-	while (src[size] != '\0')
-		size++;
-	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
-		return (0);
-	while (src[i] != '\0')
-	{
-		str[i] = src[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
 }
 
 int			ft_strlen_int(const char *str)
@@ -61,32 +42,6 @@ int			ft_strlen_int(const char *str)
 	while (str[i] != '\0')
 		i++;
 	return (i);
-}
-
-size_t		ft_strlcpy(char *dest, const char *src, size_t size)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	if (size == 1 || src[0] == '\0')
-		dest[0] = '\0';
-	else if (size == 0)
-		j = 0;
-	else
-	{
-		while (i < size - 1 && src[i] != '\0')
-		{
-			dest[i] = src[i];
-			i++;
-		}
-		if (i < size)
-			dest[i] = '\0';
-	}
-	while (src[j] != 0)
-		j++;
-	return (j);
 }
 
 char	*ft_strjoin_char(char *s1, char s2)
@@ -154,7 +109,7 @@ void	test_parse(char *line)
 	while (*line)
 	{
 		quotes = parse_set_quotes(*line, quotes); // line 이 \' 혹은 \" 일때 예외 처리를 위해 구분
-		
+
 		if (*line == ' ' && space == 0 && quotes == 0)
 		{
 			printf("[%d] : %s\n", index, str);
@@ -365,7 +320,7 @@ void	test_print_cmd(t_cmd *cmd)
 {
 	int	index = 0;
 	int	i = 0;
-	
+
 	while (cmd)
 	{
 		printf("[%d] argc: %d\n", index, cmd->argc);
@@ -374,7 +329,7 @@ void	test_print_cmd(t_cmd *cmd)
 			printf("[%d] argv[%d]: %s\n", index, i, cmd->argv[i]);
 			i++;
 		}
-		
+
 		if (cmd->is_pipe)
 		{
 			printf("[%d] is_pipe: true\n", index);
@@ -426,7 +381,7 @@ void	replace(t_cmd *cmd, t_env *head)
 						// $? 일때 에러 코드 반환
 						env = ft_itoa(g_exit_code);
 						new = ft_strjoin(new, env);
-						dollar = 0;						
+						dollar = 0;
 						// printf("test $?: %d", g_exit_code);
 						// TODO: 에러 처리 이후에 에러 코드 저장 후 출력 구현
 					}
@@ -436,15 +391,15 @@ void	replace(t_cmd *cmd, t_env *head)
 						dollar = 0;
 						// 특문이나 해당 글자를 추가로 저장(따옴표 제외)...?
 						// FIXME: 좀 헷갈리는데 테스트 후 살릴지 지울지 정할것
-						// if (!(*(cmd->argv[index]) == '\"' && quotes != 1) && !(*(cmd->argv[index]) == '\'' && quotes != 2)) 
+						// if (!(*(cmd->argv[index]) == '\"' && quotes != 1) && !(*(cmd->argv[index]) == '\'' && quotes != 2))
 						// 	new = ft_strjoin_char(new, *(cmd->argv[index]));
 					//FIXME: strjoin, getenv 에서 free 해주는지 확인 필요. 안해주면 해당 함수에서 하는 쪽으로 변경
 					}
 				}
-				else 
+				else
 				{
 					// 따옴표 안에 들어가있지 않은 따옴표는 입력하지않음
-					if (!(*(cmd->argv[index]) == '\"' && quotes != 1) && !(*(cmd->argv[index]) == '\'' && quotes != 2)) 
+					if (!(*(cmd->argv[index]) == '\"' && quotes != 1) && !(*(cmd->argv[index]) == '\'' && quotes != 2))
 						new = ft_strjoin_char(new, *(cmd->argv[index]));
 				}
 				(cmd->argv[index])++;
@@ -477,23 +432,23 @@ int	main(int argc, char *argv[], char *envp[])
 
 	// signal handling
 	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler); 
+	signal(SIGQUIT, signal_handler);
 
+	g_exit_code = 0;
 	// make error 해결
 	(void)argc;
 	(void)argv;
-	
-	g_exit_code = 0;
+
 	init_env_list(&env_head, envp);
 	// 화면에 minishell $ 출력 및 입력 대기
-	while ((line = readline("minishell $ "))) 
+	while ((line = readline("minishell $ ")))
 	{
-		if (!(*line != '\0' && is_whitespace(line))) // 입력받은 문자가 있을때만 동작 
+		if (!(*line != '\0' && is_whitespace(line))) // 입력받은 문자가 있을때만 동작
 		{
 			add_history(line); // 받은 데이터를 히스토리에 저장.
-			
+
 			// test_parse(line); // 입력받은 문자열을 그대로 출력
-			
+
 			cmd = ft_list_init();
 			parse(line, cmd); // 입력받은 문자열을 링크드 리스트에 저장
 			test_print_cmd(cmd); // 리스트 내 내용물 출력
@@ -510,5 +465,5 @@ int	main(int argc, char *argv[], char *envp[])
 		free(line);
 	}
 //	system("leaks minishell");
-	
+
 }
