@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 17:15:26 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/02 18:30:57 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@
 int	executor(t_cmd *cmd, t_env *env_head, char *envp[]);
 int	redirect(t_cmd *cmd);
 int	heredoc(t_cmd *cmd);
+int	heredoc_input(t_cmd *cmd);
 int	close_unused_fd(t_cmd *cmd, pid_t pid);
 char	*get_cmd_path(char *cmd, char **path);
 void	trim_cmd_argv(t_cmd *cmd, const char *set, int direction);
 
 int	get_tmp_file_no(void);
 char	*get_tmp_file_name(void);
+int	delete_tmp_file(void);
 
 #endif

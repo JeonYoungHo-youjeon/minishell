@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/02 17:36:35 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/02 19:53:26 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -467,10 +467,10 @@ int	main(int argc, char *argv[], char *envp[])
 
 			cmd = ft_list_init();
 			parse(line, cmd); // 입력받은 문자열을 링크드 리스트에 저장
-			test_print_cmd(cmd); // 리스트 내 내용물 출력
+			//test_print_cmd(cmd); // 리스트 내 내용물 출력
 
 			replace(cmd, &env_head); // 실행전에 $, ', " 등 replace
-			test_print_cmd(cmd);  // 리스트 내 내용물 출력
+			//test_print_cmd(cmd);  // 리스트 내 내용물 출력
 
 			executor(cmd, &env_head, envp); // 완성된 cmd를 실행부에 전달
 

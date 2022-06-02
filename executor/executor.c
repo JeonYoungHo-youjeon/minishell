@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 17:13:55 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/02 20:09:39 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	execute_do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 	else if (ft_strcmp(cmd->argv[0], "env") == 0)
 		ret = ft_env(env_head);
 	else if (ft_strcmp(cmd->argv[0], "echo") == 0)
-		ret = ft_echo(cmd->argc, cmd->argv, env_head);
+		ret = ft_echo(cmd->argc, cmd->argv);
 	else if (ft_strcmp(cmd->argv[0], "exit") == 0)
 		ret = ft_exit(cmd->argc, cmd->argv, env_head);
 	else
@@ -91,38 +91,30 @@ static int	execute_not_fork_cmd(t_cmd *cmd, t_env *env_head)
 int	executor(t_cmd *cmd, t_env *env_head, char *envp[])
 {
 	pid_t	pid;
-	int	hd_flag;
-	//int	exit_status;
-
-	hd_flag = -1;
+	
 	while (cmd != 0)
 	{
 		if (is_need_fork(cmd->argv[0]) == 0)
 			execute_not_fork_cmd(cmd, env_head);
 		else
 		{
-			hd_flag = ft_strcmp(cmd->argv[0], "<<");
 			if (pipe(cmd->fd) == -1)
 				return (-1);
+			heredoc_input(cmd);
 			pid = fork();
 			if (pid == 0)
 		 	{
-				heredoc(cmd);
 				redirect(cmd);
 				close_unused_fd(cmd, pid);
 				execute_do_fork_cmd(cmd, env_head, envp);
 			}
 			else
-			{
 				close_unused_fd(cmd, pid);
-				if (hd_flag == 0)
-					waitpid(pid, 0, 0);
-			}
 		}
 		cmd = cmd->next;
 	}
 	while (wait(0) != -1)
 		;
-	//TODO: delete_file();
+	delete_tmp_file();
 	return (0);
 }

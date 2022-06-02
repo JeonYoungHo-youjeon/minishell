@@ -30,10 +30,10 @@ OBJS		= $(SRCS:%.c=%.o)
 
 CC = gcc
 CFLAGS = -Werror -Wall -Wextra
-# READLINE_LIB 	= -lreadline -L/opt/homebrew/opt/readline/lib
-# READLINE_INC	= -I/opt/homebrew/opt/readline/include
-READLINE_LIB 	= -lreadline -L${HOME}/.brew/opt/readline/lib
-READLINE_INC	= -I${HOME}/.brew/opt/readline/include
+READLINE_LIB 	= -lreadline -L/opt/homebrew/opt/readline/lib
+READLINE_INC	= -I/opt/homebrew/opt/readline/include
+#READLINE_LIB 	= -lreadline -L${HOME}/.brew/opt/readline/lib
+#READLINE_INC	= -I${HOME}/.brew/opt/readline/include
 
 FT_DIR	= ./libft
 FT 	= ft
