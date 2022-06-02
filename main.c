@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/02 16:06:23 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/02 16:56:00 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,17 +320,19 @@ void	test_print_cmd(t_cmd *cmd)
 {
 	int	index = 0;
 	int	i = 0;
+	t_cmd *ptr;
 
-	while (cmd)
+	ptr = cmd;
+	while (ptr)
 	{
-		printf("[%d] argc: %d\n", index, cmd->argc);
-		while (i < cmd->argc)
+		printf("[%d] argc: %d\n", index, ptr->argc);
+		while (i < ptr->argc)
 		{
-			printf("[%d] argv[%d]: %s\n", index, i, cmd->argv[i]);
+			printf("[%d] argv[%d]: %s\n", index, i, ptr->argv[i]);
 			i++;
 		}
 
-		if (cmd->is_pipe)
+		if (ptr->is_pipe)
 		{
 			printf("[%d] is_pipe: true\n", index);
 		}
@@ -340,54 +342,58 @@ void	test_print_cmd(t_cmd *cmd)
 		}
 		i = 0;
 		index++;
-		cmd = cmd->next;
+		ptr = ptr->next;
 	}
 }
 
 void	replace(t_cmd *cmd, t_env *head)
 {
-	int		index;
-	t_cmd	*ptr;
+	int		i;
+	int		j;
+	int		size;
 	char	*new;
 	char	*env;
 	int		dollar;
 	int		quotes;
 
 	new = NULL;
+	env = NULL;
 	quotes = 0;
 	dollar = 0;
 	while (cmd)
 	{
-		index = 0;
-		ptr = cmd; // 현재 cmd의 포인터 저장
-		while (index < cmd->argc)
+		i = 0;
+		j = 0;
+		while (i < cmd->argc)
 		{
-			while (*(cmd->argv[index]))
+			size = ft_strlen(cmd->argv[i]);
+			while (j <= size)
 			{
-				quotes = parse_set_quotes(*(cmd->argv[index]), quotes);
+				quotes = parse_set_quotes(cmd->argv[i][j], quotes);
 
-				if (*(cmd->argv[index]) == '$' && quotes != 1 && dollar == 0)
+				if (cmd->argv[i][j] == '$' && quotes != 1 && dollar == 0)
 				{
 					dollar = 1; // 작은 따옴표가 아닐때 $ 상태에 돌입
 				}
 				else if (dollar == 1)
 				{
-					if (ft_isalnum(*(cmd->argv[index])))
+					if (ft_isalnum(cmd->argv[i][j]))
 					{
-						env = ft_strjoin_char(env, *(cmd->argv[index])); // 특수문자 혹은 띄어쓰기가 아니면 env 문자열에 차곡차곡 저장
+						env = ft_strjoin_char(env, cmd->argv[i][j]); // 특수문자 혹은 띄어쓰기가 아니면 env 문자열에 차곡차곡 저장
 					}
-					else if (*(cmd->argv[index]) == '?' && env == NULL)
+					else if (cmd->argv[i][j] == '?' && env == NULL)
 					{
 						// $? 일때 에러 코드 반환
 						env = ft_itoa(g_exit_code);
 						new = ft_strjoin(new, env);
 						dollar = 0;
-						// printf("test $?: %d", g_exit_code);
+						// printf("test $?: %d\n", g_exit_code);
 						// TODO: 에러 처리 이후에 에러 코드 저장 후 출력 구현
 					}
 					else
 					{
 						new = ft_strjoin(new, ft_getenv(head, env));
+						env = ft_free(env);
 						dollar = 0;
 						// 특문이나 해당 글자를 추가로 저장(따옴표 제외)...?
 						// FIXME: 좀 헷갈리는데 테스트 후 살릴지 지울지 정할것
@@ -399,14 +405,14 @@ void	replace(t_cmd *cmd, t_env *head)
 				else
 				{
 					// 따옴표 안에 들어가있지 않은 따옴표는 입력하지않음
-					if (!(*(cmd->argv[index]) == '\"' && quotes != 1) && !(*(cmd->argv[index]) == '\'' && quotes != 2))
-						new = ft_strjoin_char(new, *(cmd->argv[index]));
+					if (!(cmd->argv[i][j] == '\"' && quotes != 1) && !(cmd->argv[i][j] == '\'' && quotes != 2))
+						new = ft_strjoin_char(new, cmd->argv[i][j]);
 				}
-				(cmd->argv[index])++;
+				j++;
 			}
-			ptr->argv[index] = ft_free(ptr->argv[index]);
-			ptr->argv[index] = new;
-			index++;
+			cmd->argv[i] = ft_free(cmd->argv[i]);
+			cmd->argv[i] = new;
+			i++;
 		}
 		cmd = cmd->next;
 	}
