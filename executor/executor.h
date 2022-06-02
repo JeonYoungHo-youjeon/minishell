@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 14:57:00 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/02 17:15:26 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,15 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include "../minishell.h"
+# include <stdbool.h>
+# include <stdio.h>
+# include <readline/readline.h>
 
-int	executor(t_cmd *cmd, t_env *env_head);
+# include "../struct.h"
+# include "../utiles/utiles.h"
+# include "../builtins/builtin.h"
+
+int	executor(t_cmd *cmd, t_env *env_head, char *envp[]);
 int	redirect(t_cmd *cmd);
 int	heredoc(t_cmd *cmd);
 int	close_unused_fd(t_cmd *cmd, pid_t pid);
