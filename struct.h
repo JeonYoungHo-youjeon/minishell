@@ -6,21 +6,24 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 17:09:22 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/02 17:27:39 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/02 18:23:23 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 
+# include <stdbool.h>
+
 int g_exit_code;
 
 typedef struct			s_cmd
 {
 	char			**argv;
-	int				argc;
+	int			argc;
 	bool			is_pipe;
-	int				fd[2];
+	int			fd[2];
+	int			hd_fd;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }						t_cmd;

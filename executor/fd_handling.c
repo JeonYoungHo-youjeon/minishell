@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:22 by mher              #+#    #+#             */
-/*   Updated: 2022/06/01 23:37:24 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/02 18:45:48 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ static int	redirect_outfile(t_cmd *cmd)
 int	redirect(t_cmd *cmd)
 {
 	redirect_pipe(cmd);
+	heredoc(cmd);
 	redirect_infile(cmd);
 	redirect_outfile(cmd);
 	return (0);
