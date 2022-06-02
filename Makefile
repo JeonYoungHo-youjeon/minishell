@@ -32,8 +32,8 @@ CC = gcc
 CFLAGS = -Werror -Wall -Wextra
 # READLINE_LIB 	= -lreadline -L/opt/homebrew/opt/readline/lib
 # READLINE_INC	= -I/opt/homebrew/opt/readline/include
-READLINE_LIB 	= -lreadline -L/Users/youjeon/.brew/opt/readline/lib
-READLINE_INC	= -I/Users/youjeon/.brew/opt/readline/include
+READLINE_LIB 	= -lreadline -L${HOME}/.brew/opt/readline/lib
+READLINE_INC	= -I${HOME}/.brew/opt/readline/include
 
 FT_DIR	= ./libft
 FT 	= ft
@@ -42,10 +42,6 @@ all			:	$(NAME)
 
 $(NAME)		:	$(OBJS)
 		gcc $(CFLAGS) -o $(NAME) $(OBJS) $(READLINE_LIB)
-
-# $(NAME)		:	$(OBJS)
-# 		$(MAKE) -C $(FT_DIR) \
-# 		$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(READLINE_LIB) -l$(FT) -L$(FT_DIR)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(READLINE_INC) -c $< -o $@
