@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 01:28:30 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/02 15:05:07 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ static int	origin_cmd(t_cmd *cmd)
 	char	**path;
 	char	*cmd_path;
 
+	ret = 0; //
 	path = ft_split(getenv("PATH"), ':');
 //	if (path);
 //		return ()
 	cmd_path = get_cmd_path(cmd->argv[0], path);
 	//if (arg->cmd_path == NULL)
 		//exit_with_perror("command not found", 127);
-	ret = execve(cmd_path, cmd->argv, cmd->envp);
+	//ret = execve(cmd_path, cmd->argv, cmd->envp);
 	//if (ret == -1)
 		//exit_with_perror("execve fail", EXIT_FAILURE);
 	i = 0;

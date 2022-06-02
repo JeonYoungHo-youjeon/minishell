@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 01:48:09 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/02 14:57:00 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-# include "./builtins/builtin.h"
-# include "./libft/include/libft.h"
-# include "./libgnl/include/get_next_line.h"
-
-typedef struct	s_cmd
-{
-	int		argc;
-	char		**argv;
-	char		**envp;
-	int		is_pipe;
-	int		fd[2];
-	struct s_cmd	*prev;
-	struct s_cmd	*next;
-}	t_cmd;
+# include "../minishell.h"
 
 int	executor(t_cmd *cmd, t_env *env_head);
 int	redirect(t_cmd *cmd);
