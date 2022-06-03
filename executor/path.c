@@ -6,37 +6,47 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:55:17 by mher              #+#    #+#             */
-/*   Updated: 2022/05/31 00:40:32 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/04 03:58:54 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-char	*get_cmd_path(char *cmd, char **path)
+int	get_cmd_path(t_cmd *cmd)
 {
-	int		i;
+	int	i;
 	char	*ret;
-	char	*tmp;
+	char	*slash;
+	char	**path;
 
+	cmd->cmd_path = NULL;
+	if (access(cmd->argv[0], X_OK) == 0)
+	{
+		cmd->cmd_path = cmd ->argv[0];
+		return (0);
+	}
+	path = ft_split(getenv("PATH"), ':');
+	if (path == NULL)
+		return (-1);
+	slash = ft_strjoin("/", cmd->argv[0]);
+	if (slash == NULL)
+		return (-1);
 	i = 0;
-	if (access(cmd, X_OK) == 0)
-		return (cmd);
-	tmp = ft_strjoin("/", cmd);
-	if (tmp == NULL)
-		return (NULL);
 	while (path[i])
 	{
-		ret = ft_strjoin(path[i], tmp);
+		ret = ft_strjoin(path[i], slash);
 		if (ret == NULL)
-			return (NULL);
+			return (-1);
 		if (access(ret, X_OK) == 0)
-		{
-			free(tmp);
-			return (ret);
-		}
+			break ;
 		free(ret);
-		i++;
+		++i;
 	}
-	free(tmp);
-	return (NULL);
+	free(slash);
+	i = 0;
+	while(path[i])
+		free(path[i++]);
+	free(path);
+	cmd->cmd_path = ret;
+	return (0);
 }

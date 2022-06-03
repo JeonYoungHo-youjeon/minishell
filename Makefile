@@ -23,7 +23,8 @@ SRCS		=	main.c \
 			./utiles/ft_strlen.c \
 			./utiles/ft_strncmp.c \
 			./utiles/ft_strlcpy.c \
-			./utiles/ft_strdup.c
+			./utiles/ft_strdup.c \
+			./utiles/ft_atoi.c \
 
 
 OBJS		= $(SRCS:%.c=%.o)

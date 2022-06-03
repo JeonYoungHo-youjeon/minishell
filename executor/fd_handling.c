@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:22 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 18:45:48 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/04 04:08:52 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,25 @@ static int	redirect_pipe(t_cmd *cmd)
 	return (0);
 }
 
+//static int	redirect_infile(t_cmd *cmd)
+//{
+//	int	fd;
+//
+//	if (ft_strcmp(cmd->argv[0], "<"))
+//		return (0);
+//	fd = open(cmd->argv[1], O_RDONLY);
+//	if (fd == -1)
+//		perror("file open error");
+//	dup2(fd, STDIN_FILENO);
+//	trim_cmd_argv(cmd, "<", 2);
+//	return (0);
+//}
+
 static int	redirect_infile(t_cmd *cmd)
 {
-	int	fd;
-
-	if (ft_strcmp(cmd->argv[0], "<"))
+	if (cmd->infile_fd == -1)
 		return (0);
-	fd = open(cmd->argv[1], O_RDONLY);
-	if (fd == -1)
-		perror("file open error");
-	dup2(fd, STDIN_FILENO);
-	trim_cmd_argv(cmd, "<", 2);
+	dup2(cmd->infile_fd, STDIN_FILENO);
 	return (0);
 }
 
@@ -99,7 +107,6 @@ static int	redirect_outfile(t_cmd *cmd)
 int	redirect(t_cmd *cmd)
 {
 	redirect_pipe(cmd);
-	heredoc(cmd);
 	redirect_infile(cmd);
 	redirect_outfile(cmd);
 	return (0);

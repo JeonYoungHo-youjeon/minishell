@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:41:40 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 20:08:29 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/03 17:33:07 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_pwd(void);
 int	ft_cd(char *path);
 int	ft_env(t_env *env_head);
 int	ft_echo(int argc, char *argv[]);
-int	ft_exit(int argc, char *argv[], t_env *env_head);
+int	ft_exit(t_cmd *cmd, t_env *env_head);
 int	ft_unset(int argc, char *argv[], t_env *env_head);
 int	ft_export(int argc, char *argv[], t_env *env_head);
 

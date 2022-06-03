@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 17:37:24 by mher              #+#    #+#             */
-/*   Updated: 2022/06/03 18:36:13 by mher             ###   ########.fr       */
+/*   Created: 2021/11/19 12:41:40 by mher              #+#    #+#             */
+/*   Updated: 2022/06/03 17:17:30 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./builtin.h"
+#include "utiles.h"
 
-int	ft_env(t_env *cur)
+int	ft_atoi(const char *str)
 {
-	while (cur->key != 0)
+	long	ret;
+	int		sign;
+
+	ret = 0;
+	sign = 1;
+	while (*str == ' ' || (9 <= *str && *str <= 13))
+		++str;
+	if (*str == '+' || *str == '-')
+		if (*str++ == '-')
+			sign *= -1;
+	while ('0' <= *str && *str <= '9')
 	{
-		write(STDOUT_FILENO, cur->key, ft_strlen(cur->key));
-		write(STDOUT_FILENO, "=", 1);
-		write(STDOUT_FILENO, cur->value, ft_strlen(cur->value));
-		write(STDOUT_FILENO, "\n", 1);
-		cur = cur->next;
+		ret = ret * 10 + (*str++ - '0');
+		if (ret < 0)
+			return ((sign + 1) / -2);
 	}
-	return (0);
+	return (sign * ret);
 }

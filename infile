@@ -1,0 +1,15 @@
+total 152
+drwxr-xr-x  14 min  staff    448  6  4 04:11 .
+drwxr-xr-x+ 48 min  staff   1536  6  4 04:00 ..
+drwxr-xr-x  13 min  staff    416  6  4 01:19 .git
+-rw-r--r--   1 min  staff   1238  6  3 17:18 Makefile
+-rw-r--r--   1 min  staff     17  6  2 21:29 README.md
+drwxr-xr-x  21 min  staff    672  6  4 04:00 builtins
+drwxr-xr-x  13 min  staff    416  6  4 04:11 executor
+-rw-r--r--   1 min  staff      0  6  4 04:11 infile
+-rw-r--r--   1 min  staff  10797  6  4 01:49 main.c
+-rw-r--r--   1 min  staff   7720  6  4 04:00 main.o
+-rwxr-xr-x   1 min  staff  37830  6  4 04:11 minishell
+-rw-r--r--   1 min  staff   1248  6  2 21:29 minishell.h
+-rw-r--r--   1 min  staff   1260  6  4 03:35 struct.h
+drwxr-xr-x  23 min  staff    736  6  4 04:00 utiles

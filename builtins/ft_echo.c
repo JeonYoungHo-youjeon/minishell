@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 18:36:23 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 20:08:56 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/03 18:38:18 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,6 @@ static int	check_infile_redirection(char *argv[], int *idx)
 	*idx += 2;
 	return (1);
 }
-
-//static void	echo_env_value(t_env *env_head, char *key)
-//{
-//	t_env	*env;
-//
-//	env = compare_env_key(env_head, key);
-//	if (env->key == NULL)
-//		return ;
-//	todo: exit_status를 전역변수로 받으면 이런식으로 처리 할듯?
-//	if (key[1] == '?')
-//		print_exit_status();
-//	else
-//	{
-//      write(STDOUT_FILENO, env->value, ft_strlen(env->value));
-//	}
-//}
 
 int	ft_echo(int argc, char *argv[])
 {
