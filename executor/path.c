@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:55:17 by mher              #+#    #+#             */
-/*   Updated: 2022/06/04 03:58:54 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/04 04:21:12 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	get_cmd_path(t_cmd *cmd)
 	char	*slash;
 	char	**path;
 
-	cmd->cmd_path = NULL;
 	if (access(cmd->argv[0], X_OK) == 0)
 	{
 		cmd->cmd_path = cmd ->argv[0];
@@ -38,7 +37,10 @@ int	get_cmd_path(t_cmd *cmd)
 		if (ret == NULL)
 			return (-1);
 		if (access(ret, X_OK) == 0)
-			break ;
+		{
+			cmd->cmd_path = ret;
+			return (0);
+		}
 		free(ret);
 		++i;
 	}
@@ -47,6 +49,5 @@ int	get_cmd_path(t_cmd *cmd)
 	while(path[i])
 		free(path[i++]);
 	free(path);
-	cmd->cmd_path = ret;
 	return (0);
 }
