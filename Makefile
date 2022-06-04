@@ -15,6 +15,7 @@ SRCS		=	main.c \
 			./executor/heredoc.c \
 			./executor/path.c \
 			./executor/file.c \
+			./executor/tmp_file.c \
 			./utiles/ft_isalnum.c \
 			./utiles/ft_itoa.c \
 			./utiles/ft_split.c \
@@ -25,6 +26,11 @@ SRCS		=	main.c \
 			./utiles/ft_strlcpy.c \
 			./utiles/ft_strdup.c \
 			./utiles/ft_atoi.c \
+			./utiles/ft_putstr_fd.c \
+			./utiles/ft_system_calls.c \
+			./utiles/ft_system_calls2.c \
+			./utiles/ft_access.c \
+			./utiles/exit_with_error.c \
 
 
 OBJS		= $(SRCS:%.c=%.o)

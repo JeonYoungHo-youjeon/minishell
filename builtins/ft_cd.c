@@ -6,11 +6,14 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:48:13 by mher              #+#    #+#             */
-/*   Updated: 2022/05/26 16:39:58 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 02:02:54 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./builtin.h"
+#include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 
 static int	cd_home(char *path)
 {
@@ -26,11 +29,6 @@ static int	cd_home(char *path)
 	else if (ft_strncmp("~/", path, 2) == 0)
 	{
 		home = ft_strjoin(home, path + 1);
-		if (home == NULL)
-		{
-			//perror(); ??
-			return (-1);
-		}
 		ret = chdir(home);
 		free(home);
 	}
@@ -39,13 +37,18 @@ static int	cd_home(char *path)
 
 int	ft_cd(char *path)
 {
-	//'cd'
-	if (path == 0)		
-		return (cd_home(path));
-	//'cd ~', 'cd ~/path'
-	else if (ft_strncmp("~", path, 1) == 0) 
-		return (cd_home(path));
-	//'cd path'
-	else
-		return (chdir(path));
+	int	ret;
+
+	if (path == 0)				//'cd'
+		ret = cd_home(path);
+	else if (ft_strncmp("~", path, 1) == 0) //'cd ~', 'cd ~/path'
+		ret = cd_home(path);
+	else  					//'cd path'
+		ret = chdir(path);
+	if (ret == -1)
+	{
+		print_err("cd", path, strerror(errno));
+		ret = EXIT_FAILURE;
+	}
+	return (ret);
 }

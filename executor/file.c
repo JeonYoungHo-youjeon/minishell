@@ -6,63 +6,73 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 01:46:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 18:30:23 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/04 23:22:41 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-int	get_tmp_file_no(void)
+void	trim_cmd_argv(t_cmd *cmd, const char *set, int size)
 {
-	static int	tmp_file_no;
+	int	i;
+	int	tmp;
 
-	return (tmp_file_no++);
+	i = -1;
+	while (cmd->argv[++i])
+		if (!ft_strcmp(cmd->argv[i], set))
+			break ; 
+	if (cmd->argv[i] == NULL)
+		return ;
+	tmp = i;
+	cmd->argc -= size;
+	while (size--)
+	{
+		while (cmd->argv[i])
+		{
+			cmd->argv[i] = cmd->argv[i + 1];
+			++i;
+		}
+		free(cmd->argv[i]);
+		i = tmp;
+	}
 }
 
-char	*get_tmp_file_name(void)
+void	infile_open(t_cmd *cmd)
 {
-	int	tmp_no;
-	char	*str_no;
-	char	*file_name;
+	if (ft_strcmp(cmd->argv[0], "<"))
+		return ;
+	cmd->infile = ft_open(cmd->argv[1], O_RDONLY, 0644);
+	trim_cmd_argv(cmd, "<", 2);
+	return ;
+}
+
+void	outfile_open(t_cmd *cmd)
+{
+	int	i;
+	int	o_flag;
 
 	while (1)
 	{
-		tmp_no = get_tmp_file_no();
-		str_no = ft_itoa(tmp_no);
-		if (str_no == NULL)
-			return (NULL);
-		file_name = ft_strjoin("tmp_file_", str_no);
-		free(str_no);
-		if (file_name == NULL)
-			return (NULL);
-		if (access(file_name, F_OK) == -1)
-			return (file_name);
-		free(file_name);
-	}
-}
-
-int	delete_tmp_file(void)
-{
-	int	tmp_no;
-	char	*str_no;
-	char	*file_name;
-
-	tmp_no = get_tmp_file_no();
-	while (--tmp_no > -1)
-	{
-		str_no = ft_itoa(tmp_no);
-		if (str_no == NULL)
-			return (-1);
-		file_name = ft_strjoin("tmp_file_", str_no);
-		if (file_name == NULL)
+		i = -1;
+		o_flag = 0;
+		while (cmd->argv[++i])
+			if (!ft_strcmp(cmd->argv[i], ">")
+					|| !ft_strcmp(cmd->argv[i], ">>"))
+				break ; 
+		if (cmd->argv[i] == NULL)
+			return ;
+		if (ft_strcmp(cmd->argv[i], ">") == 0)
 		{
-			free(str_no);
-			return (-1);
+			o_flag = O_WRONLY | O_CREAT | O_TRUNC;
+			cmd->outfile = ft_open(cmd->argv[i + 1] , o_flag, 0644);
+			trim_cmd_argv(cmd, ">", 2);
 		}
-		if (access(file_name, F_OK) == 0)
-			unlink(file_name);
-		free(str_no);
-		free(file_name);
+		else if (ft_strcmp(cmd->argv[i], ">>") == 0)
+		{
+			o_flag = O_WRONLY | O_CREAT | O_APPEND;
+			cmd->outfile = ft_open(cmd->argv[i + 1] , o_flag, 0644);
+			trim_cmd_argv(cmd, ">>", 2);
+		}
 	}
-	return (0);
+	return ;
 }

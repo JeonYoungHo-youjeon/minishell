@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 16:42:32 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 15:53:58 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/04 23:59:29 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ char	*ft_itoa(int n)
 	if (n < 0)
 		sign = -1;
 	len = ft_get_num_len(n);
-	ret = (char *)malloc(sizeof(char) * (len + 1));
-	if (!ret)
-		return (0);
+	ret = (char *)ft_malloc(sizeof(char), (len + 1));
 	ret[len--] = 0;
 	while (len >= 0)
 	{

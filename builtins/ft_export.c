@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 23:05:45 by mher              #+#    #+#             */
-/*   Updated: 2022/06/04 17:24:28 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/04 20:12:18 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_export(int argc, char *argv[], t_env *env_head)
 	int	ret;
 
 	if (argc == 1)
-		return (ft_env(env_head));
+		return (ft_env(env_head)); //TODO: 출력 변경
 	i = 1;
 	while (i < argc)
 	{
