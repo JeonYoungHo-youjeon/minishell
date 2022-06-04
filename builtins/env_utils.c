@@ -21,11 +21,9 @@ char	*get_env_key(char *key_value)
 	len = 0;
 	while(key_value[len] != 0 && key_value[len] != '=')
 		++len;
-	if (key_value[len] == 0)
+	if (key_value[len] == '\0')
 		return (NULL);
-	key = (char *)malloc(len * sizeof(char) + 1);
-	if (key == NULL)
-		return (NULL);
+	key = (char *)ft_malloc(sizeof(char), len + 1);
 	i = 0;
 	while (i < len)
 	{
@@ -48,9 +46,7 @@ char	*get_env_value(char *key_value)
 	if (key_value[len] == 0)
 		return (NULL);
 	len = ft_strlen(++key_value);
-	value = (char *)malloc(len * sizeof(char) + 1);
-	if (value == NULL)
-		return (NULL);
+	value = (char *)ft_malloc(sizeof(char), len + 1);
 	i = 0;
 	while (i < len)
 	{
@@ -75,9 +71,7 @@ t_env	*new_env(char *key_value)
 {
 	t_env	*new;
 	
-	new = (t_env *)malloc(sizeof(t_env));
-	if (new == NULL)
-		return (NULL);
+	new = (t_env *)ft_malloc(sizeof(t_env), 1);
 	if (key_value == NULL)
 	{
 		new->key = 0;

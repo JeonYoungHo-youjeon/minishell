@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:53:46 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/05 02:02:12 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 02:52:02 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int		ft_write(int fd, const void *buf, size_t byte);
 int		ft_access(char *tmp_file_name);
 
 void		exit_with_err(char *str1, char *str2, int exit_code);
-void		print_err(char *str1, char *str2, char *err_msg);
+void		print_err3(char *cmd, char *str1, char *str2);
+void		print_err2(char *cmd, char *str);
 
 #endif

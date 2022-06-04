@@ -6,11 +6,12 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 18:36:23 by mher              #+#    #+#             */
-/*   Updated: 2022/06/03 18:38:18 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 02:10:11 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./builtin.h"
+#include <stdlib.h>
 
 static int	is_option_n(char *str)
 {
@@ -59,12 +60,12 @@ int	ft_echo(int argc, char *argv[])
 	{
 		if (check_infile_redirection(argv, &idx) == 1)
 			continue ;
-		write(STDOUT_FILENO, argv[idx], ft_strlen(argv[idx]));
+		ft_write(STDOUT_FILENO, argv[idx], ft_strlen(argv[idx]));
 		if (idx + 1 != argc)
-			write(STDOUT_FILENO, " ", 1);
+			ft_write(STDOUT_FILENO, " ", 1);
 		++idx;
 	}
 	if (option_n == 0)
 		write(STDOUT_FILENO, "\n", 1);
-	return (0);
+	return (EXIT_SUCCESS);
 }

@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 17:37:24 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 02:10:43 by mher             ###   ########.fr       */
+/*   Created: 2022/06/05 03:22:48 by mher              #+#    #+#             */
+/*   Updated: 2022/06/05 03:22:59 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./builtin.h"
-#include <stdlib.h>
+#include "utiles.h"
 
-int	ft_env(t_env *cur)
+int	ft_isdigit(int c)
 {
-	while (cur->key != 0)
-	{
-		ft_write(STDOUT_FILENO, cur->key, ft_strlen(cur->key));
-		ft_write(STDOUT_FILENO, "=", 1);
-		ft_write(STDOUT_FILENO, cur->value, ft_strlen(cur->value));
-		ft_write(STDOUT_FILENO, "\n", 1);
-		cur = cur->next;
-	}
-	return (EXIT_SUCCESS);
+	return ('0' <= c && c <= '9');
 }

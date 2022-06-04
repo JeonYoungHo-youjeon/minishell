@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:48:13 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 02:02:54 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 03:37:49 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_cd(char *path)
 		ret = chdir(path);
 	if (ret == -1)
 	{
-		print_err("cd", path, strerror(errno));
+		print_err3("cd", path, strerror(errno));
 		ret = EXIT_FAILURE;
 	}
 	return (ret);

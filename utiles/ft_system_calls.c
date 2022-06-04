@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 20:25:40 by mher              #+#    #+#             */
-/*   Updated: 2022/06/04 23:15:32 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 04:07:07 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_close(int fd)
 
 void	ft_dup2(int fd1, int fd2)
 {
-	if (dup2(fd1, fd2))
+	if (dup2(fd1, fd2) == -1)
 		exit_with_err("dup2()", strerror(errno), EXIT_FAILURE);
 }
 

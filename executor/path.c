@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:55:17 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 01:05:29 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 02:18:09 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ char	*get_cmd_path(t_cmd *cmd)
 	}
 	free(slash);
 	free_path(path);
-	return (NULL);
+	if (path[i] == NULL)
+		ret = NULL;
+	return (ret);
 }
