@@ -6,13 +6,13 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 00:16:02 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 00:57:14 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 16:12:18 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utiles.h"
 
-int	ft_access(char *tmp_file_name)
+int	is_exist_file(char *tmp_file_name)
 {
 	int	fd;
 

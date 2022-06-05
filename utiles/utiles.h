@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:53:46 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/05 02:52:02 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 16:14:46 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ void		ft_pipe(int *fds);
 pid_t		ft_fork(void);
 void		*ft_malloc(size_t size, size_t n);
 int		ft_write(int fd, const void *buf, size_t byte);
-int		ft_access(char *tmp_file_name);
+void		ft_execve(const char *file, char *const *argv, char *const *envp);
 
+int		is_exist_file(char *tmp_file_name);
 void		exit_with_err(char *str1, char *str2, int exit_code);
 void		print_err3(char *cmd, char *str1, char *str2);
 void		print_err2(char *cmd, char *str);

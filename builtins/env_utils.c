@@ -74,10 +74,10 @@ t_env	*new_env(char *key_value)
 	new = (t_env *)ft_malloc(sizeof(t_env), 1);
 	if (key_value == NULL)
 	{
-		new->key = 0;
-		new->value = 0;
-		new->next = 0;
-		new->prev = 0;
+		new->key = NULL;
+		new->value = NULL;
+		new->next = NULL;
+		new->prev = NULL;
 	}
 	else 
 	{
@@ -87,8 +87,8 @@ t_env	*new_env(char *key_value)
 		new->value = get_env_value(key_value);
 		if (new->value == NULL)
 			return (NULL);
-		new->next = 0;
-		new->prev = 0;
+		new->next = NULL;
+		new->prev = NULL;
 	}
 	return (new);
 }

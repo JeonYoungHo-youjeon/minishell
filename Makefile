@@ -29,7 +29,7 @@ SRCS		=	main.c \
 			./utiles/ft_putstr_fd.c \
 			./utiles/ft_system_calls.c \
 			./utiles/ft_system_calls2.c \
-			./utiles/ft_access.c \
+			./utiles/is_exist_file.c \
 			./utiles/exit_with_error.c \
 
 

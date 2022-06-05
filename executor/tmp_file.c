@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 23:19:53 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 01:03:36 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 16:15:05 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*get_tmp_file_name(void)
 		tmp_no = get_tmp_file_no();
 		str_no = ft_itoa(tmp_no);
 		file_name = ft_strjoin("tmp_file_", str_no);
-		if (ft_access(file_name) == 0)
+		if (is_exist_file(file_name) == 0)
 			return (file_name);
 		free(file_name);
 		free(str_no);
@@ -48,7 +48,7 @@ void	delete_tmp_file(void)
 	{
 		str_no = ft_itoa(tmp_no);
 		file_name = ft_strjoin("tmp_file_", str_no);
-		if (ft_access(file_name)) 
+		if (is_exist_file(file_name)) 
 			unlink(file_name);
 		free(str_no);
 		free(file_name);

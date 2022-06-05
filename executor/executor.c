@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 02:29:50 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 17:29:58 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,10 @@ static int	os_builtins(t_cmd *cmd, char *envp[])
 {
 	if (cmd->cmd_path == NULL)
 	{
-		perror("command not found");
+		print_err3(cmd->argv[0], NULL,"command not found");
 		return (127);
 	}
-	if (execve(cmd->cmd_path, cmd->argv, envp) == -1)
-		perror("execve fail");
+	ft_execve(cmd->cmd_path, cmd->argv, envp);
 	return (EXIT_FAILURE);
 }
 
@@ -118,7 +117,7 @@ void	executor(t_cmd *cmd, t_env *env_head, char *envp[])
 	while (wait(&status) != -1)
 		g_exit_code = (((status) & 0xff00) >> 8);
 	delete_tmp_file();
-	//clear_pipe();
+	// clear_cmd();
 	return ;
 }
 

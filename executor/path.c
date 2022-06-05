@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:55:17 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 02:18:09 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 16:15:36 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_cmd_path(t_cmd *cmd)
 	char	*slash;
 	char	**path;
 
-	if (ft_access(cmd->argv[0]))
+	if (is_exist_file(cmd->argv[0]))
 		return (ft_strdup(cmd->argv[0]));
 	path = ft_split(getenv("PATH"), ':');
 	slash = ft_strjoin("/", cmd->argv[0]);
@@ -37,7 +37,7 @@ char	*get_cmd_path(t_cmd *cmd)
 	while (path[i])
 	{
 		ret = ft_strjoin(path[i], slash);
-		if (ft_access(ret))
+		if (is_exist_file(ret))
 			break ;
 		free(ret);
 		++i;
