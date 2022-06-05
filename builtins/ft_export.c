@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 23:05:45 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 20:17:53 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 20:51:31 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	change_env(t_env *env, char *value)
 	return ;
 }
 
-static void	export(t_env *env_head, char *key_value)
+void	export_key_value(t_env *env_head, char *key_value)
 {
 	t_env	*env;
 	char	*key;
@@ -225,7 +225,7 @@ int	ft_export(int argc, char *argv[], t_env *env_head)
 		i = 1;
 		while (i < argc)
 		{
-			export(env_head, argv[i]);
+			export_key_value(env_head, argv[i]);
 			++i;
 		}
 	}

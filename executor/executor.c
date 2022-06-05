@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 20:37:05 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 20:56:09 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	execute_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 	if (!ft_strcmp(cmd->argv[0], "echo"))
 		return(ft_echo(cmd->argc, cmd->argv));
 	if (!ft_strcmp(cmd->argv[0], "cd"))
-		return(ft_cd(cmd->argv[1]));
+		return(ft_cd(cmd->argv[1], env_head));
 	if (!ft_strcmp(cmd->argv[0], "pwd"))
 		return(ft_pwd());
 	if (!ft_strcmp(cmd->argv[0], "export"))
