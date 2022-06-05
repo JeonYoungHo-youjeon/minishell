@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 16:54:41 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 03:55:33 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 20:14:57 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,11 @@
 
 int	ft_pwd(void)
 {
-	char	*buf;
+	char	*pwd;
 
-	buf = getcwd(NULL, 0);
-	if (buf == NULL)
-	{
-		exit_with_err("getcwd()", strerror(errno), EXIT_FAILURE);
-		return (EXIT_FAILURE);
-	}
-	ft_write(STDOUT_FILENO, buf, ft_strlen(buf));
+	pwd = getcwd(NULL, 0);
+	ft_write(STDOUT_FILENO, pwd, ft_strlen(pwd));
 	ft_write(STDOUT_FILENO, "\n", 1);
-	free(buf);
+	free(pwd);
 	return (EXIT_SUCCESS);
 }

@@ -6,13 +6,11 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 17:29:58 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 20:37:05 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./executor.h"
-#include <stdbool.h>
-#include <stdlib.h>
 
 static int	is_need_fork(t_cmd *cmd)
 {
@@ -26,14 +24,13 @@ static int	is_need_fork(t_cmd *cmd)
 		return (1);
 	if (!ft_strcmp(cmd->argv[0], "cd"))
 		return (0);
-	else if (!ft_strcmp(cmd->argv[0], "export"))
+	if (!ft_strcmp(cmd->argv[0], "export"))
 		return (0);
-	else if (!ft_strcmp(cmd->argv[0], "unset"))
+	if (!ft_strcmp(cmd->argv[0], "unset"))
 		return (0);
-	else if (!ft_strcmp(cmd->argv[0], "exit"))
+	if (!ft_strcmp(cmd->argv[0], "exit"))
 		return (0);
-	else
-		return (1);
+	return (1);
 }
 
 //OS 자체 builtin 명령어 수행
@@ -50,22 +47,21 @@ static int	os_builtins(t_cmd *cmd, char *envp[])
 
 static int	execute_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 {
+	if (!ft_strcmp(cmd->argv[0], "echo"))
+		return(ft_echo(cmd->argc, cmd->argv));
+	if (!ft_strcmp(cmd->argv[0], "cd"))
+		return(ft_cd(cmd->argv[1]));
 	if (!ft_strcmp(cmd->argv[0], "pwd"))
 		return(ft_pwd());
-	else if (!ft_strcmp(cmd->argv[0], "cd"))
-		return(ft_cd(cmd->argv[1]));
-	else if (!ft_strcmp(cmd->argv[0], "env"))
-		return(ft_env(env_head));
-	else if (!ft_strcmp(cmd->argv[0], "echo"))
-		return(ft_echo(cmd->argc, cmd->argv));
-	else if (!ft_strcmp(cmd->argv[0], "exit"))
-		return(ft_exit(cmd));
-	else if (!ft_strcmp(cmd->argv[0], "export"))
+	if (!ft_strcmp(cmd->argv[0], "export"))
 		return(ft_export(cmd->argc, cmd->argv, env_head));
-	else if (!ft_strcmp(cmd->argv[0], "unset"))
+	if (!ft_strcmp(cmd->argv[0], "unset"))
 		return(ft_unset(cmd->argc, cmd->argv, env_head));
-	else
-		return(os_builtins(cmd, envp));
+	if (!ft_strcmp(cmd->argv[0], "env"))
+		return(ft_env(env_head));
+	if (!ft_strcmp(cmd->argv[0], "exit"))
+		return(ft_exit(cmd));
+	return(os_builtins(cmd, envp));
 }
 
 static void	init_cmd_arg(t_cmd *cmd)
@@ -101,55 +97,44 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 	return ;
 }
 
-void	executor(t_cmd *cmd, t_env *env_head, char *envp[])
+static void	clear_cmd(t_cmd *cmd_head)
+{
+	t_cmd	*cur;
+
+	cur = cmd_head;
+	while (cur)
+	{
+		if (cur->is_pipe)
+			ft_close(cur->fd[READ]);
+		if (cur->infile != -1)
+			ft_close(cur->infile);
+		if (cur->outfile != -1)
+			ft_close(cur->outfile);
+		if (cur->cmd_path != NULL)
+			free(cur->cmd_path);
+		cur = cur->next;
+	}
+}
+
+void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 {
 	int	status;
+	t_cmd	*cur;
 
-	init_cmd_arg(cmd);
-	while (cmd)
+	cur = cmd_head;
+	init_cmd_arg(cur);
+	while (cur)
 	{
-		if (is_need_fork(cmd) == true)
-			do_fork_cmd(cmd, env_head, envp);
+		if (is_need_fork(cur) == true)
+			do_fork_cmd(cur, env_head, envp);
 		else
-			g_exit_code = execute_cmd(cmd, env_head, envp);
-		cmd = cmd->next;
+			g_exit_code = execute_cmd(cur, env_head, envp);
+		cur = cur->next;
 	}
 	while (wait(&status) != -1)
 		g_exit_code = (((status) & 0xff00) >> 8);
+		//WIFEXITED(status) 쓰면 매크로 define 이라 안되나???
 	delete_tmp_file();
-	// clear_cmd();
+	clear_cmd(cmd_head);
 	return ;
 }
-
-//int	executor(t_cmd *cmd, t_env *env_head, char *envp[])
-//{
-//	pid_t	pid;
-//	int	status;
-//
-//	if (init_cmd_arg(cmd) == -1)
-//		exit(EXIT_FAILURE);
-//	while (cmd)
-//	{
-//		if (is_need_fork(cmd) == false)
-//			g_exit_code = execute_cmd(cmd, env_head, envp);
-//		else
-//		{
-//			pid = fork();
-//			if (pid == 0)
-//		 	{
-//				redirect(cmd);
-//				close_unused_fd(cmd, pid);
-//				exit(execute_cmd(cmd, env_head, envp));
-//			}
-//			else
-//				close_unused_fd(cmd, pid);
-//		}
-//		cmd = cmd->next;
-//	}
-//	while (wait(&status) != -1)
-//		g_exit_code = (((status) & 0xff00) >> 8);
-//		//WIFEXITED(status) 쓰면 매크로 define 이라 안되나???
-//	delete_tmp_file();
-//	//TODO: clear_pipe();
-//	return (0);
-//}

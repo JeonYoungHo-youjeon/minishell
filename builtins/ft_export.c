@@ -6,12 +6,11 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 23:05:45 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 19:26:00 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 20:17:53 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./builtin.h"
-#include <stdlib.h>
 
 static void	append_env(t_env *env, char *key, char *value)
 {

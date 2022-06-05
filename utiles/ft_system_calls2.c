@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 22:54:53 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 16:09:51 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 20:08:29 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,14 @@ void	ft_execve(const char *file, char *const *argv, char *const *envp)
 	if (execve(file, argv, envp) == -1)
 		exit_with_err("execve()", strerror(errno), EXIT_FAILURE);
 	return ;
+}
+
+char	*ft_getcwd(char *buf, size_t size)
+{
+	char	*pwd;
+
+	pwd = getcwd(buf, size);
+	if (pwd == NULL)
+		exit_with_err("getcwd()", strerror(errno), EXIT_FAILURE);
+	return (pwd);
 }

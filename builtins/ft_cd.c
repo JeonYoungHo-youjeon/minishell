@@ -6,14 +6,11 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:48:13 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 03:37:49 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 20:15:58 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./builtin.h"
-#include <errno.h>
-#include <stdlib.h>
-#include <string.h>
 
 static int	cd_home(char *path)
 {
