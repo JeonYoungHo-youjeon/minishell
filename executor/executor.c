@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 20:09:39 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/06 14:21:38 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ static int	execute_do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 		ret = ft_exit(cmd->argc, cmd->argv, env_head);
 	else
 		ret = origin_cmd(cmd, envp);
-	//if (ret == -1)
-	//	perror();
+	if (ret == -1)
+		printf("");
 	exit(EXIT_SUCCESS);
 }
 
