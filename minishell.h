@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 17:31:34 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/02 17:27:35 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/06 17:37:33 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,8 @@
 # include "./builtins/builtin.h"
 # include "./executor/executor.h"
 # include "struct.h"
+
+void	parse(char *line, t_cmd *cmd);
+void	replace(t_cmd *cmd, t_env *head);
 
 #endif

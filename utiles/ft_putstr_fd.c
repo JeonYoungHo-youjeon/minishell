@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/19 16:13:31 by mher              #+#    #+#             */
-/*   Updated: 2022/06/04 23:58:33 by mher             ###   ########.fr       */
+/*   Created: 2022/06/04 20:05:32 by mher              #+#    #+#             */
+/*   Updated: 2022/06/04 20:05:45 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utiles.h"
 
-char	*ft_strdup(const char *s1)
+void	ft_putstr_fd(char *s, int fd)
 {
-	size_t	len;
-	char	*ret;
-	char	*tmp;
-
-	len = ft_strlen(s1);
-	ret = (char *)ft_malloc(sizeof(char), (len + 1));
-	tmp = ret;
-	while (len--)
-	{
-		*tmp = *s1;
-		++tmp;
-		++s1;
-	}
-	*tmp = 0;
-	return (ret);
+	if (!s || fd < 0)
+		return ;
+	write(fd, s, ft_strlen(s));
 }

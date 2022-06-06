@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 18:17:22 by mher              #+#    #+#             */
-/*   Updated: 2022/05/26 18:07:00 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/05 03:56:10 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ int	ft_unset(int argc, char *argv[], t_env *env_head)
 	int	i;
 
 	if (argc < 2)
-		return (0);
+		return (EXIT_SUCCESS);
 	i = 1;
 	while (i < argc)
 	{
 		unset(env_head, argv[i]);
 		++i;
 	};
-	return (0);
+	return (EXIT_SUCCESS);
 }

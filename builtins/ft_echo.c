@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 18:36:23 by mher              #+#    #+#             */
-/*   Updated: 2022/06/02 20:08:56 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/06 18:50:56 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,6 @@ static int	check_infile_redirection(char *argv[], int *idx)
 	return (1);
 }
 
-//static void	echo_env_value(t_env *env_head, char *key)
-//{
-//	t_env	*env;
-//
-//	env = compare_env_key(env_head, key);
-//	if (env->key == NULL)
-//		return ;
-//	todo: exit_status를 전역변수로 받으면 이런식으로 처리 할듯?
-//	if (key[1] == '?')
-//		print_exit_status();
-//	else
-//	{
-//      write(STDOUT_FILENO, env->value, ft_strlen(env->value));
-//	}
-//}
-
 int	ft_echo(int argc, char *argv[])
 {
 	int	idx;
@@ -75,12 +59,12 @@ int	ft_echo(int argc, char *argv[])
 	{
 		if (check_infile_redirection(argv, &idx) == 1)
 			continue ;
-		write(STDOUT_FILENO, argv[idx], ft_strlen(argv[idx]));
+		ft_write(STDOUT_FILENO, argv[idx], ft_strlen(argv[idx]));
 		if (idx + 1 != argc)
-			write(STDOUT_FILENO, " ", 1);
+			ft_write(STDOUT_FILENO, " ", 1);
 		++idx;
 	}
 	if (option_n == 0)
-		write(STDOUT_FILENO, "\n", 1);
-	return (0);
+		ft_write(STDOUT_FILENO, "\n", 1);
+	return (EXIT_SUCCESS);
 }

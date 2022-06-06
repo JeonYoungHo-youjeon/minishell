@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/19 16:13:31 by mher              #+#    #+#             */
-/*   Updated: 2022/06/04 23:58:33 by mher             ###   ########.fr       */
+/*   Created: 2022/06/05 03:22:48 by mher              #+#    #+#             */
+/*   Updated: 2022/06/05 03:22:59 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utiles.h"
 
-char	*ft_strdup(const char *s1)
+int	ft_isdigit(int c)
 {
-	size_t	len;
-	char	*ret;
-	char	*tmp;
-
-	len = ft_strlen(s1);
-	ret = (char *)ft_malloc(sizeof(char), (len + 1));
-	tmp = ret;
-	while (len--)
-	{
-		*tmp = *s1;
-		++tmp;
-		++s1;
-	}
-	*tmp = 0;
-	return (ret);
+	return ('0' <= c && c <= '9');
 }

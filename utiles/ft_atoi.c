@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 16:54:41 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 20:14:57 by mher             ###   ########.fr       */
+/*   Created: 2021/11/19 12:41:40 by mher              #+#    #+#             */
+/*   Updated: 2022/06/03 17:17:30 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./builtin.h"
+#include "utiles.h"
 
-int	ft_pwd(void)
+int	ft_atoi(const char *str)
 {
-	char	*pwd;
+	long	ret;
+	int		sign;
 
-	pwd = getcwd(NULL, 0);
-	ft_write(STDOUT_FILENO, pwd, ft_strlen(pwd));
-	ft_write(STDOUT_FILENO, "\n", 1);
-	free(pwd);
-	return (EXIT_SUCCESS);
+	ret = 0;
+	sign = 1;
+	while (*str == ' ' || (9 <= *str && *str <= 13))
+		++str;
+	if (*str == '+' || *str == '-')
+		if (*str++ == '-')
+			sign *= -1;
+	while ('0' <= *str && *str <= '9')
+	{
+		ret = ret * 10 + (*str++ - '0');
+		if (ret < 0)
+			return ((sign + 1) / -2);
+	}
+	return (sign * ret);
 }

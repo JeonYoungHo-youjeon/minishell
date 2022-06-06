@@ -6,73 +6,87 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 23:05:45 by mher              #+#    #+#             */
-/*   Updated: 2022/05/26 16:14:34 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/06 15:09:17 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./builtin.h"
 
-static int	append_env(t_env *env, char *key, char *value)
+static void	append_env(t_env *env, char *key, char *value)
 {
 	t_env	*new;
 
 	new = new_env(NULL);
-	if (new == NULL)
-		return (-1);
 	new->prev = env;
 	env->next = new;
 	env->key = key;
 	env->value = value;
-	return (0);
+	return ;
 }
 
-static int	change_env(t_env *env, char *value)
+static void	change_env(t_env *env, char *value)
 {
 	free(env->value);
 	env->value = value;
-	return (0);
+	return ;
 }
 
-static int	export(t_env *env_head, char *key_value)
+static int	export_no_arg(t_env *env_head)
 {
-	int	i;
+	t_env	*tmp;
+	t_env	*sorted_env;
+	t_env	*cur;
+	
+	tmp = dup_env_list(env_head);
+	sorted_env = sort_env_list(tmp);
+	cur = sorted_env;
+	while (cur->key)
+	{
+		ft_write(STDOUT_FILENO, "declare -x ", 11);
+		ft_write(STDOUT_FILENO, cur->key, ft_strlen(cur->key));
+		ft_write(STDOUT_FILENO, "=\"", 2);
+		ft_write(STDOUT_FILENO, cur->value, ft_strlen(cur->value));
+		ft_write(STDOUT_FILENO, "\"\n", 2);
+		cur = cur->next;
+	}
+	free_env_list(sorted_env);
+	return (EXIT_SUCCESS);
+}
+
+void	export_key_value(t_env *env_head, char *key_value)
+{
 	t_env	*env;
 	char	*key;
 	char	*value;
 
-	//key_value 인자가 "kye=value" 형태인지get_env_key(),get_env_value() 함수에서 검사 해줌
 	key = get_env_key(key_value);
-	if (key == NULL)
-		return (0);
 	value = get_env_value(key_value);
-	if (value == NULL)
-		return (0);
-	i = 0;
-	while (ft_isdigit(key[i]))
-		++i;
-	if (key[i] == 0) // kye 에 숫자만 들어가는 경우 종료
-		return (0);
 	env = compare_env_key(env_head, key);
-	if (env->key != 0) //key가 존재 하는경우 value 만 변경
-		return (change_env(env, value));
+	if (env->key != NULL) //key가 존재 하는경우 value 만 변경
+		change_env(env, value);
 	else // key가 존재하지 않는 경우 환경변수 마지막에 추가
-		return (append_env(env, key, value));
+		append_env(env, key, value);
+	return ;
 }
 
 int	ft_export(int argc, char *argv[], t_env *env_head)
 {
 	int	i;
-	int	ret;
+	int	exit_code;
 
-	if (argc < 2)
-		return (0);
-	i = 1;
-	while (i < argc)
+	exit_code = EXIT_SUCCESS;
+	if (check_valid_identifier(argc, argv) == -1)
+		exit_code = EXIT_FAILURE;
+	else if (argc == 1)
+		exit_code = export_no_arg(env_head);
+	else
 	{
-		ret = export(env_head, argv[i]);
-		if (ret == -1)
-			break ;
-		++i;
+		i = 1;
+		while (i < argc)
+		{
+			export_key_value(env_head, argv[i]);
+			++i;
+		}
 	}
-	return (ret);
+	return (exit_code);
 }

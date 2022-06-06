@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/06 19:16:19 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/06 19:36:14 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -492,6 +492,7 @@ int	main(int argc, char *argv[], char *envp[])
 			test_print_cmd(cmd);  // 리스트 내 내용물 출력
 
 			executor(cmd, &env_head, envp); // 완성된 cmd를 실행부에 전달
+			printf("g_exit_code: %d\n", g_exit_code); //TEST
 
 			ft_free_list(cmd); // 다음 line으로 넘어가기 전에 free
 		}

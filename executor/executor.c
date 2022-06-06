@@ -6,115 +6,99 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 14:21:38 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/06 19:35:24 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./executor.h"
 
-static int	is_need_fork(char *cmd)
+static int	is_need_fork(t_cmd *cmd)
 {
-	if (ft_strcmp(cmd, "cd") == 0)
+	if (cmd->prev != NULL)
+		return (1);
+	else if (cmd->is_pipe == true)
+		return (1);
+	else if (cmd->infile != -1)
+		return (1);
+	else if (cmd->outfile != -1)
+		return (1);
+	if (!ft_strcmp(cmd->argv[0], "cd"))
 		return (0);
-	else if (ft_strcmp(cmd, "export") == 0)
+	if (!ft_strcmp(cmd->argv[0], "export"))
 		return (0);
-	else if (ft_strcmp(cmd, "unset") == 0)
+	if (!ft_strcmp(cmd->argv[0], "unset"))
+		return (0);
+	if (!ft_strcmp(cmd->argv[0], "exit"))
 		return (0);
 	return (1);
 }
 
-//리눅스 자체 builtin 명령어 수행
-static int	origin_cmd(t_cmd *cmd, char *envp[])
+static int	os_builtins(t_cmd *cmd, char *envp[])
 {
-	int	i;
-	int	ret;
-	char	**path;
-	char	*cmd_path;
-
-	ret = 0; //
-	path = ft_split(getenv("PATH"), ':');
-//	if (path);
-//		return ()
-	cmd_path = get_cmd_path(cmd->argv[0], path);
-	//if (arg->cmd_path == NULL)
-		//exit_with_perror("command not found", 127);
-	ret = execve(cmd_path, cmd->argv, envp);
-	//if (ret == -1)
-		//exit_with_perror("execve fail", EXIT_FAILURE);
-	i = 0;
-	while(path[i])
-		free(path[i++]);
-	free(path);
-	free(cmd_path);
-	return (ret);
+	if (cmd->cmd_path == NULL)
+	{
+		print_err3(cmd->argv[0], NULL,"command not found");
+		return (127);
+	}
+	ft_execve(cmd->cmd_path, cmd->argv, envp);
+	return (EXIT_FAILURE);
 }
 
-//fork() 가 필요한 명령어 실행
-static int	execute_do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
+static int	execute_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 {
-	int	ret;
-
-	if (ft_strcmp(cmd->argv[0], "cd") == 0)
-		return (ft_cd(cmd->argv[1]));
-	else if (ft_strcmp(cmd->argv[0], "export") == 0)
-		return (ft_export(cmd->argc, cmd->argv, env_head));
-	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
-		return (ft_unset(cmd->argc, cmd->argv, env_head));
-	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
-		ret = ft_pwd();
-	else if (ft_strcmp(cmd->argv[0], "env") == 0)
-		ret = ft_env(env_head);
-	else if (ft_strcmp(cmd->argv[0], "echo") == 0)
-		ret = ft_echo(cmd->argc, cmd->argv);
-	else if (ft_strcmp(cmd->argv[0], "exit") == 0)
-		ret = ft_exit(cmd->argc, cmd->argv, env_head);
-	else
-		ret = origin_cmd(cmd, envp);
-	if (ret == -1)
-		printf("");
-	exit(EXIT_SUCCESS);
+	if (!ft_strcmp(cmd->argv[0], "echo"))
+		return(ft_echo(cmd->argc, cmd->argv));
+	if (!ft_strcmp(cmd->argv[0], "cd"))
+		return(ft_cd(cmd->argv[1], env_head));
+	if (!ft_strcmp(cmd->argv[0], "pwd"))
+		return(ft_pwd());
+	if (!ft_strcmp(cmd->argv[0], "export"))
+		return(ft_export(cmd->argc, cmd->argv, env_head));
+	if (!ft_strcmp(cmd->argv[0], "unset"))
+		return(ft_unset(cmd->argc, cmd->argv, env_head));
+	if (!ft_strcmp(cmd->argv[0], "env"))
+		return(ft_env(env_head));
+	if (!ft_strcmp(cmd->argv[0], "exit"))
+		return(ft_exit(cmd));
+	return(os_builtins(cmd, envp));
 }
 
-//fork() 가 필요없는 명령어 실행
-static int	execute_not_fork_cmd(t_cmd *cmd, t_env *env_head)
-{
-	if (ft_strcmp(cmd->argv[0], "cd") == 0)
-		return (ft_cd(cmd->argv[1]));
-	else if (ft_strcmp(cmd->argv[0], "export") == 0)
-		return (ft_export(cmd->argc, cmd->argv, env_head));
-	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
-		return (ft_unset(cmd->argc, cmd->argv, env_head));
-	else
-		return (-1);
-}
-
-int	executor(t_cmd *cmd, t_env *env_head, char *envp[])
+static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 {
 	pid_t	pid;
-	
-	while (cmd != 0)
+
+	pid = ft_fork();
+	if (pid == 0)
 	{
-		if (is_need_fork(cmd->argv[0]) == 0)
-			execute_not_fork_cmd(cmd, env_head);
-		else
-		{
-			if (pipe(cmd->fd) == -1)
-				return (-1);
-			heredoc_input(cmd);
-			pid = fork();
-			if (pid == 0)
-		 	{
-				redirect(cmd);
-				close_unused_fd(cmd, pid);
-				execute_do_fork_cmd(cmd, env_head, envp);
-			}
-			else
-				close_unused_fd(cmd, pid);
-		}
-		cmd = cmd->next;
+		redirect(cmd);
+		close_unused_fd(cmd, pid);
+		exit(execute_cmd(cmd, env_head, envp));
 	}
-	while (wait(0) != -1)
-		;
+	else
+		close_unused_fd(cmd, pid);
+	return ;
+}
+
+void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
+{
+	int	status;
+	t_cmd	*cmd_cur;
+
+	cmd_cur = cmd_head;
+	init_cmd_arg(cmd_cur, env_head);
+	while (cmd_cur)
+	{
+		if (is_need_fork(cmd_cur) == true)
+			do_fork_cmd(cmd_cur, env_head, envp);
+		else
+			g_exit_code = execute_cmd(cmd_cur, env_head, envp);
+		cmd_cur = cmd_cur->next;
+	}
+	while (wait(&status) != -1)
+		g_exit_code = WEXITSTATUS(status);
+		//WEXITSTATUS(status); 쓰면 매크로 define 이라 안되나???
+		//g_exit_code = (((status) & 0xff00) >> 8);
 	delete_tmp_file();
-	return (0);
+	clear_cmd(cmd_head);
+	return ;
 }

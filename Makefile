@@ -6,15 +6,20 @@ SRCS		=	main.c \
 			./builtins/ft_cd.c \
 			./builtins/ft_echo.c \
 			./builtins/ft_export.c \
+			./builtins/ft_export_check_valid.c \
+			./builtins/ft_export_no_arg_utils.c \
 			./builtins/ft_unset.c \
 			./builtins/ft_exit.c \
 			./builtins/ft_getenv.c \
 			./builtins/env_utils.c \
 			./executor/executor.c \
-			./executor/fd_handling.c \
-			./executor/heredoc.c \
 			./executor/path.c \
-			./executor/file.c \
+			./executor/redirection.c \
+			./executor/close_unused_fd.c \
+			./executor/heredoc.c \
+			./executor/tmp_file.c \
+			./executor/io_file_open.c \
+			./executor/init_and_clear_cmd.c \
 			./utiles/ft_isalnum.c \
 			./utiles/ft_itoa.c \
 			./utiles/ft_split.c \
@@ -23,7 +28,13 @@ SRCS		=	main.c \
 			./utiles/ft_strlen.c \
 			./utiles/ft_strncmp.c \
 			./utiles/ft_strlcpy.c \
-			./utiles/ft_strdup.c
+			./utiles/ft_strdup.c \
+			./utiles/ft_atoi.c \
+			./utiles/ft_putstr_fd.c \
+			./utiles/ft_system_calls.c \
+			./utiles/ft_system_calls2.c \
+			./utiles/is_exist_file.c \
+			./utiles/exit_with_error.c \
 
 
 OBJS		= $(SRCS:%.c=%.o)

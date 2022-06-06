@@ -6,37 +6,45 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:55:17 by mher              #+#    #+#             */
-/*   Updated: 2022/05/31 00:40:32 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/06 14:57:27 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-char	*get_cmd_path(char *cmd, char **path)
+static void	free_path(char **path)
 {
-	int		i;
-	char	*ret;
-	char	*tmp;
+	size_t	i;
 
 	i = 0;
-	if (access(cmd, X_OK) == 0)
-		return (cmd);
-	tmp = ft_strjoin("/", cmd);
-	if (tmp == NULL)
-		return (NULL);
+	while(path[i])
+		free(path[i++]);
+	free(path);
+}
+
+char	*get_cmd_path(t_cmd *cmd)
+{
+	int	i;
+	char	*ret;
+	char	*slash;
+	char	**path;
+
+	if (is_exist_file(cmd->argv[0]))
+		return (ft_strdup(cmd->argv[0]));
+	path = ft_split(getenv("PATH"), ':');
+	slash = ft_strjoin("/", cmd->argv[0]);
+	i = 0;
 	while (path[i])
 	{
-		ret = ft_strjoin(path[i], tmp);
-		if (ret == NULL)
-			return (NULL);
-		if (access(ret, X_OK) == 0)
-		{
-			free(tmp);
-			return (ret);
-		}
+		ret = ft_strjoin(path[i], slash);
+		if (is_exist_file(ret))
+			break ;
 		free(ret);
-		i++;
+		++i;
 	}
-	free(tmp);
-	return (NULL);
+	free(slash);
+	free_path(path);
+	if (path[i] == NULL)
+		ret = NULL;
+	return (ret);
 }

@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   close_unused_fd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 16:54:41 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 20:14:57 by mher             ###   ########.fr       */
+/*   Created: 2022/06/06 14:48:43 by mher              #+#    #+#             */
+/*   Updated: 2022/06/06 14:48:56 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./builtin.h"
+#include "executor.h"
 
-int	ft_pwd(void)
+void	close_unused_fd(t_cmd *cmd, pid_t pid)
 {
-	char	*pwd;
-
-	pwd = getcwd(NULL, 0);
-	ft_write(STDOUT_FILENO, pwd, ft_strlen(pwd));
-	ft_write(STDOUT_FILENO, "\n", 1);
-	free(pwd);
-	return (EXIT_SUCCESS);
+	if (pid == 0)
+		ft_close(cmd->fd[READ]);
+	else
+		ft_close(cmd->fd[WRITE]);
+	return ;
 }
