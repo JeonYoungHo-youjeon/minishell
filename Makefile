@@ -13,12 +13,12 @@ SRCS		=	main.c \
 			./builtins/ft_getenv.c \
 			./builtins/env_utils.c \
 			./executor/executor.c \
+			./executor/path.c \
 			./executor/redirection.c \
 			./executor/close_unused_fd.c \
 			./executor/heredoc.c \
-			./executor/path.c \
-			./executor/io_file_open.c \
 			./executor/tmp_file.c \
+			./executor/io_file_open.c \
 			./executor/init_and_clear_cmd.c \
 			./utiles/ft_isalnum.c \
 			./utiles/ft_itoa.c \
