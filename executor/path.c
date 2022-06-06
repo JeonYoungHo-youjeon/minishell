@@ -6,13 +6,13 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:55:17 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 16:15:36 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/06 14:57:27 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-void	free_path(char **path)
+static void	free_path(char **path)
 {
 	size_t	i;
 

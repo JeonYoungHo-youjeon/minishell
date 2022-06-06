@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:41:40 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 20:56:04 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/06 14:13:59 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ int	ft_exit(t_cmd *cmd);
 int	ft_unset(int argc, char *argv[], t_env *env_head);
 int	ft_export(int argc, char *argv[], t_env *env_head);
 void	export_key_value(t_env *env_head, char *key_value);
+int	check_valid_identifier(int argc, char *argv[]);
+t_env	*dup_env_list(t_env *cur);
+t_env	*sort_env_list(t_env *head);
+void	free_env_list(t_env *env);
 
 //env_utils
 int	init_env_list(t_env *cur, char **envp);

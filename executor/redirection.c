@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fd_handling.c                                      :+:      :+:    :+:   */
+/*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:22 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 01:11:22 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/06 14:49:39 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
-#include <stdbool.h>
 
 static void	redirect_pipe_in(t_cmd *cmd)
 {
@@ -47,14 +46,5 @@ void	redirect(t_cmd *cmd)
 	redirect_pipe_out(cmd);
 	redirect_infile(cmd);
 	redirect_outfile(cmd);
-	return ;
-}
-
-void	close_unused_fd(t_cmd *cmd, pid_t pid)
-{
-	if (pid == 0)
-		ft_close(cmd->fd[READ]);
-	else
-		ft_close(cmd->fd[WRITE]);
 	return ;
 }
