@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 01:46:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 14:56:03 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/06 18:58:52 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,19 @@ void	trim_cmd_argv(t_cmd *cmd, const char *set, int size)
 
 void	infile_open(t_cmd *cmd)
 {
-	if (ft_strcmp(cmd->argv[0], "<"))
-		return ;
-	cmd->infile = ft_open(cmd->argv[1], O_RDONLY, 0644);
-	trim_cmd_argv(cmd, "<", 2);
+	int	i;
+
+	while (1)
+	{
+		i = -1;
+		while (cmd->argv[++i])
+			if (!ft_strcmp(cmd->argv[i], "<"))
+				break ;
+		if (cmd->argv[i] == NULL)
+			break ;
+		cmd->infile = ft_open(cmd->argv[i + 1], O_RDONLY, 0644);
+		trim_cmd_argv(cmd, "<", 2);
+	}
 	return ;
 }
 
@@ -60,7 +69,7 @@ void	outfile_open(t_cmd *cmd)
 					|| !ft_strcmp(cmd->argv[i], ">>"))
 				break ; 
 		if (cmd->argv[i] == NULL)
-			return ;
+			break ;
 		if (ft_strcmp(cmd->argv[i], ">") == 0)
 		{
 			o_flag = O_WRONLY | O_CREAT | O_TRUNC;

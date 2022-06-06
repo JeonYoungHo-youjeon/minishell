@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 14:46:35 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/06 18:55:51 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,17 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 {
 	int	status;
-	t_cmd	*cur;
+	t_cmd	*cmd_cur;
 
-	cur = cmd_head;
-	init_cmd_arg(cur);
-	while (cur)
+	cmd_cur = cmd_head;
+	init_cmd_arg(cmd_cur, env_head);
+	while (cmd_cur)
 	{
-		if (is_need_fork(cur) == true)
-			do_fork_cmd(cur, env_head, envp);
+		if (is_need_fork(cmd_cur) == true)
+			do_fork_cmd(cmd_cur, env_head, envp);
 		else
-			g_exit_code = execute_cmd(cur, env_head, envp);
-		cur = cur->next;
+			g_exit_code = execute_cmd(cmd_cur, env_head, envp);
+		cmd_cur = cmd_cur->next;
 	}
 	while (wait(&status) != -1)
 		g_exit_code = WEXITSTATUS(status);

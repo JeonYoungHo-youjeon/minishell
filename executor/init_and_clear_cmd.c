@@ -6,16 +6,30 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:40:14 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 14:46:23 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/06 18:56:53 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
+#include "../minishell.h"
+#include <stdlib.h>
 
-void	init_cmd_arg(t_cmd *cmd)
+void	init_cmd_arg(t_cmd *cmd, t_env *env_head)
 {
+	char	*line;
+
 	while (cmd)
 	{
+		if (cmd->argc == 0)
+		{
+			if (cmd->prev == NULL)
+				exit_with_err("syntax error near unexpected token `|'", NULL, 258);
+			line = readline("> ");
+			add_history(line);
+			parse(line, cmd);
+			replace(cmd, env_head);
+			free(line);
+		}
 		cmd->infile = -1;
 		cmd->outfile = -1;
 		cmd->cmd_path = NULL;
