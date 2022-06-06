@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/06 16:25:08 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/06 19:16:19 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -424,10 +424,26 @@ void	replace(t_cmd *cmd, t_env *head)
 	}
 }
 
-// void	ft_free_list(t_cmd *cmd)
-// {
+void	ft_free_list(t_cmd *cmd)
+{
+	t_cmd	*ptr;
+	int		i;
 
-// }
+	while (cmd)
+	{
+		i = 0;
+		while (i < cmd->argc)
+		{
+			cmd->argv[i] = ft_free(cmd->argv[i]);
+			i++;
+		}
+		cmd->argv = ft_free(cmd->argv);
+		ptr = cmd;
+		cmd = cmd->next;
+		ptr = ft_free(ptr);
+	}
+	
+}
 
 // 1차 test
 // 평가 시뮬레이션 대로 입력해보고 구조체가 정확히 출력 되는지 확인
@@ -460,26 +476,24 @@ int	main(int argc, char *argv[], char *envp[])
 	// 화면에 minishell $ 출력 및 입력 대기
 	while ((line = readline("minishell $ ")))
 	{
-		// FIXME: 바로 엔터 쳤을때 세그폴트
-		// FIXME: 값 없이 파이프만 입력했을때 세그폴트
 		if (*line != '\0' && !is_whitespace(line)) // 입력받은 문자가 있을때만 동작
 		{
-			if (ft_strcmp(line, "exit") == 0)
-				exit(1);
+			// if (ft_strcmp(line, "exit") == 0)
+			// 	exit(1);
 			add_history(line); // 받은 데이터를 히스토리에 저장.
 
 			// test_parse(line); // 입력받은 문자열을 그대로 출력
 
 			cmd = ft_list_init();
 			parse(line, cmd); // 입력받은 문자열을 링크드 리스트에 저장
-			test_print_cmd(cmd); // 리스트 내 내용물 출력
+			//test_print_cmd(cmd); // 리스트 내 내용물 출력
 
 			replace(cmd, &env_head); // 실행전에 $, ', " 등 replace
 			test_print_cmd(cmd);  // 리스트 내 내용물 출력
 
 			executor(cmd, &env_head, envp); // 완성된 cmd를 실행부에 전달
 
-			// TODO: ft_free_list(cmd); // 다음 line으로 넘어가기 전에 free
+			ft_free_list(cmd); // 다음 line으로 넘어가기 전에 free
 		}
 
 		// 파싱 완료한다음 '반드시' free 해줘야함
