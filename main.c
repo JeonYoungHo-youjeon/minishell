@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/07 18:28:04 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/07 20:04:52 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ char	*ft_strjoin_char(char *s1, char s2)
 		return (0);
 	else if (!s1)
 		return (ft_strdup(&s2));
-	else if (!s2)
-		return (ft_strdup(s1));
 	s1_len = ft_strlen_int(s1);
 	ret = (char *)malloc(sizeof(char) * (s1_len + 2));
 	if (!ret)
@@ -121,10 +119,8 @@ void	test_parse(char *line)
 				printf("[%d] : %s\n", index, str);
 				str = ft_free(str);
 			}
-			if (pipe == 1) // TODO: 기존 값이 파이프일때(파이프가 연속으로 나왔을때) 예외처리
+			if (pipe == 1) // 기존 값이 파이프일때(파이프가 연속으로 나왔을때) 예외처리
 			{
-				printf("test exit: ||\n");
-				exit(1);
 			}
 			// 이 자리에 현재 구조체의 is_pipe를 true로 바꾸고 다음 리스트로 넘어가는 동작 넣을 예정
 			index = 0;
@@ -133,11 +129,9 @@ void	test_parse(char *line)
 		}
 		else
 		{
-			// TODO: 특수문자 예외처리
+			// 특수문자 예외처리
 			if ((*line == ';' || *line == '\\') && quotes == 0)
 			{
-				printf("test exit: %c\n", *line);
-				exit(1);
 			}
 			// 연달아서 공백이 나오는 경우 예외처리
 			if (!(*line == ' ' && space == 1) && quotes == 0)
@@ -151,8 +145,7 @@ void	test_parse(char *line)
 	}
 	if (quotes != 0) // 닫히지 않은 따옴표 예외처리
 	{
-		printf("test exit: quotes error\n"); // TODO: exit_with_err("quotes error", NULL, 1);
-		exit(1);
+		exit_with_err("quotes error", NULL, 1);
 	}
 	if (str != NULL) // 마지막에 출력하지 않은 문자열이 남은 경우 처리
 	{
@@ -282,7 +275,7 @@ void	parse(char *line, t_cmd *cmd)
 		if (*line == '|' && quotes == 0)
 		{
 			if (pipe == 1) // 기존 값이 파이프일때(파이프가 연속으로 나왔을때) 예외처리
-				printf("test exit: ||\n"); // TODO:
+				exit_with_err("argv error", "||", 1);;
 			// 현재 구조체에 값을 입력하고 다음 리스트로 넘어감
 			cmd->is_pipe = true;
 			cmd->argv = ft_split_argc(str, ' ', &(cmd->argc));
@@ -297,7 +290,7 @@ void	parse(char *line, t_cmd *cmd)
 		{
 			// 특수문자 예외처리
 			if ((*line == ';' || *line == '\\') && quotes == 0)
-				printf("test exit: %c\n", *line); // TODO:
+				exit_with_err("symbol error", line, 1);
 			else if (quotes != 0 && *line == ' ')
 			{
 				str = ft_strjoin_char(str, -32);
@@ -311,7 +304,7 @@ void	parse(char *line, t_cmd *cmd)
 		line++;
 	}
 	if (quotes != 0) // 닫히지 않은 따옴표 예외처리
-		printf("test exit: quotes error\n"); // TODO:
+		exit_with_err("quotes error", NULL, 1);
 	if (str != NULL) // 마지막에 문자열이 남은 경우 처리
 	{
 		cmd->argv = ft_split_argc(str, ' ', &(cmd->argc));
@@ -364,7 +357,6 @@ void	replace(t_cmd *cmd, t_env *head)
 	env = NULL;
 	quotes = 0;
 	dollar = 0;
-	//FIXME: 릭 잡아야함!!!
 	while (cmd)
 	{
 		i = 0;
@@ -375,18 +367,15 @@ void	replace(t_cmd *cmd, t_env *head)
 			while (j <= size)
 			{
 				quotes = parse_set_quotes(cmd->argv[i][j], quotes);
-
-				// TODO: 달러표시가 기존 달러표시 뒤에 붙어서 나올때 처리 안되어있음
 				if (cmd->argv[i][j] == '$' && quotes != 1 && dollar == 0)
 				{
 					dollar = 1; // 작은 따옴표가 아닐때 $ 상태에 돌입
 				}
 				else if (dollar == 1)
 				{
-					if (ft_isalnum(cmd->argv[i][j])) // TODO: 언더바(_)도 제외
+					if (ft_isalnum(cmd->argv[i][j]) || cmd->argv[i][j] == '_')
 					{
 						env = ft_strjoin_char(env, cmd->argv[i][j]); // 특수문자 혹은 띄어쓰기가 아니면 env 문자열에 차곡차곡 저장
-						printf("test env : %s\n", env);
 					}
 					else if (cmd->argv[i][j] == '?' && env == NULL)
 					{
@@ -399,8 +388,8 @@ void	replace(t_cmd *cmd, t_env *head)
 					{
 						new = ft_strjoin(new, ft_getenv(head, env));
 						env = ft_free(env);
-						dollar = 0;
-					//FIXME: strjoin, getenv 에서 free 해주는지 확인 필요. 안해주면 해당 함수에서 하는 쪽으로 변경
+						if (cmd->argv[i][j] != '$')
+							dollar = 0;
 					}
 				}
 				else
