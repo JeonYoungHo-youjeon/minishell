@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 19:35:24 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/07 15:55:54 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,42 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 	return ;
 }
 
+static int	check_valid_syntax(t_cmd *cmd_head)
+{
+	t_cmd	*cur;
+	int		i;
+
+	cur = cmd_head;
+	if (cmd_head->is_pipe && cmd_head->argc == 0)
+	{
+		print_err2("syntax error near unexpected token `|'", NULL);
+		g_exit_code = 258;
+		return (-1);
+	}
+	while (cur)
+	{
+		i = 0;
+		while (cur->argv[i + 1])
+			++i;
+		if (!ft_strcmp(cur->argv[i], ">") || !ft_strcmp(cur->argv[i], ">>"))
+		{
+			print_err2("syntax error near unexpected token `newline'", NULL);
+			g_exit_code = 258;
+			return (-1);
+		}
+		cur = cur->next;
+	}
+	return (0);
+}
+
 void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 {
 	int	status;
 	t_cmd	*cmd_cur;
 
 	cmd_cur = cmd_head;
+	if (check_valid_syntax(cmd_head) == -1)
+		return ;
 	init_cmd_arg(cmd_cur, env_head);
 	while (cmd_cur)
 	{

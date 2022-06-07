@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:40:14 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 18:56:53 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/07 15:59:06 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	init_cmd_arg(t_cmd *cmd, t_env *env_head)
 	{
 		if (cmd->argc == 0)
 		{
-			if (cmd->prev == NULL)
-				exit_with_err("syntax error near unexpected token `|'", NULL, 258);
 			line = readline("> ");
 			add_history(line);
 			parse(line, cmd);
