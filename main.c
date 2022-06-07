@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/06 19:36:14 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/07 16:16:25 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,7 @@ int	parse_set_quotes(char line, int quotes)
 	return (result);
 }
 
-void	*ft_free(void *ptr)
-{
-	free(ptr);
-	return (NULL);
-}
+
 
 void	test_parse(char *line)
 {
@@ -442,7 +438,7 @@ void	ft_free_list(t_cmd *cmd)
 		cmd = cmd->next;
 		ptr = ft_free(ptr);
 	}
-	
+
 }
 
 // 1차 test
@@ -458,6 +454,8 @@ int	main(int argc, char *argv[], char *envp[])
 	t_cmd			*cmd;
 	t_env			env_head;
 
+	if (argc != 1)
+		exit_with_err("argument input error", NULL, 126);
 	// signal 입력시 나오는 잔향(Echo) 삭제
 	tcgetattr(STDIN_FILENO, &term);
     term.c_lflag &= ~(ECHOCTL);

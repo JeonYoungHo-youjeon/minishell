@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:53:46 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/05 20:08:51 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/07 16:11:37 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void		*ft_malloc(size_t size, size_t n);
 int		ft_write(int fd, const void *buf, size_t byte);
 void		ft_execve(const char *file, char *const *argv, char *const *envp);
 char		*ft_getcwd(char *buf, size_t size);
+void		*ft_free(void *ptr);
 
 int		is_exist_file(char *tmp_file_name);
 void		exit_with_err(char *str1, char *str2, int exit_code);
