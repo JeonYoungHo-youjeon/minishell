@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/07 19:53:52 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/07 20:04:52 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,18 +367,15 @@ void	replace(t_cmd *cmd, t_env *head)
 			while (j <= size)
 			{
 				quotes = parse_set_quotes(cmd->argv[i][j], quotes);
-
-				// TODO: 달러표시가 기존 달러표시 뒤에 붙어서 나올때 처리 안되어있음
 				if (cmd->argv[i][j] == '$' && quotes != 1 && dollar == 0)
 				{
 					dollar = 1; // 작은 따옴표가 아닐때 $ 상태에 돌입
 				}
 				else if (dollar == 1)
 				{
-					if (ft_isalnum(cmd->argv[i][j])) // TODO: 언더바(_)도 제외
+					if (ft_isalnum(cmd->argv[i][j]) || cmd->argv[i][j] == '_')
 					{
 						env = ft_strjoin_char(env, cmd->argv[i][j]); // 특수문자 혹은 띄어쓰기가 아니면 env 문자열에 차곡차곡 저장
-						printf("test env : %s\n", env);
 					}
 					else if (cmd->argv[i][j] == '?' && env == NULL)
 					{
@@ -391,7 +388,8 @@ void	replace(t_cmd *cmd, t_env *head)
 					{
 						new = ft_strjoin(new, ft_getenv(head, env));
 						env = ft_free(env);
-						dollar = 0;
+						if (cmd->argv[i][j] != '$')
+							dollar = 0;
 					}
 				}
 				else
