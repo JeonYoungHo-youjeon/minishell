@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/06 19:36:14 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/07 18:28:04 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ extern int	g_exit_code;
 
 void	signal_handler(int signo)
 {
+	// TODO: 시그널에 따른 종료상태 crtl-c : 130 crtl-\ : 131
 	// ctrl-C : 새로운 줄에 새로운 프롬프트 출력
 	if (signo == SIGINT)
 	{
@@ -25,7 +26,7 @@ void	signal_handler(int signo)
 		rl_redisplay();
 	}
 	// ctrl-\ : 아무런 동작을 하지 않음
-	// 자식 프로세스 있을때 작업을 이후에 추가해야함
+	// TODO: 자식 프로세스 있을때 작업을 이후에 추가해야함 cat 이랑 cat /dev/urandom 으로 테스트해볼것
 	if (signo == SIGQUIT)
 	{
 		rl_on_new_line();
@@ -91,11 +92,7 @@ int	parse_set_quotes(char line, int quotes)
 	return (result);
 }
 
-void	*ft_free(void *ptr)
-{
-	free(ptr);
-	return (NULL);
-}
+
 
 void	test_parse(char *line)
 {
@@ -124,7 +121,7 @@ void	test_parse(char *line)
 				printf("[%d] : %s\n", index, str);
 				str = ft_free(str);
 			}
-			if (pipe == 1) // 기존 값이 파이프일때(파이프가 연속으로 나왔을때) 예외처리
+			if (pipe == 1) // TODO: 기존 값이 파이프일때(파이프가 연속으로 나왔을때) 예외처리
 			{
 				printf("test exit: ||\n");
 				exit(1);
@@ -136,7 +133,7 @@ void	test_parse(char *line)
 		}
 		else
 		{
-			// 특수문자 예외처리
+			// TODO: 특수문자 예외처리
 			if ((*line == ';' || *line == '\\') && quotes == 0)
 			{
 				printf("test exit: %c\n", *line);
@@ -154,7 +151,7 @@ void	test_parse(char *line)
 	}
 	if (quotes != 0) // 닫히지 않은 따옴표 예외처리
 	{
-		printf("test exit: quotes error\n");
+		printf("test exit: quotes error\n"); // TODO: exit_with_err("quotes error", NULL, 1);
 		exit(1);
 	}
 	if (str != NULL) // 마지막에 출력하지 않은 문자열이 남은 경우 처리
@@ -285,7 +282,7 @@ void	parse(char *line, t_cmd *cmd)
 		if (*line == '|' && quotes == 0)
 		{
 			if (pipe == 1) // 기존 값이 파이프일때(파이프가 연속으로 나왔을때) 예외처리
-				printf("test exit: ||\n");
+				printf("test exit: ||\n"); // TODO:
 			// 현재 구조체에 값을 입력하고 다음 리스트로 넘어감
 			cmd->is_pipe = true;
 			cmd->argv = ft_split_argc(str, ' ', &(cmd->argc));
@@ -300,7 +297,7 @@ void	parse(char *line, t_cmd *cmd)
 		{
 			// 특수문자 예외처리
 			if ((*line == ';' || *line == '\\') && quotes == 0)
-				printf("test exit: %c\n", *line);
+				printf("test exit: %c\n", *line); // TODO:
 			else if (quotes != 0 && *line == ' ')
 			{
 				str = ft_strjoin_char(str, -32);
@@ -314,7 +311,7 @@ void	parse(char *line, t_cmd *cmd)
 		line++;
 	}
 	if (quotes != 0) // 닫히지 않은 따옴표 예외처리
-		printf("test exit: quotes error\n");
+		printf("test exit: quotes error\n"); // TODO:
 	if (str != NULL) // 마지막에 문자열이 남은 경우 처리
 	{
 		cmd->argv = ft_split_argc(str, ' ', &(cmd->argc));
@@ -367,6 +364,7 @@ void	replace(t_cmd *cmd, t_env *head)
 	env = NULL;
 	quotes = 0;
 	dollar = 0;
+	//FIXME: 릭 잡아야함!!!
 	while (cmd)
 	{
 		i = 0;
@@ -378,15 +376,17 @@ void	replace(t_cmd *cmd, t_env *head)
 			{
 				quotes = parse_set_quotes(cmd->argv[i][j], quotes);
 
+				// TODO: 달러표시가 기존 달러표시 뒤에 붙어서 나올때 처리 안되어있음
 				if (cmd->argv[i][j] == '$' && quotes != 1 && dollar == 0)
 				{
 					dollar = 1; // 작은 따옴표가 아닐때 $ 상태에 돌입
 				}
 				else if (dollar == 1)
 				{
-					if (ft_isalnum(cmd->argv[i][j]))
+					if (ft_isalnum(cmd->argv[i][j])) // TODO: 언더바(_)도 제외
 					{
 						env = ft_strjoin_char(env, cmd->argv[i][j]); // 특수문자 혹은 띄어쓰기가 아니면 env 문자열에 차곡차곡 저장
+						printf("test env : %s\n", env);
 					}
 					else if (cmd->argv[i][j] == '?' && env == NULL)
 					{
@@ -394,8 +394,6 @@ void	replace(t_cmd *cmd, t_env *head)
 						env = ft_itoa(g_exit_code);
 						new = ft_strjoin(new, env);
 						dollar = 0;
-						// printf("test $?: %d\n", g_exit_code);
-						// TODO: 에러 처리 이후에 에러 코드 저장 후 출력 구현
 					}
 					else
 					{
@@ -442,7 +440,7 @@ void	ft_free_list(t_cmd *cmd)
 		cmd = cmd->next;
 		ptr = ft_free(ptr);
 	}
-	
+
 }
 
 // 1차 test
@@ -458,6 +456,8 @@ int	main(int argc, char *argv[], char *envp[])
 	t_cmd			*cmd;
 	t_env			env_head;
 
+	if (argc != 1)
+		exit_with_err("argument input error", NULL, 126);
 	// signal 입력시 나오는 잔향(Echo) 삭제
 	tcgetattr(STDIN_FILENO, &term);
     term.c_lflag &= ~(ECHOCTL);
@@ -489,10 +489,10 @@ int	main(int argc, char *argv[], char *envp[])
 			//test_print_cmd(cmd); // 리스트 내 내용물 출력
 
 			replace(cmd, &env_head); // 실행전에 $, ', " 등 replace
-			test_print_cmd(cmd);  // 리스트 내 내용물 출력
+			// test_print_cmd(cmd);  // 리스트 내 내용물 출력
 
 			executor(cmd, &env_head, envp); // 완성된 cmd를 실행부에 전달
-			printf("g_exit_code: %d\n", g_exit_code); //TEST
+			// printf("g_exit_code: %d\n", g_exit_code); //TEST
 
 			ft_free_list(cmd); // 다음 line으로 넘어가기 전에 free
 		}
@@ -500,6 +500,5 @@ int	main(int argc, char *argv[], char *envp[])
 		// 파싱 완료한다음 '반드시' free 해줘야함
 		free(line);
 	}
-//	system("leaks minishell");
 
 }
