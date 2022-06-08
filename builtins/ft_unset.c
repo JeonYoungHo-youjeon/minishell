@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 18:17:22 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 15:07:28 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 17:28:55 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	check_valid_key_identifier(int argc, char *argv[])
 	int	i;
 
 	i = 1;
-	while(i < argc)
+	while (i < argc)
 	{
 		if (is_have_specific_char(argv[i], '='))
 		{
@@ -56,7 +56,7 @@ static int	check_valid_key_identifier(int argc, char *argv[])
 static void	unset(t_env *env_head, char *key)
 {
 	t_env	*env;
-	
+
 	env = compare_env_key(env_head, key);
 	if (env->key == NULL)
 		return ;
@@ -77,6 +77,6 @@ int	ft_unset(int argc, char *argv[], t_env *env_head)
 	{
 		unset(env_head, argv[i]);
 		++i;
-	};
+	}
 	return (EXIT_SUCCESS);
 }

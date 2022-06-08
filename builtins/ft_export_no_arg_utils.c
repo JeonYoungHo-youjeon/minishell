@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:12:35 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 14:35:34 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 17:27:00 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	swap_env(t_env *env1, t_env *env2)
 {
 	char	*tmp_k;
 	char	*tmp_v;
-	
+
 	tmp_k = env1->key;
 	tmp_v = env1->value;
 	env1->key = env2->key;
@@ -53,7 +53,7 @@ t_env	*dup_env_list(t_env *cur)
 	t_env	*new;
 	t_env	*tmp;
 
-	ret =  dup_env(cur);
+	ret = dup_env(cur);
 	tmp = ret;
 	cur = cur->next;
 	while (cur->key)
@@ -75,7 +75,7 @@ t_env	*sort_env_list(t_env *head)
 	t_env	*cur;
 
 	cur = head;
-	while(cur->next->key)
+	while (cur->next->key)
 	{
 		if (ft_strcmp(cur->key, cur->next->key) > 0)
 		{

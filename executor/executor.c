@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 15:58:26 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 16:30:39 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	os_builtins(t_cmd *cmd, t_env *env_head, char *envp[])
 	}
 	if (cmd->cmd_path == NULL)
 	{
-		print_err3(cmd->argv[0], NULL,"command not found");
+		print_err3(cmd->argv[0], NULL, "command not found");
 		return (127);
 	}
 	ft_execve(cmd->cmd_path, cmd->argv, envp);
@@ -52,20 +52,20 @@ static int	os_builtins(t_cmd *cmd, t_env *env_head, char *envp[])
 static int	execute_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 {
 	if (!ft_strcmp(cmd->argv[0], "echo"))
-		return(ft_echo(cmd->argc, cmd->argv));
+		return (ft_echo(cmd->argc, cmd->argv));
 	if (!ft_strcmp(cmd->argv[0], "cd"))
-		return(ft_cd(cmd->argv[1], env_head));
+		return (ft_cd(cmd->argv[1], env_head));
 	if (!ft_strcmp(cmd->argv[0], "pwd"))
-		return(ft_pwd());
+		return (ft_pwd());
 	if (!ft_strcmp(cmd->argv[0], "export"))
-		return(ft_export(cmd->argc, cmd->argv, env_head));
+		return (ft_export(cmd->argc, cmd->argv, env_head));
 	if (!ft_strcmp(cmd->argv[0], "unset"))
-		return(ft_unset(cmd->argc, cmd->argv, env_head));
+		return (ft_unset(cmd->argc, cmd->argv, env_head));
 	if (!ft_strcmp(cmd->argv[0], "env"))
-		return(ft_env(env_head));
+		return (ft_env(env_head));
 	if (!ft_strcmp(cmd->argv[0], "exit"))
-		return(ft_exit(cmd));
-	return(os_builtins(cmd, env_head, envp));
+		return (ft_exit(cmd));
+	return (os_builtins(cmd, env_head, envp));
 }
 
 static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
@@ -86,7 +86,7 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 
 void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 {
-	int	status;
+	int		status;
 	t_cmd	*cmd_cur;
 
 	cmd_cur = cmd_head;

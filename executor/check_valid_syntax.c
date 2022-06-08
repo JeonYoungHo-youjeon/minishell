@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:55:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 16:21:50 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 16:29:06 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	check_empty_cmd(t_cmd *cmd)
 {
 	if (cmd->argc == 1 && cmd->argv[0] == NULL)
 	{
-		print_err2("","command not found");
+		print_err2("", "command not found");
 		g_exit_code = 127;
 		return (-1);
 	}
@@ -69,4 +69,3 @@ int	check_valid_syntax(t_cmd *cmd_head)
 	}
 	return (0);
 }
-
