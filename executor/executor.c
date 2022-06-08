@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 13:52:12 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 14:17:45 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static int	is_need_fork(t_cmd *cmd)
 
 static int	os_builtins(t_cmd *cmd, t_env *env_head, char *envp[])
 {
-	if (ft_getenv(env_head, "PATH") == NULL) //unset PATH시 에러메시지 출력
+	if (ft_getenv(env_head, "PATH") == NULL && cmd->cmd_path == NULL) //unset PATH시 에러메시지 출력
 	{
 		print_err2(cmd->argv[0], "No such file or directory");
-		return (EXIT_FAILURE);
+		return (127);
 	}
 	if (cmd->cmd_path == NULL)
 	{
