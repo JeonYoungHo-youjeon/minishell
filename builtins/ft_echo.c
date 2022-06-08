@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 18:36:23 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 18:50:56 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 13:48:04 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 static int	is_option_n(char *str)
 {
-	if (ft_strncmp(str, "-n", 2) != 0)
+	if (str == NULL)
+		return (0);
+	if (ft_strcmp(str, "-n") != 0)
 		return (0);
 	++str;
 	while (*str == 'n')
@@ -31,21 +33,13 @@ static int	check_option_n(int argc, char *argv[], int *idx)
 
 	i = 1;
 	option_n = 0;
-	if (argc < 2)
+	if (argc == 1)
 		return (0);
 	option_n = is_option_n(argv[i]);
 	while (i < argc && is_option_n(argv[i])) 
 		++i;
 	*idx = i;
 	return (option_n);
-}
-
-static int	check_infile_redirection(char *argv[], int *idx)
-{
-	if (ft_strcmp(argv[*idx], "<"))
-		return (0);
-	*idx += 2;
-	return (1);
 }
 
 int	ft_echo(int argc, char *argv[])
@@ -55,10 +49,8 @@ int	ft_echo(int argc, char *argv[])
 
 	idx = 1;
 	option_n = check_option_n(argc, argv, &idx);
-	while (idx < argc)
+	while (idx < argc && argv[idx])
 	{
-		if (check_infile_redirection(argv, &idx) == 1)
-			continue ;
 		ft_write(STDOUT_FILENO, argv[idx], ft_strlen(argv[idx]));
 		if (idx + 1 != argc)
 			ft_write(STDOUT_FILENO, " ", 1);

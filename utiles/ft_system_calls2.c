@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 22:54:53 by mher              #+#    #+#             */
-/*   Updated: 2022/06/07 16:10:03 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 14:18:27 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*ft_malloc(size_t size, size_t n)
 void	ft_execve(const char *file, char *const *argv, char *const *envp)
 {
 	if (execve(file, argv, envp) == -1)
-		exit_with_err("execve()", strerror(errno), EXIT_FAILURE);
+		exit_with_err("execve()", strerror(errno), 126);
 	return ;
 }
 
