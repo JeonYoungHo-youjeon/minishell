@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:41:40 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 14:13:59 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 16:02:19 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdio.h>
 
 # include "../utiles/utiles.h"
-# include "../struct.h"
+# include "../struct/struct.h"
 
 int	ft_pwd(void);
 int	ft_cd(char *path, t_env *env_head);

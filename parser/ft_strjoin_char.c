@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strjoin_char.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 17:31:34 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 16:38:05 by youjeon          ###   ########.fr       */
+/*   Created: 2022/06/08 12:43:27 by youjeon           #+#    #+#             */
+/*   Updated: 2022/06/08 16:29:11 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "parser.h"
 
-# include <term.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "./utiles/utiles.h"
-# include "./builtins/builtin.h"
-# include "./executor/executor.h"
-# include "./parser/parser.h"
-# include "./struct/struct.h"
+char	*ft_strjoin_char(char *s1, char s2)
+{
+	char	*ret;
+	size_t	s1_len;
 
-#endif
+	if (!s1 && !s2)
+		return (0);
+	else if (!s1)
+		return (ft_strdup(&s2));
+	s1_len = ft_strlen(s1);
+	ret = (char *)malloc(sizeof(char) * (s1_len + 2));
+	if (!ret)
+		return (0);
+	ft_strlcpy(ret, s1, s1_len + 1);
+	ft_strlcpy(ret + s1_len, &s2, 2);
+	free(s1);
+	return (ret);
+}

@@ -1,41 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct.h                                           :+:      :+:    :+:   */
+/*   parse_set_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/02 17:09:22 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/04 16:46:08 by mher             ###   ########.fr       */
+/*   Created: 2022/06/08 12:46:53 by youjeon           #+#    #+#             */
+/*   Updated: 2022/06/08 15:57:22 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCT_H
-# define STRUCT_H
+#include "parser.h"
 
-# include <stdbool.h>
-
-int g_exit_code;
-
-typedef struct			s_cmd
+int	parse_set_quotes(char line, int quotes)
 {
-	char			**argv;
-	int			argc;
-	bool			is_pipe;
-	int			fd[2];
-	int			infile;
-	int			outfile;
-	char			*cmd_path;
-	struct s_cmd	*prev;
-	struct s_cmd	*next;
-}						t_cmd;
+	int	result;
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-	struct s_env	*prev;
-}	t_env;
-
-#endif
+	result = quotes;
+	if (line == '\'')
+	{
+		if (quotes == 1)
+			result = 0;
+		else if (quotes == 2)
+			result = 2;
+		else
+			result = 1;
+	}
+	else if (line == '\"')
+	{
+		if (quotes == 2)
+			result = 0;
+		else if (quotes == 1)
+			result = 1;
+		else
+			result = 2;
+	}
+	return (result);
+}
