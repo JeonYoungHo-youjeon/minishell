@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:44:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 16:03:43 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 20:54:30 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	parse(char *line, t_cmd *cmd)
 	pipe = 0;
 	while (*line)
 	{
-		quotes = parse_set_quotes(*line, quotes);
+		quotes = parse_set_quotes(*line, quotes, cmd);
 		if (*line == '|' && quotes == 0)
 			str = parse_in_pipe(str, &pipe, cmd, next);
 		else

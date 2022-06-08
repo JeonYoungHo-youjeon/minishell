@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:00:29 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 16:27:29 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 21:24:16 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_cmd	*ft_list_init(void)
 	new_mem = malloc(sizeof(t_cmd));
 	new_mem->argc = 0;
 	new_mem->argv = NULL;
+	new_mem->is_dollar = false;
 	new_mem->fd[0] = 0;
 	new_mem->fd[1] = 0;
 	new_mem->is_pipe = false;

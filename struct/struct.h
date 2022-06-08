@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 17:09:22 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 16:45:41 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 21:24:00 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_cmd
 	char			**argv;
 	int				argc;
 	bool			is_pipe;
+	bool			is_dollar;
 	int				fd[2];
 	int				infile;
 	int				outfile;

@@ -6,17 +6,19 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:46:53 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 15:57:22 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 21:23:49 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	parse_set_quotes(char line, int quotes)
+int	parse_set_quotes(char line, int quotes, t_cmd *cmd)
 {
 	int	result;
 
 	result = quotes;
+	if (line == '$')
+		cmd->is_dollar = true;
 	if (line == '\'')
 	{
 		if (quotes == 1)

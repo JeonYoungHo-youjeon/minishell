@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_valid_syntax.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:55:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 16:29:06 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 21:28:18 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,20 @@ static int	check_empty_cmd(t_cmd *cmd)
 	return (0);
 }
 
+int	check_dollar(t_cmd *cmd)
+{
+	if (cmd->is_dollar == true && cmd->argv[0] == NULL)
+		return (-1);
+	return (0);
+}
+
 int	check_valid_syntax(t_cmd *cmd_head)
 {
 	t_cmd	*cur;
 
 	cur = cmd_head;
+	if (check_dollar(cmd_head) == -1)
+		return (-1);
 	if (check_alone_pipe(cmd_head) == -1)
 		return (-1);
 	while (cur)

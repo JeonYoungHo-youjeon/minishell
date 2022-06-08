@@ -6,25 +6,25 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:44:28 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 18:00:02 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 21:37:58 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static char	*replace_while_dollar(char str, char *new, t_env *head, char *env)
+static char	*replace_while_dollar(char str, char *new, t_env *head, char **env)
 {
 	if (ft_isalnum(str) || str == '_')
-		env = ft_strjoin_char(env, str);
-	else if (str == '?' && env == NULL)
+		*env = ft_strjoin_char(*env, str);
+	else if (str == '?' && *env == NULL)
 	{
-		env = ft_itoa(g_exit_code);
-		new = ft_strjoin(new, env);
+		*env = ft_itoa(g_exit_code);
+		new = ft_strjoin(new, *env);
 	}
 	else
 	{
-		new = ft_strjoin(new, ft_getenv(head, env));
-		env = ft_free(env);
+		new = ft_strjoin(new, ft_getenv(head, *env));
+		*env = ft_free(*env);
 	}
 	return (new);
 }
@@ -37,13 +37,19 @@ static char	*replace_while_else(char c, char *new, int quotes)
 	if (c == -32)
 		result = ft_strjoin_char(new, ' ');
 	else if (!(c == '\"' && quotes != 1) && !(c == '\'' && quotes != 2))
+	{
 		result = ft_strjoin_char(new, c);
+	}
+	else
+	{
+		return (new);
+	}
 	return (result);
 }
 
 static int	dollar_check(char c)
 {
-	if (ft_isalnum(c) || c == '_' || c != '$')
+	if (ft_isalnum(c) || c == '_' || c == '$')
 		return (1);
 	else
 		return (0);
@@ -62,13 +68,13 @@ static char	*replace_while(t_cmd *cmd, t_env *head, char *env, int i)
 	new = NULL;
 	while (j <= (int)ft_strlen(cmd->argv[i]))
 	{
-		quotes = parse_set_quotes(cmd->argv[i][j], quotes);
+		quotes = parse_set_quotes(cmd->argv[i][j], quotes, cmd);
 		if (cmd->argv[i][j] == '$' && quotes != 1 && dollar == 0)
 			dollar = 1;
 		else if (dollar == 1)
 		{
-			new = replace_while_dollar(cmd->argv[i][j], new, head, env);
-			if (dollar_check(cmd->argv[i][j]))
+			new = replace_while_dollar(cmd->argv[i][j], new, head, &env);
+			if (!dollar_check(cmd->argv[i][j]))
 				dollar = 0;
 		}
 		else
@@ -86,11 +92,11 @@ void	replace(t_cmd *cmd, t_env *head)
 
 	i = 0;
 	new = NULL;
-	env = NULL;
 	while (cmd)
 	{
 		while (i < cmd->argc)
 		{
+			env = NULL;
 			new = replace_while(cmd, head, env, i);
 			cmd->argv[i] = ft_free(cmd->argv[i]);
 			cmd->argv[i] = new;
