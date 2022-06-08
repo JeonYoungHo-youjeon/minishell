@@ -15,6 +15,7 @@ SRCS		=	main.c \
 			./executor/executor.c \
 			./executor/path.c \
 			./executor/redirection.c \
+			./executor/wait_child.c \
 			./executor/close_unused_fd.c \
 			./executor/check_valid_syntax.c \
 			./executor/heredoc.c \

@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 18:31:34 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 19:57:33 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 
 void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 {
-	int		status;
-	int		signo;
 	t_cmd	*cmd_cur;
 
 	cmd_cur = cmd_head;
@@ -106,20 +104,7 @@ void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 			g_exit_code = execute_cmd(cmd_cur, env_head, envp);
 		cmd_cur = cmd_cur->next;
 	}
-	while (wait(&status) != -1)
-	{
-		if (WIFSIGNALED(status))
-		{
-			signo = WTERMSIG(status);
-			if (signo == SIGINT)
-				ft_putstr_fd("^C\n", 2);
-			else
-				ft_putstr_fd("^\\Quit: 3\n", 2);
-			g_exit_code = 128 + signo;
-		}
-		else
-			g_exit_code = WEXITSTATUS(status);
-	}
+	wait_child();
 	delete_tmp_file();
 	clear_cmd(cmd_head);
 	set_signal(SHE, SHE);

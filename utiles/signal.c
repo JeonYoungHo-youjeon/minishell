@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:47:51 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 18:10:13 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 19:58:45 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	signal_handler(int signo)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	printf("TEST!\n");
 }
 
 void	set_signal(int sig_int, int sig_quit)
