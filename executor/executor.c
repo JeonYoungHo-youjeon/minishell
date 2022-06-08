@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 14:17:45 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 15:58:26 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ static int	is_need_fork(t_cmd *cmd)
 {
 	if (cmd->prev != NULL)
 		return (1);
-	else if (cmd->is_pipe == true)
+	if (cmd->is_pipe == true)
 		return (1);
-	else if (cmd->infile != -1)
+	if (cmd->infile != -1)
 		return (1);
-	else if (cmd->outfile != -1)
+	if (cmd->outfile != -1)
 		return (1);
 	if (!ft_strcmp(cmd->argv[0], "cd"))
 		return (0);
@@ -35,7 +35,7 @@ static int	is_need_fork(t_cmd *cmd)
 
 static int	os_builtins(t_cmd *cmd, t_env *env_head, char *envp[])
 {
-	if (ft_getenv(env_head, "PATH") == NULL && cmd->cmd_path == NULL) //unset PATH시 에러메시지 출력
+	if (ft_getenv(env_head, "PATH") == NULL && cmd->cmd_path == NULL)
 	{
 		print_err2(cmd->argv[0], "No such file or directory");
 		return (127);
@@ -84,45 +84,6 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 	return ;
 }
 
-static int	check_valid_syntax(t_cmd *cmd_head)
-{
-	t_cmd	*cur;
-	int		i;
-
-	cur = cmd_head;
-	if (cmd_head->is_pipe && cmd_head->argc == 0)
-	{
-		print_err2("syntax error near unexpected token `|'", NULL);
-		g_exit_code = 258;
-		return (-1);
-	}
-	while (cur)
-	{
-		if (cur->argc == 0) // "echo hi |" 처리
-		{
-			cur = cur->next;
-			continue ;
-		}
-		if (cur->argc == 1 && cur->argv[0] == NULL) // '' 처리
-		{
-			print_err2("","command not found");
-			g_exit_code = 127;
-			return (-1);
-		}
-		i = 0;
-		while (cur->argv[i + 1])
-			++i;
-		if (!ft_strcmp(cur->argv[i], ">") || !ft_strcmp(cur->argv[i], ">>"))
-		{
-			print_err2("syntax error near unexpected token `newline'", NULL);
-			g_exit_code = 258;
-			return (-1);
-		}
-		cur = cur->next;
-	}
-	return (0);
-}
-
 void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 {
 	int	status;
@@ -142,8 +103,6 @@ void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 	}
 	while (wait(&status) != -1)
 		g_exit_code = WEXITSTATUS(status);
-		//WEXITSTATUS(status); 쓰면 매크로 define 이라 안되나???
-		//g_exit_code = (((status) & 0xff00) >> 8);
 	delete_tmp_file();
 	clear_cmd(cmd_head);
 	return ;
