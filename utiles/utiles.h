@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:53:46 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 14:33:59 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 14:59:18 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void		*ft_free(void *ptr);
 int		is_exist_file(char *tmp_file_name);
 void		exit_with_err(char *str1, char *str2, int exit_code);
 void		print_err3(char *cmd, char *str1, char *str2);
+void		print_quote_err3(char *cmd, char *str1, char *str2);
 void		print_err2(char *cmd, char *str);
 
 #endif
