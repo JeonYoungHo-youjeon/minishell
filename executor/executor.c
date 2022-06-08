@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/07 15:55:54 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 13:52:12 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,13 @@ static int	is_need_fork(t_cmd *cmd)
 	return (1);
 }
 
-static int	os_builtins(t_cmd *cmd, char *envp[])
+static int	os_builtins(t_cmd *cmd, t_env *env_head, char *envp[])
 {
+	if (ft_getenv(env_head, "PATH") == NULL) //unset PATH시 에러메시지 출력
+	{
+		print_err2(cmd->argv[0], "No such file or directory");
+		return (EXIT_FAILURE);
+	}
 	if (cmd->cmd_path == NULL)
 	{
 		print_err3(cmd->argv[0], NULL,"command not found");
@@ -60,7 +65,7 @@ static int	execute_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 		return(ft_env(env_head));
 	if (!ft_strcmp(cmd->argv[0], "exit"))
 		return(ft_exit(cmd));
-	return(os_builtins(cmd, envp));
+	return(os_builtins(cmd, env_head, envp));
 }
 
 static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
@@ -93,6 +98,17 @@ static int	check_valid_syntax(t_cmd *cmd_head)
 	}
 	while (cur)
 	{
+		if (cur->argc == 0) // "echo hi |" 처리
+		{
+			cur = cur->next;
+			continue ;
+		}
+		if (cur->argc == 1 && cur->argv[0] == NULL) // '' 처리
+		{
+			print_err2("","command not found");
+			g_exit_code = 127;
+			return (-1);
+		}
 		i = 0;
 		while (cur->argv[i + 1])
 			++i;
