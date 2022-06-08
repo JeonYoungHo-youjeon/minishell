@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 13:59:37 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 16:45:47 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 
-# include "../struct.h"
+# include "../struct/struct.h"
 # include "../utiles/utiles.h"
 # include "../builtins/builtin.h"
 

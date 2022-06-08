@@ -1,26 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parse_set_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 17:31:34 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 16:38:05 by youjeon          ###   ########.fr       */
+/*   Created: 2022/06/08 12:46:53 by youjeon           #+#    #+#             */
+/*   Updated: 2022/06/08 15:57:22 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "parser.h"
 
-# include <term.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "./utiles/utiles.h"
-# include "./builtins/builtin.h"
-# include "./executor/executor.h"
-# include "./parser/parser.h"
-# include "./struct/struct.h"
+int	parse_set_quotes(char line, int quotes)
+{
+	int	result;
 
-#endif
+	result = quotes;
+	if (line == '\'')
+	{
+		if (quotes == 1)
+			result = 0;
+		else if (quotes == 2)
+			result = 2;
+		else
+			result = 1;
+	}
+	else if (line == '\"')
+	{
+		if (quotes == 2)
+			result = 0;
+		else if (quotes == 1)
+			result = 1;
+		else
+			result = 2;
+	}
+	return (result);
+}
