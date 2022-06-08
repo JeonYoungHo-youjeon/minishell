@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 17:31:34 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 16:38:05 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 17:53:24 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <term.h>
 # include <stdio.h>
-# include <readline/readline.h>
 # include <readline/history.h>
+
 # include "./utiles/utiles.h"
 # include "./builtins/builtin.h"
 # include "./executor/executor.h"

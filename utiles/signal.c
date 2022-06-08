@@ -6,11 +6,11 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:47:51 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 16:25:39 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 18:10:13 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "utiles.h"
 
 void	signal_handler(int signo)
 {
@@ -26,20 +26,21 @@ void	signal_handler(int signo)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	printf("TEST!\n");
 }
 
 void	set_signal(int sig_int, int sig_quit)
 {
-	if (sig_int == (int)*SIG_IGN)
+	if (sig_int == IGN)
 		signal(SIGINT, SIG_IGN);
-	if (sig_int == (int)*SIG_DFL)
+	if (sig_int == DFL)
 		signal(SIGINT, SIG_DFL);
-	if (sig_int == 0)
+	if (sig_int == SHE)
 		signal(SIGINT, signal_handler);
-	if (sig_quit == (int)*SIG_IGN)
+	if (sig_quit == IGN)
 		signal(SIGQUIT, SIG_IGN);
-	if (sig_quit == (int)*SIG_DFL)
+	if (sig_quit == DFL)
 		signal(SIGQUIT, SIG_DFL);
-	if (sig_quit == 0)
+	if (sig_quit == SHE)
 		signal(SIGQUIT, signal_handler);
 }

@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 16:00:46 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 18:00:14 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,39 @@ void	main_init(int argc, char *argv[])
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	set_signal(0, 0);
-	// signal(SIGINT, signal_handler);
-	// signal(SIGQUIT, signal_handler);
 	g_exit_code = 0;
 	(void)argc;
 	(void)argv;
+}
+
+void	test_print_cmd(t_cmd *cmd)
+{
+	int	index = 0;
+	int	i = 0;
+	t_cmd *ptr;
+
+	ptr = cmd;
+	while (ptr)
+	{
+		printf("[%d] argc: %d\n", index, ptr->argc);
+		while (i < ptr->argc)
+		{
+			printf("[%d] argv[%d]: %s\n", index, i, ptr->argv[i]);
+			i++;
+		}
+
+		if (ptr->is_pipe)
+		{
+			printf("[%d] is_pipe: true\n", index);
+		}
+		else
+		{
+			printf("[%d] is_pipe: false\n", index);
+		}
+		i = 0;
+		index++;
+		ptr = ptr->next;
+	}
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -55,14 +83,15 @@ int	main(int argc, char *argv[], char *envp[])
 		line = readline("minishell $ ");
 		if (!line)
 			break ;
-		if (*line != '\0' && !is_whitespace(line)) // 입력받은 문자가 있을때만 동작
+		if (*line != '\0' && !is_whitespace(line))
 		{
-			add_history(line); // 받은 데이터를 히스토리에 저장.
+			add_history(line);
 			cmd = ft_list_init();
-			parse(line, cmd); // 입력받은 문자열을 링크드 리스트에 저장
-			replace(cmd, &env_head); // 실행전에 $, ', " 등 replace
-			executor(cmd, &env_head, envp); // 완성된 cmd를 실행부에 전달
-			ft_free_list(cmd); // 다음 line으로 넘어가기 전에 free
+			parse(line, cmd);
+			// test_print_cmd(cmd);
+			replace(cmd, &env_head);
+			executor(cmd, &env_head, envp);
+			ft_free_list(cmd);
 		}
 		free(line);
 	}

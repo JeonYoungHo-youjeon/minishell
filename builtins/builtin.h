@@ -6,16 +6,12 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:41:40 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 17:32:48 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 17:35:12 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
-
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
 
 # include "../utiles/utiles.h"
 # include "../struct/struct.h"

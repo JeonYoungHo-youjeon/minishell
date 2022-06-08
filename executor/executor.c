@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 16:30:39 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 18:31:34 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 {
 	pid_t	pid;
 
+	set_signal(DFL, DFL);
 	pid = ft_fork();
 	if (pid == 0)
 	{
@@ -80,13 +81,17 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 		exit(execute_cmd(cmd, env_head, envp));
 	}
 	else
+	{
+		set_signal(IGN, IGN);
 		close_unused_fd(cmd, pid);
+	}
 	return ;
 }
 
 void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 {
 	int		status;
+	int		signo;
 	t_cmd	*cmd_cur;
 
 	cmd_cur = cmd_head;
@@ -102,8 +107,21 @@ void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 		cmd_cur = cmd_cur->next;
 	}
 	while (wait(&status) != -1)
-		g_exit_code = WEXITSTATUS(status);
+	{
+		if (WIFSIGNALED(status))
+		{
+			signo = WTERMSIG(status);
+			if (signo == SIGINT)
+				ft_putstr_fd("^C\n", 2);
+			else
+				ft_putstr_fd("^\\Quit: 3\n", 2);
+			g_exit_code = 128 + signo;
+		}
+		else
+			g_exit_code = WEXITSTATUS(status);
+	}
 	delete_tmp_file();
 	clear_cmd(cmd_head);
+	set_signal(SHE, SHE);
 	return ;
 }

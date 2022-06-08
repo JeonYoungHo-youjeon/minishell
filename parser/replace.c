@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:44:28 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 16:32:38 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 18:00:02 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static char	*replace_while(t_cmd *cmd, t_env *head, char *env, int i)
 		else if (dollar == 1)
 		{
 			new = replace_while_dollar(cmd->argv[i][j], new, head, env);
-			if (!(dollar_check(cmd->argv[i][j])))
+			if (dollar_check(cmd->argv[i][j]))
 				dollar = 0;
 		}
 		else
