@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 18:17:22 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 17:28:55 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/09 01:58:45 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ static int	check_valid_key_identifier(int argc, char *argv[])
 	i = 1;
 	while (i < argc)
 	{
+		if (argv[i] == NULL)
+		{
+			print_quote_err3("unset", "", "not a valid identifier");
+			return (-1);
+		}
 		if (is_have_specific_char(argv[i], '='))
 		{
 			print_quote_err3("unset", argv[i], "not a valid identifier");
