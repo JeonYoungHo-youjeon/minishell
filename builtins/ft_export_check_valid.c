@@ -6,30 +6,43 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:09:05 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 14:11:12 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 15:06:17 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static int	is_all_digit(char *key_value)
+int	is_all_digit(char *key_value, char set)
 {
-	while (*key_value && *key_value != '=')
+	while (*key_value && *key_value != set)
 	{
 		if (!ft_isdigit(*key_value))
 			break ;
 		++key_value;
 	}
-	if (*key_value == '=')
+	if (*key_value == set)
 		return (1);
 	return (0);
 }
 
-static	int	is_have_equal_character(char *key_value)
+int	is_have_space(char *key_value, char set)
+{
+	while (*key_value && *key_value != set)
+	{
+		if (ft_isspace(*key_value))
+			break ;
+		++key_value;
+	}
+	if (*key_value == set)
+		return (0);
+	return (1);
+}
+
+int	is_have_specific_char(char *key_value, char c)
 {
 	while (*key_value)
 	{
-		if (*key_value == '=')
+		if (*key_value == c)
 			break ;
 		++key_value;
 	}
@@ -45,14 +58,19 @@ int	check_valid_identifier(int argc, char *argv[])
 	i = 1;
 	while(i < argc)
 	{
-		if (!is_have_equal_character(argv[i]))
+		if (!is_have_specific_char(argv[i], '='))
 		{
-			print_err3("export", argv[i], "not a valid identifier");
+			print_quote_err3("export", argv[i], "not a valid identifier");
 			return (-1);
 		}
-		if (is_all_digit(argv[i]))
+		if (is_have_space(argv[i], '='))
 		{
-			print_err3("export", argv[i], "not a valid identifier");
+			print_quote_err3("export", argv[i], "not a valid identifier");
+			return (-1);
+		}
+		if (is_all_digit(argv[i], '='))
+		{
+			print_quote_err3("export", argv[i], "not a valid identifier");
 			return (-1);
 		}
 		i++;

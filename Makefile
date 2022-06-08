@@ -30,6 +30,7 @@ SRCS		=	main.c \
 			./utiles/ft_strlcpy.c \
 			./utiles/ft_strdup.c \
 			./utiles/ft_atoi.c \
+			./utiles/ft_isspace.c \
 			./utiles/ft_putstr_fd.c \
 			./utiles/ft_system_calls.c \
 			./utiles/ft_system_calls2.c \

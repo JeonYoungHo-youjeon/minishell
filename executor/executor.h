@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 16:02:32 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 16:42:03 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	redirect(t_cmd *cmd);
 void	heredoc(t_cmd *cmd);
 void	close_unused_fd(t_cmd *cmd, pid_t pid);
 
-char	*get_cmd_path(t_cmd *cmd);
+char	*get_cmd_path(t_cmd *cmd, t_env *env_head);
 void	trim_cmd_argv(t_cmd *cmd, const char *set, int direction);
 
 void	infile_open(t_cmd *cmd);

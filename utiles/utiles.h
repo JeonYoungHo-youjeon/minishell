@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:53:46 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 16:27:40 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 16:42:44 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t		ft_strlcpy(char *dest, const char *src, size_t destsize);
 char		*ft_strdup(const char *s1);
 void		ft_putstr_fd(char *s, int fd);
+int		ft_isspace(char c);
 
 int		ft_open(char *fname, int oflag, int mode);
 void		ft_close(int fd);
@@ -46,6 +47,7 @@ char		*ft_getcwd(char *buf, size_t size);
 int		is_exist_file(char *tmp_file_name);
 void		exit_with_err(char *str1, char *str2, int exit_code);
 void		print_err3(char *cmd, char *str1, char *str2);
+void		print_quote_err3(char *cmd, char *str1, char *str2);
 void		print_err2(char *cmd, char *str);
 
 #endif
