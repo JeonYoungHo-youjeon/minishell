@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:09:05 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 15:06:17 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 17:26:05 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	check_valid_identifier(int argc, char *argv[])
 	int	i;
 
 	i = 1;
-	while(i < argc)
+	while (i < argc)
 	{
 		if (!is_have_specific_char(argv[i], '='))
 		{

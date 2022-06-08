@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_utils.c                                       :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/23 15:15:58 by mher              #+#    #+#             */
-/*   Updatej: 2022/05/24 19:17:39 by mher             ###   ########.fr       */
+/*   Created: 2022/06/08 17:16:23 by mher              #+#    #+#             */
+/*   Updated: 2022/06/08 17:19:17 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_env_key(char *key_value)
 	char	*key;
 
 	len = 0;
-	while(key_value[len] != 0 && key_value[len] != '=')
+	while (key_value[len] != 0 && key_value[len] != '=')
 		++len;
 	if (key_value[len] == '\0')
 		return (NULL);
@@ -41,7 +41,7 @@ char	*get_env_value(char *key_value)
 	char	*value;
 
 	len = 0;
-	while(key_value[len] != 0 && key_value[len] != '=')
+	while (key_value[len] != 0 && key_value[len] != '=')
 		++key_value;
 	if (key_value[len] == 0)
 		return (NULL);
@@ -60,7 +60,7 @@ char	*get_env_value(char *key_value)
 t_env	*compare_env_key(t_env *env_head, char *key)
 {
 	t_env	*cur;
-	
+
 	cur = env_head;
 	while (cur->key != 0 && ft_strncmp(key, cur->key, ft_strlen(cur->key)))
 		cur = cur->next;
@@ -70,7 +70,7 @@ t_env	*compare_env_key(t_env *env_head, char *key)
 t_env	*new_env(char *key_value)
 {
 	t_env	*new;
-	
+
 	new = (t_env *)ft_malloc(sizeof(t_env), 1);
 	if (key_value == NULL)
 	{
@@ -79,7 +79,7 @@ t_env	*new_env(char *key_value)
 		new->next = NULL;
 		new->prev = NULL;
 	}
-	else 
+	else
 	{
 		new->key = get_env_key(key_value);
 		if (new->key == NULL)

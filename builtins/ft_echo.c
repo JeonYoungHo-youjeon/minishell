@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 18:36:23 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 13:48:04 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 17:20:21 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	check_option_n(int argc, char *argv[], int *idx)
 	if (argc == 1)
 		return (0);
 	option_n = is_option_n(argv[i]);
-	while (i < argc && is_option_n(argv[i])) 
+	while (i < argc && is_option_n(argv[i]))
 		++i;
 	*idx = i;
 	return (option_n);

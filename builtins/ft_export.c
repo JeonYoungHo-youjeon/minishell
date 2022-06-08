@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 23:05:45 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 15:09:17 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 17:25:21 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	export_no_arg(t_env *env_head)
 	t_env	*tmp;
 	t_env	*sorted_env;
 	t_env	*cur;
-	
+
 	tmp = dup_env_list(env_head);
 	sorted_env = sort_env_list(tmp);
 	cur = sorted_env;
@@ -62,9 +62,9 @@ void	export_key_value(t_env *env_head, char *key_value)
 	key = get_env_key(key_value);
 	value = get_env_value(key_value);
 	env = compare_env_key(env_head, key);
-	if (env->key != NULL) //key가 존재 하는경우 value 만 변경
+	if (env->key != NULL)
 		change_env(env, value);
-	else // key가 존재하지 않는 경우 환경변수 마지막에 추가
+	else
 		append_env(env, key, value);
 	return ;
 }

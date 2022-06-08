@@ -6,13 +6,12 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:40:14 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 14:07:10 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 16:26:22 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 #include "../minishell.h"
-#include <stdlib.h>
 
 void	init_cmd_arg(t_cmd *cmd, t_env *env_head)
 {
