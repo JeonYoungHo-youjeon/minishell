@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 22:31:19 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/09 01:37:55 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main(int argc, char *argv[], char *envp[])
 			parse(line, cmd);
 			//test_print_cmd(cmd);
 			replace(cmd, &env_head);
-			//test_print_cmd(cmd);
+			test_print_cmd(cmd);
 			executor(cmd, &env_head, envp);
 			ft_free_list(cmd);
 		}
