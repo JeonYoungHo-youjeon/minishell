@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:09:05 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 14:11:12 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 14:36:13 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,19 @@ static	int	is_have_equal_character(char *key_value)
 	return (1);
 }
 
+static	int	is_have_space(char *key_value)
+{
+	while (*key_value && *key_value != '=')
+	{
+		if (ft_isspace(*key_value))
+			break ;
+		++key_value;
+	}
+	if (*key_value == '=')
+		return (0);
+	return (1);
+}
+
 int	check_valid_identifier(int argc, char *argv[])
 {
 	int	i;
@@ -46,6 +59,11 @@ int	check_valid_identifier(int argc, char *argv[])
 	while(i < argc)
 	{
 		if (!is_have_equal_character(argv[i]))
+		{
+			print_err3("export", argv[i], "not a valid identifier");
+			return (-1);
+		}
+		if (is_have_space(argv[i]))
 		{
 			print_err3("export", argv[i], "not a valid identifier");
 			return (-1);

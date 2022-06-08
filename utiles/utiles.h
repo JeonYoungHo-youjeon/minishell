@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:53:46 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/07 16:11:37 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 14:33:59 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t		ft_strlcpy(char *dest, const char *src, size_t destsize);
 char		*ft_strdup(const char *s1);
 void		ft_putstr_fd(char *s, int fd);
+int		ft_isspace(char c);
 
 int		ft_open(char *fname, int oflag, int mode);
 void		ft_close(int fd);

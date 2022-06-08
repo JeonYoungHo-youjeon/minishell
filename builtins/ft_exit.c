@@ -6,18 +6,11 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 23:14:43 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 13:43:20 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 14:33:37 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./builtin.h"
-
-static int	ft_isspace(char c)
-{
-	if (c == ' ' || (9 <= c && c <= 13))
-		return (1);
-	return (0);
-}
 
 static int	is_all_number(char *str)
 {
