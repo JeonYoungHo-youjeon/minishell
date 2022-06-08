@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:55:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 21:28:18 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/08 22:24:09 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	check_empty_cmd(t_cmd *cmd)
 
 int	check_dollar(t_cmd *cmd)
 {
-	if (cmd->is_dollar == true && cmd->argv[0] == NULL)
+	if (cmd->is_dollar == true && cmd->argv[0] == NULL && cmd->argc == 1)
 		return (-1);
 	return (0);
 }
@@ -70,6 +70,11 @@ int	check_valid_syntax(t_cmd *cmd_head)
 		return (-1);
 	while (cur)
 	{
+		if (cur->argc == 0)
+		{
+			cur = cur->next;
+			continue ;
+		}
 		if (check_empty_cmd(cur) == -1)
 			return (-1);
 		else if (check_redirection_file(cur) == -1)
