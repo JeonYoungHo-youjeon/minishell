@@ -37,7 +37,13 @@ SRCS		=	main.c \
 			./utiles/ft_system_calls2.c \
 			./utiles/is_exist_file.c \
 			./utiles/exit_with_error.c \
-
+			./parser/ft_split_argc.c \
+			./parser/ft_strjoin_char.c \
+			./parser/parse_set_quotes.c \
+			./parser/parse.c \
+			./parser/replace.c \
+			./parser/signal.c \
+			./struct/cmd.c \
 
 OBJS		= $(SRCS:%.c=%.o)
 

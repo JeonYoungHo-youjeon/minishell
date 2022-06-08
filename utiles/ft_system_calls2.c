@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 22:54:53 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 14:18:27 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/08 16:45:34 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,4 @@ char	*ft_getcwd(char *buf, size_t size)
 	if (pwd == NULL)
 		exit_with_err("getcwd()", strerror(errno), EXIT_FAILURE);
 	return (pwd);
-}
-
-void	*ft_free(void *ptr)
-{
-	free(ptr);
-	return (NULL);
 }
