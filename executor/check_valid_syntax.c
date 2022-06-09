@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:55:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/09 13:14:59 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/09 14:18:47 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	check_redirection_file(t_cmd *cmd)
 
 static int	check_empty_cmd(t_cmd *cmd)
 {
-	if (cmd->argc == 1 && cmd->argv[0] == NULL)
+	if (cmd->is_dollar == false &&  cmd->argc == 1 && !ft_strcmp(cmd->argv[0], ""))
 	{
 		print_err2("", "command not found");
 		g_exit_code = 127;
@@ -54,7 +54,7 @@ static int	check_empty_cmd(t_cmd *cmd)
 
 static int	check_dollar(t_cmd *cmd)
 {
-	if (cmd->is_dollar == true && cmd->argv[0] == NULL && cmd->argc == 1)
+	if (cmd->is_dollar == true && cmd->argc == 1 && !ft_strcmp(cmd->argv[0], ""))
 		return (-1);
 	return (0);
 }

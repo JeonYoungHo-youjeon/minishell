@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/09 01:48:53 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/09 14:31:58 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	os_builtins(t_cmd *cmd, t_env *env_head, char *envp[])
 		print_err3(cmd->argv[0], NULL, "No such file or directory");
 		return (127);
 	}
-	if (ft_strlen(env_path) == 0 && cmd->cmd_path == NULL)
+	if (env_path != NULL && ft_strlen(env_path) == 0 && cmd->cmd_path == NULL)
 	{
 		print_err3(cmd->argv[0], NULL, "No such file or directory");
 		return (127);
