@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:44:28 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 21:37:58 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 13:24:35 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,13 @@ static char	*replace_while_dollar(char str, char *new, t_env *head, char **env)
 	}
 	else
 	{
-		new = ft_strjoin(new, ft_getenv(head, *env));
-		*env = ft_free(*env);
+		if (*env != NULL)
+		{
+			new = ft_strjoin(new, ft_getenv(head, *env));
+			*env = ft_free(*env);
+		}
+		else
+			new = ft_strdup("$");
 	}
 	return (new);
 }
@@ -98,6 +103,8 @@ void	replace(t_cmd *cmd, t_env *head)
 		{
 			env = NULL;
 			new = replace_while(cmd, head, env, i);
+			if (new == NULL)
+				new = ft_strdup("");
 			cmd->argv[i] = ft_free(cmd->argv[i]);
 			cmd->argv[i] = new;
 			new = NULL;
