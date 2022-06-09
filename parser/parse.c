@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:44:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/09 13:01:33 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 15:05:22 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,17 @@ static char	*parse_out_pipe(char *str, char *line, int quotes, int *pipe)
 	if ((*line == ';' || *line == '\\') && quotes == 0)
 		exit_with_err("symbol error", line, 1);
 	else if (quotes != 0 && *line == ' ')
-	{
 		str = ft_strjoin_char(str, -32);
+	else if ((*line == '>' || *line == '<') && quotes == 0)
+	{
+		line--;
+		if (!(*line == '>' || *line == '<' || *line == ' '))
+			str = ft_strjoin_char(str, ' ');
+		line++;
+		str = ft_strjoin_char(str, line[0]);
+		line++;
+		if (!(*line == '>' || *line == '<' || *line == ' '))
+			str = ft_strjoin_char(str, ' ');
 	}
 	else
 	{
