@@ -45,7 +45,8 @@ SRCS		=	main.c \
 			./parser/parse.c \
 			./parser/replace.c \
 			./struct/cmd.c \
-			./parser/replace_util.c
+			./parser/replace_util.c \
+			./parser/argc_checker.c
 
 OBJS		= $(SRCS:%.c=%.o)
 

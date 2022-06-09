@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:46:48 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/09 18:12:21 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 19:09:15 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int		parse_set_quotes(char line, int quotes, t_cmd *cmd);
 void	parse(char *line, t_cmd *cmd);
 void	replace(t_cmd *cmd, t_env *head);
 void	delete_argv(t_cmd *cmd, int *i);
+void	argc_checker(t_cmd **cmd);
 
 #endif

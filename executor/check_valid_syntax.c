@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:55:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/09 15:40:59 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 19:10:36 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int	check_valid_syntax(t_cmd *cmd_head)
 	t_cmd	*cur;
 
 	cur = cmd_head;
+	if (cur->argc == 0)
+		return (-1);
 	if (check_dollar(cmd_head) == -1)
 		return (-1);
 	if (check_alone_pipe(cmd_head) == -1)
