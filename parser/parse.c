@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:44:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/09 15:10:55 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 16:39:57 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,33 @@ static char	*parse_in_pipe(char *str, int *pipe, t_cmd **cmd, t_cmd *next)
 	return (str);
 }
 
+static char	*add_redirect_space(char *str, char *line, char c)
+{
+	if (c == '>')
+	{
+		line--;
+		if (!(*line == '>' || *line == ' '))
+			str = ft_strjoin_char(str, ' ');
+		line++;
+		str = ft_strjoin_char(str, c);
+		line++;
+		if (!(*line == '>' || *line == ' '))
+			str = ft_strjoin_char(str, ' ');
+	}
+	else if (c == '<')
+	{
+		line--;
+		if (!(*line == '<' || *line == ' '))
+			str = ft_strjoin_char(str, ' ');
+		line++;
+		str = ft_strjoin_char(str, line[0]);
+		line++;
+		if (!(*line == '<' || *line == ' '))
+			str = ft_strjoin_char(str, ' ');
+	}
+	return (str);
+}
+
 static char	*parse_out_pipe(char *str, char *line, int quotes, int *pipe)
 {
 	if ((*line == ';' || *line == '\\') && quotes == 0)
@@ -34,17 +61,7 @@ static char	*parse_out_pipe(char *str, char *line, int quotes, int *pipe)
 	else if (quotes != 0 && *line == ' ')
 		str = ft_strjoin_char(str, -32);
 	else if ((*line == '>' || *line == '<') && quotes == 0)
-	{
-		// TODO: 함수 하나 더 쪼개서 정교화
-		line--;
-		if (!(*line == '>' || *line == '<' || *line == ' '))
-			str = ft_strjoin_char(str, ' ');
-		line++;
-		str = ft_strjoin_char(str, line[0]);
-		line++;
-		if (!(*line == '>' || *line == '<' || *line == ' '))
-			str = ft_strjoin_char(str, ' ');
-	}
+		str = add_redirect_space(str, line, *line);
 	else
 	{
 		str = ft_strjoin_char(str, line[0]);

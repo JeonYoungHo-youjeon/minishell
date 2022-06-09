@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:44:28 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/09 15:27:28 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 16:33:56 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static char	*replace_while(t_cmd *cmd, t_env *head, char *env, int i)
 	while (j <= (int)ft_strlen(cmd->argv[i]))
 	{
 		quotes = parse_set_quotes(cmd->argv[i][j], quotes, cmd);
-		if (cmd->argv[i][j] == '$' && quotes != 1)
+		if (cmd->argv[i][j] == '$' && quotes != 1 && dollar == 0)
 			dollar = 1;
 		else if (dollar == 1)
 		{
