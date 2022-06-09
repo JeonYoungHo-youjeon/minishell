@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:44:28 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/09 16:33:56 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 18:11:58 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,15 @@ void	replace(t_cmd *cmd, t_env *head)
 			env = NULL;
 			new = NULL;
 			new = replace_while(cmd, head, env, i);
-			if (new == NULL)
+			if (new == NULL && cmd->is_dollar)
+				delete_argv(cmd, &i);
+			else if (new == NULL)
 				new = ft_strdup("");
-			cmd->argv[i] = ft_free(cmd->argv[i]);
-			cmd->argv[i] = new;
+			else
+			{
+				cmd->argv[i] = ft_free(cmd->argv[i]);
+				cmd->argv[i] = new;
+			}
 			i++;
 		}
 		cmd = cmd->next;
