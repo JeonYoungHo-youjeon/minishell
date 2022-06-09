@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 19:57:33 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/09 01:48:53 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,17 @@ static int	is_need_fork(t_cmd *cmd)
 
 static int	os_builtins(t_cmd *cmd, t_env *env_head, char *envp[])
 {
-	if (ft_getenv(env_head, "PATH") == NULL && cmd->cmd_path == NULL)
+	char	*env_path;
+
+	env_path = ft_getenv(env_head, "PATH");
+	if (env_path == NULL && cmd->cmd_path == NULL)
 	{
-		print_err2(cmd->argv[0], "No such file or directory");
+		print_err3(cmd->argv[0], NULL, "No such file or directory");
+		return (127);
+	}
+	if (ft_strlen(env_path) == 0 && cmd->cmd_path == NULL)
+	{
+		print_err3(cmd->argv[0], NULL, "No such file or directory");
 		return (127);
 	}
 	if (cmd->cmd_path == NULL)
@@ -108,5 +116,4 @@ void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 	delete_tmp_file();
 	clear_cmd(cmd_head);
 	set_signal(SHE, SHE);
-	return ;
 }

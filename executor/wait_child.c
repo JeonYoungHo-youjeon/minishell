@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:54:21 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 19:57:35 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/09 01:26:48 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	wait_child(void)
 		{
 			signo = WTERMSIG(status);
 			if (signo == SIGINT)
-				ft_putstr_fd("^C\n", 2);
+				ft_putstr_fd("^C\n", STDERR_FILENO);
 			else
-				ft_putstr_fd("^\\Quit: 3\n", 2);
+				ft_putstr_fd("^\\Quit: 3\n", STDERR_FILENO);
 			g_exit_code = 128 + signo;
 		}
 		else
