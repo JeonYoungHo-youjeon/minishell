@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 20:04:24 by mher              #+#    #+#             */
-/*   Updated: 2022/06/09 19:42:57 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/10 00:32:51 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,19 @@ void	print_err3(char *cmd, char *str1, char *str2)
 	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
-void	print_err(char *cmd, char *str)
+void	print_err(char *str)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+}
+
+void	print_err2(char *str1, char *str2)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(str1, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
-	if (str)
-	{
-		ft_putstr_fd(str, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-	}
+	ft_putstr_fd(str2, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
