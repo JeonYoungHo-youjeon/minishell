@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:57:20 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/09 19:34:29 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 19:45:36 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,6 @@ static void	first(t_cmd *tmp, t_cmd *ptr, t_cmd **cmd)
 	*cmd = tmp;
 	ptr = ft_free(ptr);
 	ptr = tmp;
-}
-
-static void	middle(t_cmd *tmp, t_cmd *ptr)
-{
-	tmp = ptr->prev;
-	tmp->next = ptr->next;
-	ptr = ft_free(ptr);
-	ptr = tmp->next;
-	ptr->prev = tmp;
 }
 
 void	argc_checker(t_cmd **cmd)
@@ -44,7 +35,13 @@ void	argc_checker(t_cmd **cmd)
 		if (ptr->argc == 0 && ptr->prev == NULL)
 			first(tmp, ptr, cmd);
 		else if (ptr->argc == 0 && ptr->next != NULL)
-			middle(tmp, ptr);
+		{
+			tmp = ptr->prev;
+			tmp->next = ptr->next;
+			ptr = ft_free(ptr);
+			ptr = tmp->next;
+			ptr->prev = tmp;
+		}
 		else
 			ptr = ptr->next;
 	}
