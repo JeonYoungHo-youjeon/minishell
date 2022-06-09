@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 18:17:22 by mher              #+#    #+#             */
-/*   Updated: 2022/06/09 01:58:45 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/09 19:41:27 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@ static void	remove_env(t_env *env)
 static int	check_valid_key_identifier(int argc, char *argv[])
 {
 	int	i;
+	int	ret;
 
-	i = 1;
-	while (i < argc)
+	i = 0;
+	ret = 0;
+	while (++i < argc)
 	{
 		if (argv[i] == NULL)
 		{
@@ -39,21 +41,16 @@ static int	check_valid_key_identifier(int argc, char *argv[])
 			return (-1);
 		}
 		if (is_have_specific_char(argv[i], '='))
+			ret = -1;
+		else if (is_have_space(argv[i], '\0'))
+			ret = -1;
+		else if (is_all_digit(argv[i], '\0'))
+			ret = -1;
+		if (ret == -1)
 		{
 			print_quote_err3("unset", argv[i], "not a valid identifier");
-			return (-1);
+			return (ret);
 		}
-		if (is_have_space(argv[i], '\0'))
-		{
-			print_quote_err3("unset", argv[i], "not a valid identifier");
-			return (-1);
-		}
-		if (is_all_digit(argv[i], '\0'))
-		{
-			print_quote_err3("unset", argv[i], "not a valid identifier");
-			return (-1);
-		}
-		i++;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:48:13 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 22:38:32 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/09 19:40:53 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_cd(char *path, t_env *env_head)
 	char	*tmp;
 
 	pwd = ft_getcwd(NULL, 0);
-	tmp	= ft_strjoin("OLDPWD=", pwd);
+	tmp = ft_strjoin("OLDPWD=", pwd);
 	if (path == 0)
 		ret = cd_home(path);
 	else if (ft_strncmp("~", path, 1) == 0)
@@ -53,11 +53,9 @@ int	ft_cd(char *path, t_env *env_head)
 	}
 	export_key_value(env_head, tmp);
 	free(tmp);
-	//free(pwd);
 	pwd = ft_getcwd(NULL, 0);
-	tmp	= ft_strjoin("PWD=", pwd);
+	tmp = ft_strjoin("PWD=", pwd);
 	export_key_value(env_head, tmp);
 	free(tmp);
-	//free(pwd);
 	return (ret);
 }
