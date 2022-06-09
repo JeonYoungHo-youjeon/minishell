@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:44:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/09 15:05:22 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 15:10:55 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static char	*parse_out_pipe(char *str, char *line, int quotes, int *pipe)
 		str = ft_strjoin_char(str, -32);
 	else if ((*line == '>' || *line == '<') && quotes == 0)
 	{
+		// TODO: 함수 하나 더 쪼개서 정교화
 		line--;
 		if (!(*line == '>' || *line == '<' || *line == ' '))
 			str = ft_strjoin_char(str, ' ');
