@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:55:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 22:24:09 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/09 13:14:59 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	check_empty_cmd(t_cmd *cmd)
 	return (0);
 }
 
-int	check_dollar(t_cmd *cmd)
+static int	check_dollar(t_cmd *cmd)
 {
 	if (cmd->is_dollar == true && cmd->argv[0] == NULL && cmd->argc == 1)
 		return (-1);
