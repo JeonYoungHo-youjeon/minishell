@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:00:29 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 21:24:16 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/10 01:27:39 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void	*ft_free(void *ptr)
 {
-	free(ptr);
+	if (ptr)
+	{
+		free(ptr);
+	}
 	return (NULL);
 }
 
