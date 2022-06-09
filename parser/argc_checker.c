@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:57:20 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/09 19:45:36 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 21:34:31 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	first(t_cmd *tmp, t_cmd *ptr, t_cmd **cmd)
 {
+	printf("test firsr \n");
 	tmp = ptr->next;
 	tmp->prev = NULL;
 	*cmd = tmp;
@@ -34,13 +35,14 @@ void	argc_checker(t_cmd **cmd)
 			return ;
 		if (ptr->argc == 0 && ptr->prev == NULL)
 			first(tmp, ptr, cmd);
-		else if (ptr->argc == 0 && ptr->next != NULL)
+		else if (ptr->argc == 0)
 		{
 			tmp = ptr->prev;
 			tmp->next = ptr->next;
 			ptr = ft_free(ptr);
 			ptr = tmp->next;
-			ptr->prev = tmp;
+			if (ptr)
+				ptr->prev = tmp;
 		}
 		else
 			ptr = ptr->next;

@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/09 19:25:48 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 21:21:23 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,17 @@ void	test_print_cmd(t_cmd *cmd)
 			i++;
 		}
 		if (ptr->prev)
-			printf("[%d] prev: true\n", index);
+			printf("[%d] prev: not NULL\n", index);
 		else
-			printf("[%d] prev: false\n", index);
+			printf("[%d] prev: NULL\n", index);
 		if (ptr->next)
-			printf("[%d] next: true\n", index);
+			printf("[%d] next: not NULL\n", index);
 		else
-			printf("[%d] next: false\n", index);
-
+			printf("[%d] next: NULL\n", index);
 		if (ptr->is_pipe)
-		{
 			printf("[%d] is_pipe: true\n", index);
-		}
 		else
-		{
 			printf("[%d] is_pipe: false\n", index);
-		}
 		i = 0;
 		index++;
 		ptr = ptr->next;
@@ -96,13 +91,14 @@ int	main(int argc, char *argv[], char *envp[])
 			add_history(line);
 			cmd = ft_list_init();
 			parse(line, cmd);
-			// test_print_cmd(cmd);
 			replace(cmd, &env_head);
+			//test_print_cmd(cmd);
 			argc_checker(&cmd);
 			test_print_cmd(cmd);
 			executor(cmd, &env_head, envp);
 			ft_free_list(cmd);
 		}
 		free(line);
+		system("leaks minishell"); //
 	}
 }
