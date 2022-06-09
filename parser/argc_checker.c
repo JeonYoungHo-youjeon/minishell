@@ -6,20 +6,22 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:57:20 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/09 21:34:31 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 21:54:33 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static void	first(t_cmd *tmp, t_cmd *ptr, t_cmd **cmd)
+static void	first(t_cmd *tmp, t_cmd **ptr, t_cmd **head)
 {
-	printf("test firsr \n");
-	tmp = ptr->next;
+	tmp = (*ptr)->next;
+	printf("test %p\n", tmp);
 	tmp->prev = NULL;
-	*cmd = tmp;
-	ptr = ft_free(ptr);
-	ptr = tmp;
+	printf("test %p\n", *head);
+	*head = ft_free(*head);
+	*head = tmp;
+	*ptr = tmp;
+	printf("test %p\n", *ptr);
 }
 
 void	argc_checker(t_cmd **cmd)
@@ -34,7 +36,7 @@ void	argc_checker(t_cmd **cmd)
 		if (ptr->prev == NULL && ptr->next == NULL)
 			return ;
 		if (ptr->argc == 0 && ptr->prev == NULL)
-			first(tmp, ptr, cmd);
+			first(tmp, &ptr, cmd);
 		else if (ptr->argc == 0)
 		{
 			tmp = ptr->prev;
