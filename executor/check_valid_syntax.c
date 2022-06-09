@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:55:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/09 19:48:39 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/10 00:33:13 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	check_alone_pipe(t_cmd *cmd)
 {
 	if (cmd->is_pipe && cmd->argc == 0)
 	{
-		print_err("syntax error near unexpected token `|'", NULL);
+		print_err("syntax error near unexpected token `|'");
 		g_exit_code = 258;
 		return (-1);
 	}
@@ -36,13 +36,13 @@ static int	check_redirection_file(t_cmd *cmd)
 		{
 			if (cmd->argv[i + 1] == NULL)
 			{
-				print_err("syntax error near unexpected token `newline'", NULL);
+				print_err("syntax error near unexpected token `newline'");
 				g_exit_code = 258;
 				return (-1);
 			}
 			else if (ft_strlen(cmd->argv[i + 1]) == 0)
 			{
-				print_err("syntax error near unexpected token `newline'", NULL);
+				print_err("syntax error near unexpected token `newline'");
 				g_exit_code = 258;
 				return (-1);
 			}
@@ -57,7 +57,7 @@ static int	check_empty_cmd(t_cmd *cmd)
 	if (cmd->is_dollar == false && cmd->argc == 1 && \
 			!ft_strcmp(cmd->argv[0], ""))
 	{
-		print_err("", "command not found");
+		print_err2("", "command not found");
 		g_exit_code = 127;
 		return (-1);
 	}
