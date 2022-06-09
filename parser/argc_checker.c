@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:57:20 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/09 21:54:33 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/09 23:55:20 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 static void	first(t_cmd *tmp, t_cmd **ptr, t_cmd **head)
 {
 	tmp = (*ptr)->next;
-	printf("test %p\n", tmp);
 	tmp->prev = NULL;
-	printf("test %p\n", *head);
-	*head = ft_free(*head);
+	(*head)->argv = ft_free((*head)->argv);
+	*head = ft_free((*head));
 	*head = tmp;
 	*ptr = tmp;
-	printf("test %p\n", *ptr);
 }
 
 void	argc_checker(t_cmd **cmd)
@@ -41,6 +39,7 @@ void	argc_checker(t_cmd **cmd)
 		{
 			tmp = ptr->prev;
 			tmp->next = ptr->next;
+			ptr->argv = ft_free(ptr->argv);
 			ptr = ft_free(ptr);
 			ptr = tmp->next;
 			if (ptr)
