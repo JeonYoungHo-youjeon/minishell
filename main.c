@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/10 19:28:16 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/10 21:30:22 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ int	main(int argc, char *argv[], char *envp[])
 		line = readline("minishell $ ");
 		if (!line)
 			break ;
+		if (*line != '\0')
+			add_history(line);
 		if (*line != '\0' && !is_whitespace(line))
 		{
-			add_history(line);
 			cmd = ft_list_init();
 			parse(line, cmd);
 			replace(cmd, &env_head);

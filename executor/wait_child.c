@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wait_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:54:21 by mher              #+#    #+#             */
-/*   Updated: 2022/06/09 01:26:48 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/10 21:24:21 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	wait_child(void)
 			signo = WTERMSIG(status);
 			if (signo == SIGINT)
 				ft_putstr_fd("^C\n", STDERR_FILENO);
-			else
+			else if (signo == SIGQUIT)
 				ft_putstr_fd("^\\Quit: 3\n", STDERR_FILENO);
 			g_exit_code = 128 + signo;
 		}
