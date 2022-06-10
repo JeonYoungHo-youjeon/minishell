@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:55:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/10 00:33:13 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/11 00:59:55 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,16 @@ static int	check_redirection_file(t_cmd *cmd)
 	{
 		if (!ft_strcmp(cmd->argv[i], ">") || !ft_strcmp(cmd->argv[i], ">>"))
 		{
-			if (cmd->argv[i + 1] == NULL)
+			if (cmd->argv[i + 1] == NULL || ft_strlen(cmd->argv[i + 1]) == 0)
 			{
 				print_err("syntax error near unexpected token `newline'");
 				g_exit_code = 258;
 				return (-1);
 			}
-			else if (ft_strlen(cmd->argv[i + 1]) == 0)
+		}
+		if (!ft_strcmp(cmd->argv[i], "<") || !ft_strcmp(cmd->argv[i], "<<"))
+		{
+			if (cmd->argv[i + 1] == NULL || ft_strlen(cmd->argv[i + 1]) == 0)
 			{
 				print_err("syntax error near unexpected token `newline'");
 				g_exit_code = 258;
