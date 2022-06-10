@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:44:28 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/10 18:39:21 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/11 00:18:26 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static char	*replace_while_dollar(char str, char *new, t_env *head, char **env)
 		if (*env != NULL)
 		{
 			new = ft_strjoin_free(new, ft_getenv(head, *env));
+			new = ft_strjoin_char(new, str);
 			*env = ft_free(*env);
 			g_exit_code = 0;
 		}
