@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:11:34 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/10 18:39:58 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/10 18:42:39 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	delete_argv(t_cmd *cmd, int *i)
 	*i = *i - 1;
 	cmd->argc = cmd->argc - 1;
 	cmd->is_dollar = false;
-	cmd->argc[tmp] = 0;
+	cmd->argv[tmp] = 0;
 }
 
 void	argv_change(t_cmd *cmd, char *new, int i)
