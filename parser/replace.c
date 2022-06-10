@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:44:28 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/10 01:43:54 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/10 17:48:20 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*replace_while_dollar(char str, char *new, t_env *head, char **env)
 			g_exit_code = 0;
 		}
 		else
-			new = ft_strdup("$");
+			new = ft_strjoin_char(new, '$');
 	}
 	return (new);
 }
@@ -109,7 +109,7 @@ void	replace(t_cmd *cmd, t_env *head)
 			{
 				new = ft_strdup("");
 				argv_change(cmd, new, i);
-			}	
+			}
 			else
 				argv_change(cmd, new, i);
 			i++;

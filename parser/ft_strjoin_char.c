@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:43:27 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/08 20:17:55 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/10 17:45:29 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ char	*ft_strjoin_char(char *s1, char s2)
 	else if (!s1)
 	{
 		return (ft_strdup(&s2));
-		printf("test33\n");
 	}
 	s1_len = ft_strlen(s1);
 	ret = (char *)malloc(sizeof(char) * (s1_len + 2));
