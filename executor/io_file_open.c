@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 01:46:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 17:03:41 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/10 16:15:26 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,25 @@ void	trim_cmd_argv(t_cmd *cmd, const char *set, int size)
 	int	i;
 	int	tmp;
 
-	i = -1;
-	while (cmd->argv[++i])
+	i = 0;
+	while (i < cmd->argc)
+	{
 		if (!ft_strcmp(cmd->argv[i], set))
 			break ;
-	if (cmd->argv[i] == NULL)
+		++i;
+	}
+	if (i == cmd->argc)
 		return ;
 	tmp = i;
 	cmd->argc -= size;
 	while (size--)
 	{
-		while (cmd->argv[i])
+		free(cmd->argv[i]);
+		while (cmd->argv[i + 1])
 		{
 			cmd->argv[i] = cmd->argv[i + 1];
 			++i;
 		}
-		free(cmd->argv[i]);
 		i = tmp;
 	}
 }
