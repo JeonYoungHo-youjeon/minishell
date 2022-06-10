@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 01:46:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/10 19:13:57 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/10 22:31:36 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,11 @@ void	infile_open(t_cmd *cmd)
 				break ;
 		if (cmd->argv[i] == NULL)
 			break ;
-		cmd->infile = ft_open(cmd->argv[i + 1], O_RDONLY, 0644);
+		if (cmd->infile != 2)
+			close(cmd->infile);
+		cmd->infile = open(cmd->argv[i + 1], O_RDONLY, 0644);
+		if (cmd->infile == -1)
+			print_err3(cmd->argv[i + 1], NULL, "No such file or directory");
 		trim_cmd_argv(cmd, "<", 2);
 	}
 	return ;
@@ -73,16 +77,22 @@ void	outfile_open(t_cmd *cmd)
 				break ;
 		if (cmd->argv[i] == NULL)
 			break ;
+		if (cmd->outfile != 2)
+			close(cmd->outfile);
 		if (ft_strcmp(cmd->argv[i], ">") == 0)
 		{
 			o_flag = O_WRONLY | O_CREAT | O_TRUNC;
-			cmd->outfile = ft_open(cmd->argv[i + 1], o_flag, 0644);
+			cmd->outfile = open(cmd->argv[i + 1], o_flag, 0644);
+			if (cmd->outfile == -1)
+				print_err3(cmd->argv[i + 1], NULL, "No such file or directory");
 			trim_cmd_argv(cmd, ">", 2);
 		}
 		else if (ft_strcmp(cmd->argv[i], ">>") == 0)
 		{
 			o_flag = O_WRONLY | O_CREAT | O_APPEND;
-			cmd->outfile = ft_open(cmd->argv[i + 1], o_flag, 0644);
+			cmd->outfile = open(cmd->argv[i + 1], o_flag, 0644);
+			if (cmd->outfile == -1)
+				print_err3(cmd->argv[i + 1], NULL, "No such file or directory");
 			trim_cmd_argv(cmd, ">>", 2);
 		}
 	}

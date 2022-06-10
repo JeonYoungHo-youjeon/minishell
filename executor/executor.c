@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/10 19:15:45 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/10 22:12:58 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static int	is_need_fork(t_cmd *cmd)
 		return (1);
 	if (cmd->is_pipe == true)
 		return (1);
-	if (cmd->infile != -1)
+	if (cmd->infile != -2)
 		return (1);
-	if (cmd->outfile != -1)
+	if (cmd->outfile != -2)
 		return (1);
 	if (!ft_strcmp(cmd->argv[0], "cd"))
 		return (0);
@@ -103,7 +103,8 @@ void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 	cmd_cur = cmd_head;
 	if (check_valid_syntax(cmd_head) == -1)
 		return ;
-	init_cmd_arg(cmd_cur, env_head);
+	if (init_cmd_arg(cmd_cur, env_head) == -1)
+		return ;
 	while (cmd_cur)
 	{
 		if (is_need_fork(cmd_cur) == true)

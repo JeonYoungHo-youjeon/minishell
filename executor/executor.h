@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 19:56:09 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/10 22:13:20 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	infile_open(t_cmd *cmd);
 void	outfile_open(t_cmd *cmd);
 char	*get_tmp_file_name(void);
 void	delete_tmp_file(void);
-void	init_cmd_arg(t_cmd *cmd, t_env *env_head);
+int		init_cmd_arg(t_cmd *cmd, t_env *env_head);
 void	clear_cmd(t_cmd *cmd_head);
 
 #endif
