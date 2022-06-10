@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/10 19:25:59 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/10 19:28:16 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,39 +40,6 @@ void	main_init(int argc, char *argv[])
 	(void)argv;
 }
 
-void	test_print_cmd(t_cmd *cmd)
-{
-	int	index = 0;
-	int	i = 0;
-	t_cmd *ptr;
-
-	ptr = cmd;
-	while (ptr)
-	{
-		printf("[%d] argc: %d\n", index, ptr->argc);
-		while (i < ptr->argc)
-		{
-			printf("[%d] argv[%d]: %s\n", index, i, ptr->argv[i]);
-			i++;
-		}
-		if (ptr->prev)
-			printf("[%d] prev: not NULL\n", index);
-		else
-			printf("[%d] prev: NULL\n", index);
-		if (ptr->next)
-			printf("[%d] next: not NULL\n", index);
-		else
-			printf("[%d] next: NULL\n", index);
-		if (ptr->is_pipe)
-			printf("[%d] is_pipe: true\n", index);
-		else
-			printf("[%d] is_pipe: false\n", index);
-		i = 0;
-		index++;
-		ptr = ptr->next;
-	}
-}
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	char			*line;
@@ -92,13 +59,10 @@ int	main(int argc, char *argv[], char *envp[])
 			cmd = ft_list_init();
 			parse(line, cmd);
 			replace(cmd, &env_head);
-			//test_print_cmd(cmd);
 			argc_checker(&cmd);
-			//test_print_cmd(cmd);
 			executor(cmd, &env_head, envp);
 			ft_free_list(cmd);
 		}
 		free(line);
-		system("leaks minishell | grep leaked"); //
 	}
 }
