@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:46:48 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/10 01:42:58 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/10 18:20:50 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ void	replace(t_cmd *cmd, t_env *head);
 void	delete_argv(t_cmd *cmd, int *i);
 void	argc_checker(t_cmd **cmd);
 void	argv_change(t_cmd *cmd, char *new, int i);
+char	*ft_strjoin_free(char *s1, char *s2);
 
 #endif
