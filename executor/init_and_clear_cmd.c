@@ -6,12 +6,13 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:40:14 by mher              #+#    #+#             */
-/*   Updated: 2022/06/11 01:58:17 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/11 03:21:46 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 #include "../minishell.h"
+#include <stdlib.h>
 
 int	init_cmd_arg(t_cmd *cmd, t_env *env_head)
 {
@@ -28,7 +29,7 @@ int	init_cmd_arg(t_cmd *cmd, t_env *env_head)
 		outfile_open(cmd);
 		if (cmd->outfile == -1)
 			return (-1);
-		if (heredoc(cmd) == -1)
+		if (heredoc(cmd) == EXIT_FAILURE)
             return (-1);
 		cmd->cmd_path = get_cmd_path(cmd, env_head);
 		cmd = cmd->next;

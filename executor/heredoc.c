@@ -6,11 +6,12 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 00:54:48 by mher              #+#    #+#             */
-/*   Updated: 2022/06/11 02:30:46 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/11 03:21:11 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
+#include <stdlib.h>
 
 static void	input_heredoc(t_cmd *cmd, int lim_idx)
 {
@@ -75,6 +76,7 @@ int heredoc(t_cmd *cmd)
 {
 	char	*tmp_file_name;
 	int		idx;
+    int     exit_code;
 
 	idx = -1;
 	while (cmd->argv[++idx])
@@ -84,18 +86,15 @@ int heredoc(t_cmd *cmd)
         return (0);
 	tmp_file_name = get_tmp_file_name();
 	cmd->infile = ft_open(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (do_fork_heredoc(cmd, idx) == EXIT_SUCCESS)
+    exit_code = do_fork_heredoc(cmd, idx);
+    if (exit_code == EXIT_SUCCESS)
     {
-        g_exit_code = EXIT_SUCCESS;
         cmd->infile = ft_open(tmp_file_name, O_RDONLY, 0664);
-        free(tmp_file_name);
         trim_cmd_argv(cmd, "<<", 2);
-        return (0);
     }
     else
-    {
-        g_exit_code = EXIT_FAILURE;
         delete_tmp_file();
-        return (-1);
-    }
+    g_exit_code = exit_code;
+    free(tmp_file_name);
+    return (exit_code);
 }
