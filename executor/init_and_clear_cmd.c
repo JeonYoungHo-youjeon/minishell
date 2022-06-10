@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:40:14 by mher              #+#    #+#             */
-/*   Updated: 2022/06/10 19:15:43 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/10 19:25:34 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,8 @@
 
 void	init_cmd_arg(t_cmd *cmd, t_env *env_head)
 {
-	char	*line;
-
 	while (cmd)
 	{
-		if (cmd->argc == 0 && cmd->prev->is_pipe == true && cmd->argv == NULL)
-		{
-			line = readline("> ");
-			add_history(line);
-			parse(line, cmd);
-			replace(cmd, env_head);
-			free(line);
-		}
 		cmd->is_dollar = false;
 		cmd->infile = -1;
 		cmd->outfile = -1;
