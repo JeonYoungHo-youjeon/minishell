@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:40:14 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 22:23:05 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/10 19:15:43 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ void	init_cmd_arg(t_cmd *cmd, t_env *env_head)
 		cmd->outfile = -1;
 		cmd->cmd_path = NULL;
 		ft_pipe(cmd->fd);
-		infile_open(cmd);
 		heredoc(cmd);
-		outfile_open(cmd);
 		cmd->cmd_path = get_cmd_path(cmd, env_head);
 		cmd = cmd->next;
 	}
