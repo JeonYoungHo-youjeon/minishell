@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 18:11:34 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/10 18:42:39 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/10 18:51:54 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ char	*ft_strjoin_free(char *s1, char *s2)
 
 	if (!s1 && !s2)
 		return (0);
+	else if (!s1)
+		return (ft_strdup(s2));
+	else if (!s2)
+		return (s1);
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
 	ret = (char *)ft_malloc(sizeof(char), (s1_len + s2_len + 1));
