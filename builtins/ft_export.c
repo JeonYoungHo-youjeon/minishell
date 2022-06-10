@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 23:05:45 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 17:25:21 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/10 14:18:28 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ static void	append_env(t_env *env, char *key, char *value)
 	return ;
 }
 
-static void	change_env(t_env *env, char *value)
+static void	change_env(t_env *env, char *key, char *value)
 {
 	free(env->value);
+	free(key);
 	env->value = value;
 	return ;
 }
@@ -63,7 +64,7 @@ void	export_key_value(t_env *env_head, char *key_value)
 	value = get_env_value(key_value);
 	env = compare_env_key(env_head, key);
 	if (env->key != NULL)
-		change_env(env, value);
+		change_env(env, key, value);
 	else
 		append_env(env, key, value);
 	return ;

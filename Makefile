@@ -12,6 +12,7 @@ SRCS		=	main.c \
 			./builtins/ft_exit.c \
 			./builtins/ft_getenv.c \
 			./builtins/env_utils.c \
+			./builtins/cd_utils.c \
 			./executor/executor.c \
 			./executor/path.c \
 			./executor/redirection.c \
@@ -54,10 +55,10 @@ CC = gcc $(DEBUG)
 CFLAGS = -Werror -Wall -Wextra
 # SAN = -fsanitize=address -g3
 DEBUG = -g
-READLINE_LIB 	= -lreadline -L/opt/homebrew/opt/readline/lib
-READLINE_INC	= -I/opt/homebrew/opt/readline/include
-#READLINE_LIB 	= -lreadline -L${HOME}/.brew/opt/readline/lib
-#READLINE_INC	= -I${HOME}/.brew/opt/readline/include
+#READLINE_LIB 	= -lreadline -L/opt/homebrew/opt/readline/lib
+#READLINE_INC	= -I/opt/homebrew/opt/readline/include
+READLINE_LIB 	= -lreadline -L${HOME}/.brew/opt/readline/lib
+READLINE_INC	= -I${HOME}/.brew/opt/readline/include
 
 FT_DIR	= ./libft
 FT 	= ft

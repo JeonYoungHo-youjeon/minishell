@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:41:40 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 17:35:12 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/10 15:07:12 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int		ft_unset(int argc, char *argv[], t_env *env_head);
 t_env	*dup_env_list(t_env *cur);
 t_env	*sort_env_list(t_env *head);
 void	free_env_list(t_env *env);
+char	*get_pwd_key_value(const char *key);
+void	export_pwd(const char *pwd, t_env *env_head);
 
 int		ft_export(int argc, char *argv[], t_env *env_head);
 void	export_key_value(t_env *env_head, char *key_value);
