@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 23:19:53 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 17:14:21 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/10 17:08:03 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ char	*get_tmp_file_name(void)
 		str_num = ft_itoa(tmp_num);
 		file_name = ft_strjoin("tmp_file_", str_num);
 		if (is_exist_file(file_name) == 0)
+		{
+			free(str_num);
 			return (file_name);
+		}
 		free(file_name);
 		free(str_num);
 	}
