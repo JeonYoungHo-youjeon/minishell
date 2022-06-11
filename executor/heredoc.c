@@ -6,12 +6,24 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 00:54:48 by mher              #+#    #+#             */
-/*   Updated: 2022/06/11 03:21:11 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/11 18:02:49 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
-#include <stdlib.h>
+
+static int  check_heredoc(t_cmd *cmd)
+{
+    int idx;
+
+    idx = -1;
+	while (cmd->argv[++idx])
+		if (!ft_strcmp(cmd->argv[idx], "<<"))
+			break ;
+	if (cmd->argv[idx] == NULL)
+        return (-1);
+    return (idx);
+}
 
 static void	input_heredoc(t_cmd *cmd, int lim_idx)
 {
@@ -60,11 +72,12 @@ static int  do_fork_heredoc(t_cmd *cmd, int lim_idx)
     if (pid == 0)
     {
 	    input_heredoc(cmd, lim_idx + 1);
+        ft_close(cmd->infile);
         exit (EXIT_SUCCESS);
     }
     else
     {
-       set_signal(IGN, IGN);
+        set_signal(IGN, IGN);
         ft_close(cmd->infile);
         ret = wait_heredoc(pid);
     }
@@ -78,11 +91,8 @@ int heredoc(t_cmd *cmd)
 	int		idx;
     int     exit_code;
 
-	idx = -1;
-	while (cmd->argv[++idx])
-		if (!ft_strcmp(cmd->argv[idx], "<<"))
-			break ;
-	if (cmd->argv[idx] == NULL)
+    idx = check_heredoc(cmd);
+    if (idx == -1)
         return (0);
 	tmp_file_name = get_tmp_file_name();
 	cmd->infile = ft_open(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);

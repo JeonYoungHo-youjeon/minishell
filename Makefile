@@ -66,7 +66,7 @@ FT 	= ft
 all			:	$(NAME)
 
 $(NAME)		:	$(OBJS)
-		gcc $(CFLAGS) -o $(NAME) $(OBJS) $(READLINE_LIB)
+		$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(READLINE_LIB)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(READLINE_INC) -c $< -o $@

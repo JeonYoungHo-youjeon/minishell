@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/10 22:12:58 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/11 18:46:57 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static int	execute_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 {
 	pid_t	pid;
+    int     exit_code;
 
 	set_signal(DFL, DFL);
 	pid = ft_fork();
@@ -86,7 +87,8 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 	{
 		redirect(cmd);
 		close_unused_fd(cmd, pid);
-		exit(execute_cmd(cmd, env_head, envp));
+		exit_code = execute_cmd(cmd, env_head, envp);
+        exit (exit_code);
 	}
 	else
 	{
