@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 01:46:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/10 22:31:36 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/11 20:39:07 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ void	trim_cmd_argv(t_cmd *cmd, const char *set, int size)
 	int	tmp;
 	int	tmp_argc;
 
-	i = -1;
+	i = 0;
 	tmp_argc = cmd->argc;
-	while (++i < cmd->argc)
+	while (i < cmd->argc)
 	{
 		if (!ft_strcmp(cmd->argv[i], set))
 			break ;
+		++i;
 	}
 	if (i == cmd->argc)
 		return ;
@@ -41,7 +42,7 @@ void	trim_cmd_argv(t_cmd *cmd, const char *set, int size)
 	}
 }
 
-void	infile_open(t_cmd *cmd)
+static void	infile_open(t_cmd *cmd)
 {
 	int	i;
 
@@ -53,7 +54,7 @@ void	infile_open(t_cmd *cmd)
 				break ;
 		if (cmd->argv[i] == NULL)
 			break ;
-		if (cmd->infile != 2)
+		if (cmd->infile > 0)
 			close(cmd->infile);
 		cmd->infile = open(cmd->argv[i + 1], O_RDONLY, 0644);
 		if (cmd->infile == -1)
@@ -63,7 +64,7 @@ void	infile_open(t_cmd *cmd)
 	return ;
 }
 
-void	outfile_open(t_cmd *cmd)
+static void	outfile_open(t_cmd *cmd)
 {
 	int	i;
 	int	o_flag;
@@ -77,7 +78,7 @@ void	outfile_open(t_cmd *cmd)
 				break ;
 		if (cmd->argv[i] == NULL)
 			break ;
-		if (cmd->outfile != 2)
+		if (cmd->outfile > 0)
 			close(cmd->outfile);
 		if (ft_strcmp(cmd->argv[i], ">") == 0)
 		{
@@ -96,4 +97,16 @@ void	outfile_open(t_cmd *cmd)
 			trim_cmd_argv(cmd, ">>", 2);
 		}
 	}
+}
+
+int io_file_open(t_cmd *cmd, t_env *env_head)
+{
+	infile_open(cmd);
+	if (cmd->infile == -1)
+		return (-1);
+	outfile_open(cmd);
+	if (cmd->outfile == -1)
+		return (-1);
+	cmd->cmd_path = get_cmd_path(cmd, env_head);
+	return (0);
 }

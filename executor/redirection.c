@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:22 by mher              #+#    #+#             */
-/*   Updated: 2022/06/10 22:22:32 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/11 20:08:21 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ static void	redirect_pipe_out(t_cmd *cmd)
 
 static void	redirect_infile(t_cmd *cmd)
 {
-	if (cmd->infile == -2)
+	if (cmd->infile < 0)
 		return ;
 	return (ft_dup2(cmd->infile, STDIN_FILENO));
 }
 
 static void	redirect_outfile(t_cmd *cmd)
 {
-	if (cmd->outfile == -2)
+	if (cmd->outfile < 0)
 		return ;
 	return (ft_dup2(cmd->outfile, STDOUT_FILENO));
 }
