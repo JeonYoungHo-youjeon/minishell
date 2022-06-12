@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 01:46:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/11 20:39:07 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/12 19:52:32 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,13 @@ static void	outfile_open(t_cmd *cmd)
 		if (ft_strcmp(cmd->argv[i], ">") == 0)
 		{
 			o_flag = O_WRONLY | O_CREAT | O_TRUNC;
-			cmd->outfile = open(cmd->argv[i + 1], o_flag, 0644);
-			if (cmd->outfile == -1)
-				print_err3(cmd->argv[i + 1], NULL, "No such file or directory");
+			cmd->outfile = ft_open(cmd->argv[i + 1], o_flag, 0644);
 			trim_cmd_argv(cmd, ">", 2);
 		}
 		else if (ft_strcmp(cmd->argv[i], ">>") == 0)
 		{
 			o_flag = O_WRONLY | O_CREAT | O_APPEND;
-			cmd->outfile = open(cmd->argv[i + 1], o_flag, 0644);
-			if (cmd->outfile == -1)
-				print_err3(cmd->argv[i + 1], NULL, "No such file or directory");
+			cmd->outfile = ft_open(cmd->argv[i + 1], o_flag, 0644);
 			trim_cmd_argv(cmd, ">>", 2);
 		}
 	}
@@ -103,10 +99,11 @@ int io_file_open(t_cmd *cmd, t_env *env_head)
 {
 	infile_open(cmd);
 	if (cmd->infile == -1)
+	{
+		g_exit_code = EXIT_FAILURE;
 		return (-1);
+	}
 	outfile_open(cmd);
-	if (cmd->outfile == -1)
-		return (-1);
 	cmd->cmd_path = get_cmd_path(cmd, env_head);
 	return (0);
 }
