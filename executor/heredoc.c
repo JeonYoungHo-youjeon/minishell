@@ -6,15 +6,15 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 00:54:48 by mher              #+#    #+#             */
-/*   Updated: 2022/06/11 20:44:34 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 13:39:39 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-static int  check_heredoc(t_cmd *cmd)
+static int	check_heredoc(t_cmd *cmd)
 {
-	int idx;
+	int	idx;
 
 	idx = -1;
 	while (cmd->argv[++idx])
@@ -47,7 +47,7 @@ static void	input_heredoc(t_cmd *cmd, int lim_idx)
 	}
 }
 
-static int  wait_heredoc(pid_t pid)
+static int	wait_heredoc(pid_t pid)
 {
 	int		status;
 	int		signo;
@@ -62,11 +62,11 @@ static int  wait_heredoc(pid_t pid)
 	return (EXIT_SUCCESS);
 }
 
-static int  do_fork_heredoc(t_cmd *cmd, int lim_idx)
+static int	do_fork_heredoc(t_cmd *cmd, int lim_idx)
 {
 	pid_t	pid;
 	int		ret;
-	
+
 	set_signal(DFL, SHE);
 	pid = fork();
 	if (pid == 0)
@@ -85,7 +85,7 @@ static int  do_fork_heredoc(t_cmd *cmd, int lim_idx)
 	return (ret);
 }
 
-int heredoc(t_cmd *cmd)
+int	heredoc(t_cmd *cmd)
 {
 	char	*tmp_file_name;
 	int		idx;

@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 18:36:23 by mher              #+#    #+#             */
-/*   Updated: 2022/06/11 19:29:37 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 13:37:12 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	is_option_n(char *str)
 {
-    if (str == NULL)
-        return (0);
+	if (str == NULL)
+		return (0);
 	if (ft_strncmp(str, "-n", 2))
 		return (0);
 	++str;
@@ -31,7 +31,7 @@ static int	check_option_n(int argc, char *argv[], int *idx)
 	int	i;
 	int	option_n;
 
-    i = 1;
+	i = 1;
 	option_n = 0;
 	if (argc == 1)
 		return (0);

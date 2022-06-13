@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 01:46:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/12 19:52:32 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 13:48:26 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,11 @@ void	trim_cmd_argv(t_cmd *cmd, const char *set, int size)
 	int	tmp;
 	int	tmp_argc;
 
-	i = 0;
+	i = -1;
 	tmp_argc = cmd->argc;
-	while (i < cmd->argc)
-	{
+	while (++i < cmd->argc)
 		if (!ft_strcmp(cmd->argv[i], set))
 			break ;
-		++i;
-	}
 	if (i == cmd->argc)
 		return ;
 	tmp = i;
@@ -64,6 +61,12 @@ static void	infile_open(t_cmd *cmd)
 	return ;
 }
 
+static void	outfile_open_trim(t_cmd *cmd, const char *set, int i, int o_flag)
+{
+	cmd->outfile = ft_open(cmd->argv[i + 1], o_flag, 0644);
+	trim_cmd_argv(cmd, set, 2);
+}
+
 static void	outfile_open(t_cmd *cmd)
 {
 	int	i;
@@ -83,19 +86,17 @@ static void	outfile_open(t_cmd *cmd)
 		if (ft_strcmp(cmd->argv[i], ">") == 0)
 		{
 			o_flag = O_WRONLY | O_CREAT | O_TRUNC;
-			cmd->outfile = ft_open(cmd->argv[i + 1], o_flag, 0644);
-			trim_cmd_argv(cmd, ">", 2);
+			outfile_open_trim(cmd, ">", i, o_flag);
 		}
 		else if (ft_strcmp(cmd->argv[i], ">>") == 0)
 		{
 			o_flag = O_WRONLY | O_CREAT | O_APPEND;
-			cmd->outfile = ft_open(cmd->argv[i + 1], o_flag, 0644);
-			trim_cmd_argv(cmd, ">>", 2);
+			outfile_open_trim(cmd, ">>", i, o_flag);
 		}
 	}
 }
 
-int io_file_open(t_cmd *cmd, t_env *env_head)
+int	io_file_open(t_cmd *cmd, t_env *env_head)
 {
 	infile_open(cmd);
 	if (cmd->infile == -1)
