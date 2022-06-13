@@ -6,14 +6,15 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:40:14 by mher              #+#    #+#             */
-/*   Updated: 2022/06/10 22:23:08 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/11 20:49:07 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 #include "../minishell.h"
+#include <stdlib.h>
 
-int	init_cmd_arg(t_cmd *cmd, t_env *env_head)
+int	init_cmd_arg(t_cmd *cmd)
 {
 	while (cmd)
 	{
@@ -22,14 +23,8 @@ int	init_cmd_arg(t_cmd *cmd, t_env *env_head)
 		cmd->outfile = -2;
 		cmd->cmd_path = NULL;
 		ft_pipe(cmd->fd);
-		infile_open(cmd);
-		if (cmd->infile == -1)
+		if (heredoc(cmd) == EXIT_FAILURE)
 			return (-1);
-		outfile_open(cmd);
-		if (cmd->outfile == -1)
-			return (-1);
-		heredoc(cmd);
-		cmd->cmd_path = get_cmd_path(cmd, env_head);
 		cmd = cmd->next;
 	}
 	return (0);
@@ -44,9 +39,9 @@ void	clear_cmd(t_cmd *cmd_head)
 	{
 		if (cur->is_pipe)
 			ft_close(cur->fd[READ]);
-		if (cur->infile != -2)
+		if (cur->infile > 0)
 			ft_close(cur->infile);
-		if (cur->outfile != -2)
+		if (cur->outfile > 0)
 			ft_close(cur->outfile);
 		if (cur->cmd_path != NULL)
 			free(cur->cmd_path);

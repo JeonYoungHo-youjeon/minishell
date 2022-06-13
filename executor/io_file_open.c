@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 01:46:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/10 22:31:36 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 13:48:26 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ void	trim_cmd_argv(t_cmd *cmd, const char *set, int size)
 	i = -1;
 	tmp_argc = cmd->argc;
 	while (++i < cmd->argc)
-	{
 		if (!ft_strcmp(cmd->argv[i], set))
 			break ;
-	}
 	if (i == cmd->argc)
 		return ;
 	tmp = i;
@@ -41,7 +39,7 @@ void	trim_cmd_argv(t_cmd *cmd, const char *set, int size)
 	}
 }
 
-void	infile_open(t_cmd *cmd)
+static void	infile_open(t_cmd *cmd)
 {
 	int	i;
 
@@ -53,7 +51,7 @@ void	infile_open(t_cmd *cmd)
 				break ;
 		if (cmd->argv[i] == NULL)
 			break ;
-		if (cmd->infile != 2)
+		if (cmd->infile > 0)
 			close(cmd->infile);
 		cmd->infile = open(cmd->argv[i + 1], O_RDONLY, 0644);
 		if (cmd->infile == -1)
@@ -63,7 +61,13 @@ void	infile_open(t_cmd *cmd)
 	return ;
 }
 
-void	outfile_open(t_cmd *cmd)
+static void	outfile_open_trim(t_cmd *cmd, const char *set, int i, int o_flag)
+{
+	cmd->outfile = ft_open(cmd->argv[i + 1], o_flag, 0644);
+	trim_cmd_argv(cmd, set, 2);
+}
+
+static void	outfile_open(t_cmd *cmd)
 {
 	int	i;
 	int	o_flag;
@@ -77,23 +81,30 @@ void	outfile_open(t_cmd *cmd)
 				break ;
 		if (cmd->argv[i] == NULL)
 			break ;
-		if (cmd->outfile != 2)
+		if (cmd->outfile > 0)
 			close(cmd->outfile);
 		if (ft_strcmp(cmd->argv[i], ">") == 0)
 		{
 			o_flag = O_WRONLY | O_CREAT | O_TRUNC;
-			cmd->outfile = open(cmd->argv[i + 1], o_flag, 0644);
-			if (cmd->outfile == -1)
-				print_err3(cmd->argv[i + 1], NULL, "No such file or directory");
-			trim_cmd_argv(cmd, ">", 2);
+			outfile_open_trim(cmd, ">", i, o_flag);
 		}
 		else if (ft_strcmp(cmd->argv[i], ">>") == 0)
 		{
 			o_flag = O_WRONLY | O_CREAT | O_APPEND;
-			cmd->outfile = open(cmd->argv[i + 1], o_flag, 0644);
-			if (cmd->outfile == -1)
-				print_err3(cmd->argv[i + 1], NULL, "No such file or directory");
-			trim_cmd_argv(cmd, ">>", 2);
+			outfile_open_trim(cmd, ">>", i, o_flag);
 		}
 	}
+}
+
+int	io_file_open(t_cmd *cmd, t_env *env_head)
+{
+	infile_open(cmd);
+	if (cmd->infile == -1)
+	{
+		g_exit_code = EXIT_FAILURE;
+		return (-1);
+	}
+	outfile_open(cmd);
+	cmd->cmd_path = get_cmd_path(cmd, env_head);
+	return (0);
 }

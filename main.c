@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/10 21:30:22 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/11 18:47:08 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	main_init(int argc, char *argv[])
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-	set_signal(0, 0);
+	set_signal(SHE, SHE);
 	g_exit_code = 0;
 	(void)argc;
 	(void)argv;
@@ -65,5 +65,6 @@ int	main(int argc, char *argv[], char *envp[])
 			ft_free_list(cmd);
 		}
 		free(line);
+		//system("leaks minishell | grep leaked"); //
 	}
 }
