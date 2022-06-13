@@ -33,7 +33,6 @@ SRCS		=	main.c \
 			./utiles/ft_strlcpy.c \
 			./utiles/ft_strdup.c \
 			./utiles/ft_atoi.c \
-			./utiles/ft_strchr.c \
 			./utiles/ft_isspace.c \
 			./utiles/ft_putstr_fd.c \
 			./utiles/ft_system_calls.c \
@@ -41,7 +40,6 @@ SRCS		=	main.c \
 			./utiles/is_exist_file.c \
 			./utiles/exit_with_error.c \
 			./utiles/signal.c \
-			./utiles/get_next_line.c\
 			./parser/ft_split_argc.c \
 			./parser/ft_strjoin_char.c \
 			./parser/parse_set_quotes.c \
