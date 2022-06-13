@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 01:46:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/13 13:48:26 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 17:07:52 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ static void	outfile_open(t_cmd *cmd)
 
 int	io_file_open(t_cmd *cmd, t_env *env_head)
 {
+	ft_pipe(cmd->fd);
 	infile_open(cmd);
 	if (cmd->infile == -1)
 	{

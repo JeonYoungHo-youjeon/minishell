@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:48:43 by mher              #+#    #+#             */
-/*   Updated: 2022/06/06 14:48:56 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 17:07:31 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,14 @@
 void	close_unused_fd(t_cmd *cmd, pid_t pid)
 {
 	if (pid == 0)
-		ft_close(cmd->fd[READ]);
+	{
+		if (cmd->fd[READ] != -1)
+			ft_close(cmd->fd[READ]);
+	}
 	else
-		ft_close(cmd->fd[WRITE]);
+	{
+		if (cmd->fd[WRITE] != -1)
+			ft_close(cmd->fd[WRITE]);
+	}
 	return ;
 }
