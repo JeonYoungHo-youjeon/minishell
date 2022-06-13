@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 00:54:48 by mher              #+#    #+#             */
-/*   Updated: 2022/06/13 19:38:48 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 20:58:42 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int	heredoc(t_cmd *cmd_head)
 		idx = check_heredoc(cur);
 		if (idx == -1)
 			return (0);
+		if (cur->infile > 0)
+			ft_close(cur->infile);
 		tmp_file = get_tmp_file_name();
 		cur->infile = ft_open(tmp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		exit_code = do_fork_heredoc(cur, idx);
