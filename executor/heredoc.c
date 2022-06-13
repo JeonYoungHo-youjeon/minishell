@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 00:54:48 by mher              #+#    #+#             */
-/*   Updated: 2022/06/13 13:39:39 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 17:22:08 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,26 +85,31 @@ static int	do_fork_heredoc(t_cmd *cmd, int lim_idx)
 	return (ret);
 }
 
-int	heredoc(t_cmd *cmd)
+int	heredoc(t_cmd *cmd_head)
 {
 	char	*tmp_file_name;
 	int		idx;
 	int		exit_code;
+	t_cmd	*cur;
 
-	idx = check_heredoc(cmd);
-	if (idx == -1)
-		return (0);
-	tmp_file_name = get_tmp_file_name();
-	cmd->infile = ft_open(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	exit_code = do_fork_heredoc(cmd, idx);
-	if (exit_code == EXIT_SUCCESS)
+	while (1)
 	{
-		cmd->infile = ft_open(tmp_file_name, O_RDONLY, 0664);
-		trim_cmd_argv(cmd, "<<", 2);
+		cur = cmd_head;
+		idx = check_heredoc(cur);
+		if (idx == -1)
+			return (0);
+		tmp_file_name = get_tmp_file_name();
+		cur->infile = ft_open(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		exit_code = do_fork_heredoc(cur, idx);
+		if (exit_code == EXIT_SUCCESS)
+		{
+			cur->infile = ft_open(tmp_file_name, O_RDONLY, 0664);
+			trim_cmd_argv(cur, "<<", 2);
+		}
+		else
+			delete_tmp_file();
+		g_exit_code = exit_code;
+		free(tmp_file_name);
 	}
-	else
-		delete_tmp_file();
-	g_exit_code = exit_code;
-	free(tmp_file_name);
 	return (exit_code);
 }

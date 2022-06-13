@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:40:14 by mher              #+#    #+#             */
-/*   Updated: 2022/06/13 17:06:47 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 17:16:53 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	init_cmd_arg(t_cmd *cmd)
 		cur->infile = -2;
 		cur->outfile = -2;
 		cur->cmd_path = NULL;
-		if (heredoc(cur) == EXIT_FAILURE)
+		if (heredoc(cur) == -1)
 			return (-1);
 		cur  = cur->next;
 	}
