@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:44:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/09 16:39:57 by youjeon          ###   ########.fr       */
+/*   Updated: 2022/06/13 16:46:45 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*add_redirect_space(char *str, char *line, char c)
 		if (!(*line == '>' || *line == ' '))
 			str = ft_strjoin_char(str, ' ');
 		line++;
-		str = ft_strjoin_char(str, c);
+		str = ft_strjoin_char(str, -76);
 		line++;
 		if (!(*line == '>' || *line == ' '))
 			str = ft_strjoin_char(str, ' ');
@@ -46,7 +46,7 @@ static char	*add_redirect_space(char *str, char *line, char c)
 		if (!(*line == '<' || *line == ' '))
 			str = ft_strjoin_char(str, ' ');
 		line++;
-		str = ft_strjoin_char(str, line[0]);
+		str = ft_strjoin_char(str, -74);
 		line++;
 		if (!(*line == '<' || *line == ' '))
 			str = ft_strjoin_char(str, ' ');
@@ -60,6 +60,8 @@ static char	*parse_out_pipe(char *str, char *line, int quotes, int *pipe)
 		exit_with_err("symbol error", line, 1);
 	else if (quotes != 0 && *line == ' ')
 		str = ft_strjoin_char(str, -32);
+	else if (quotes == 0 && ft_isspace(*line))
+		str = ft_strjoin_char(str, ' ');
 	else if ((*line == '>' || *line == '<') && quotes == 0)
 		str = add_redirect_space(str, line, *line);
 	else
