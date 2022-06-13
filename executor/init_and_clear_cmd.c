@@ -6,13 +6,11 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:40:14 by mher              #+#    #+#             */
-/*   Updated: 2022/06/13 21:30:52 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/14 01:55:56 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
-#include "../minishell.h"
-#include <stdlib.h>
 
 int	init_cmd_arg(t_cmd *cmd)
 {
@@ -21,10 +19,7 @@ int	init_cmd_arg(t_cmd *cmd)
 	cur = cmd;
 	while (cur)
 	{
-		cur->is_dollar = false;
-		cur->infile = -2;
-		cur->outfile = -2;
-		cur->cmd_path = NULL;
+		//cur->is_dollar = false;
 		if (heredoc(cur) == -1)
 			return (-1);
 		cur = cur->next;
@@ -39,14 +34,14 @@ void	clear_cmd(t_cmd *cmd_head)
 	cur = cmd_head;
 	while (cur)
 	{
-		if (cur->fd[READ] != -2)
+		if (cur->fd[READ] > 0)
 			ft_close(cur->fd[READ]);
 		if (cur->infile > 0)
 			ft_close(cur->infile);
 		if (cur->outfile > 0)
 			ft_close(cur->outfile);
 		if (cur->cmd_path != NULL)
-			free(cur->cmd_path);
+			cur->cmd_path = ft_free(cur->cmd_path);
 		cur = cur->next;
 	}
 	delete_tmp_file();

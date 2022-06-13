@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/13 21:31:50 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/14 01:21:04 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 	}
 	else
 	{
+		close_unused_fd(cmd, pid);
 		set_signal(IGN, IGN);
 	}
 	return ;
@@ -116,8 +117,10 @@ void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 		if (is_need_fork(cmd_cur) == true)
 			do_fork_cmd(cmd_cur, env_head, envp);
 		else
+		{
 			g_exit_code = execute_cmd(cmd_cur, env_head, envp);
-		close_unused_fd(cmd_cur, 1);
+			close_unused_fd(cmd_cur, 1);
+		}
 		cmd_cur = cmd_cur->next;
 	}
 	wait_child();
