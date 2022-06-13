@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 20:25:40 by mher              #+#    #+#             */
-/*   Updated: 2022/06/05 04:07:07 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 19:23:50 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ int	ft_open(char *fname, int oflag, int mode)
 	return (fd);
 }
 
-void	ft_close(int fd)
+int	ft_close(int fd)
 {
 	if (close(fd) == -1)
 		exit_with_err("close()", strerror(errno), EXIT_FAILURE);
+	return (-2);
 }
 
 void	ft_dup2(int fd1, int fd2)

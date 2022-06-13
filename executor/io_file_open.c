@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 01:46:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/13 17:49:47 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 19:46:59 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	trim_cmd_argv(t_cmd *cmd, const char *set, int size)
 
 static void	infile_open(t_cmd *cmd)
 {
-	int	i;
-	const char redir_in[2] = {-74, '\0'};
+	int			i;
+	const char	redir_in[2] = {-74, '\0'};
 
 	while (1)
 	{
@@ -62,40 +62,43 @@ static void	infile_open(t_cmd *cmd)
 	return ;
 }
 
-static void	outfile_open_trim(t_cmd *cmd, const char *set, int i, int o_flag)
+static void	outfile_open_trim(t_cmd *cmd, int i)
 {
-	cmd->outfile = ft_open(cmd->argv[i + 1], o_flag, 0644);
-	trim_cmd_argv(cmd, set, 2);
+	int			o_flag;
+	const char	r_o[2] = {-76, '\0'};
+	const char	r_a[3] = {-76, -76, '\0'};
+
+	if (ft_strcmp(cmd->argv[i], r_o) == 0)
+	{
+		o_flag = O_WRONLY | O_CREAT | O_TRUNC;
+		cmd->outfile = ft_open(cmd->argv[i + 1], o_flag, 0644);
+		trim_cmd_argv(cmd, r_o, 2);
+	}
+	else if (ft_strcmp(cmd->argv[i], r_a) == 0)
+	{
+		o_flag = O_WRONLY | O_CREAT | O_APPEND;
+		cmd->outfile = ft_open(cmd->argv[i + 1], o_flag, 0644);
+		trim_cmd_argv(cmd, r_a, 2);
+	}
 }
 
 static void	outfile_open(t_cmd *cmd)
 {
-	int	i;
-	int	o_flag;
-	const char redir_out[2] = {-76, '\0'};
-	const char redir_out_a[3] = {-76, -76, '\0'};
+	int			i;
+	const char	r_o[2] = {-76, '\0'};
+	const char	r_a[3] = {-76, -76, '\0'};
 
 	while (1)
 	{
 		i = -1;
-		o_flag = 0;
 		while (cmd->argv[++i])
-			if (!ft_strcmp(cmd->argv[i], redir_out) || !ft_strcmp(cmd->argv[i], redir_out_a))
+			if (!ft_strcmp(cmd->argv[i], r_o) || !ft_strcmp(cmd->argv[i], r_a))
 				break ;
 		if (cmd->argv[i] == NULL)
 			break ;
 		if (cmd->outfile > 0)
 			close(cmd->outfile);
-		if (ft_strcmp(cmd->argv[i], redir_out) == 0)
-		{
-			o_flag = O_WRONLY | O_CREAT | O_TRUNC;
-			outfile_open_trim(cmd, redir_out, i, o_flag);
-		}
-		else if (ft_strcmp(cmd->argv[i], redir_out_a) == 0)
-		{
-			o_flag = O_WRONLY | O_CREAT | O_APPEND;
-			outfile_open_trim(cmd, redir_out_a, i, o_flag);
-		}
+		outfile_open_trim(cmd, i);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:53:46 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/13 18:21:13 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 19:24:08 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		ft_isspace(char c);
 char	*ft_strchr(const char *s, int c);
 
 int		ft_open(char *fname, int oflag, int mode);
-void	ft_close(int fd);
+int		ft_close(int fd);
 void	ft_dup2(int fd1, int fd2);
 void	ft_pipe(int *fds);
 pid_t	ft_fork(void);
