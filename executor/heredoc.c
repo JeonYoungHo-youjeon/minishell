@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 00:54:48 by mher              #+#    #+#             */
-/*   Updated: 2022/06/13 17:22:08 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 18:32:39 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 static int	check_heredoc(t_cmd *cmd)
 {
 	int	idx;
+	const char redir_h[3] = {-74, -74, '\0'};
 
 	idx = -1;
 	while (cmd->argv[++idx])
-		if (!ft_strcmp(cmd->argv[idx], "<<"))
+		if (!ft_strcmp(cmd->argv[idx], redir_h))
 			break ;
 	if (cmd->argv[idx] == NULL)
 		return (-1);
@@ -28,21 +29,21 @@ static int	check_heredoc(t_cmd *cmd)
 static void	input_heredoc(t_cmd *cmd, int lim_idx)
 {
 	char	*line;
-	char	*limiter;
+	char	*lim;
+	size_t	len;
 
-	limiter = cmd->argv[lim_idx];
+	lim = cmd->argv[lim_idx];
+	len = ft_strlen(lim);
 	while (1)
 	{	
-		line = readline("> ");
-		if (line == NULL)
-			break ;
-		else if (ft_strcmp(line, limiter) == 0)
+		ft_write(STDOUT_FILENO, "> ", 2);
+		line = get_next_line(STDIN_FILENO);
+		if (ft_strlen(line) - 1 == len && !ft_strncmp(line, lim, len))
 		{
 			free(line);
 			break ;
 		}
 		ft_write(cmd->infile, line, ft_strlen(line));
-		ft_write(cmd->infile, "\n", 1);
 		free(line);
 	}
 }
@@ -91,6 +92,7 @@ int	heredoc(t_cmd *cmd_head)
 	int		idx;
 	int		exit_code;
 	t_cmd	*cur;
+	const char redir_h[3] = {-74, -74, '\0'};
 
 	while (1)
 	{
@@ -104,7 +106,7 @@ int	heredoc(t_cmd *cmd_head)
 		if (exit_code == EXIT_SUCCESS)
 		{
 			cur->infile = ft_open(tmp_file_name, O_RDONLY, 0664);
-			trim_cmd_argv(cur, "<<", 2);
+			trim_cmd_argv(cur, redir_h, 2);
 		}
 		else
 			delete_tmp_file();
