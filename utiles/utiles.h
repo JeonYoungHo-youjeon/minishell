@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:53:46 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/13 19:24:08 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 20:40:31 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,5 @@ void	print_err(char *str);
 void	print_err2(char *str1, char *str2);
 
 void	set_signal(int sig_int, int sig_quit);
-
-char	*read_file(int fd, char *keep);
-char	*get_line(char *keep);
-char	*get_next_line(int fd);
 
 #endif
