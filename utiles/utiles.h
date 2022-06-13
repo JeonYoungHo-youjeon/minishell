@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 15:53:46 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/11 02:12:25 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 20:40:31 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 # include <signal.h>
 # include <stdio.h>
 # include <readline/readline.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE	4096
+# endif
 
 # define SHE 0
 # define DFL 1
@@ -40,9 +44,10 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t destsize);
 char	*ft_strdup(const char *s1);
 void	ft_putstr_fd(char *s, int fd);
 int		ft_isspace(char c);
+char	*ft_strchr(const char *s, int c);
 
 int		ft_open(char *fname, int oflag, int mode);
-void	ft_close(int fd);
+int		ft_close(int fd);
 void	ft_dup2(int fd1, int fd2);
 void	ft_pipe(int *fds);
 pid_t	ft_fork(void);

@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/12 15:56:37 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/13 19:33:39 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 
 	cmd_cur = cmd_head;
 	if (check_valid_syntax(cmd_head) == -1)
-		return ;
+		return (clear_cmd(cmd_head));
 	if (init_cmd_arg(cmd_cur) == -1)
-		return ;
+		return (clear_cmd(cmd_head));
 	while (cmd_cur)
 	{
 		if (io_file_open(cmd_cur, env_head) == -1)
@@ -121,7 +121,6 @@ void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 		cmd_cur = cmd_cur->next;
 	}
 	wait_child();
-	delete_tmp_file();
-	clear_cmd(cmd_head);
 	set_signal(SHE, SHE);
+	return (clear_cmd(cmd_head));
 }
