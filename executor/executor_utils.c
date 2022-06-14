@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 14:45:55 by mher              #+#    #+#             */
-/*   Updated: 2022/06/14 14:48:52 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/14 15:13:48 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,31 +31,4 @@ int	is_need_fork(t_cmd *cmd)
 	if (!ft_strcmp(cmd->argv[0], "exit"))
 		return (0);
 	return (1);
-}
-
-void	restore_redirection_char(t_cmd *cmd_head)
-{
-	t_cmd	*cur;
-	int		i;
-	int		j;
-
-	cur = cmd_head;
-	while (cur)
-	{
-		i = 0;
-		while (cur->argv[i])
-		{
-			j = 0;
-			while (cur->argv[i][j])
-			{
-				if (cur->argv[i][j] == -74)
-					cur->argv[i][j] = '<';
-				else if (cur->argv[i][j] == -76)
-					cur->argv[i][j] = '>';
-				++j;
-			}
-			++i;
-		}
-		cur = cur->next;
-	}
 }

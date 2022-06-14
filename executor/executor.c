@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/14 14:50:07 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/14 15:15:25 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 	t_cmd	*cmd_cur;
 
 	cmd_cur = cmd_head;
-	restore_redirection_char(cmd_head);
 	if (check_valid_syntax(cmd_head) == -1)
 		return (clear_cmd(cmd_head));
 	if (init_heredoc(cmd_cur) == -1)

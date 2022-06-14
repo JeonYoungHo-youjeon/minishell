@@ -6,7 +6,7 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 00:54:48 by mher              #+#    #+#             */
-/*   Updated: 2022/06/14 14:41:06 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/14 15:14:37 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 static int	check_heredoc(t_cmd *cmd)
 {
 	int			idx;
+	const char	redir_h[3] = {-74, -74, '\0'};
 
 	idx = -1;
 	while (cmd->argv[++idx])
-		if (!ft_strcmp(cmd->argv[idx], "<<"))
+		if (!ft_strcmp(cmd->argv[idx], redir_h))
 			break ;
 	if (cmd->argv[idx] == NULL)
 		return (-1);
@@ -66,6 +67,7 @@ static int	do_fork_heredoc(t_cmd *cmd, int lim_idx)
 {
 	pid_t		pid;
 	int			ret;
+	const char	redir_h[3] = {-74, -74, '\0'};
 
 	set_signal(DFL, SHE);
 	pid = fork();
@@ -82,7 +84,7 @@ static int	do_fork_heredoc(t_cmd *cmd, int lim_idx)
 		ret = wait_heredoc(pid);
 	}
 	set_signal(SHE, SHE);
-	trim_cmd_argv(cmd, "<<", 2);
+	trim_cmd_argv(cmd, redir_h, 2);
 	return (ret);
 }
 
