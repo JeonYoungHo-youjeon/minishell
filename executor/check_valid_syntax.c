@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:55:25 by mher              #+#    #+#             */
-/*   Updated: 2022/06/14 01:24:06 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/14 14:44:11 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,6 @@ static int	check_redirection_file(t_cmd *cmd)
 {
 	int		i;
 	int		ret;
-	const char	oc[2] = {-76, '\0'};
-	const char	oa[3] = {-76, -76, '\0'};
-	const char	ic[2] = {-74, '\0'};
-	const char	ia[3] = {-74, -76, '\0'};
 
 	i = 0;
 	ret = 0;
@@ -38,10 +34,10 @@ static int	check_redirection_file(t_cmd *cmd)
 		return (0);
 	while (i < cmd->argc)
 	{
-		if (!ft_strcmp(cmd->argv[i], oc) || !ft_strcmp(cmd->argv[i], oa))
+		if (!ft_strcmp(cmd->argv[i], ">") || !ft_strcmp(cmd->argv[i], ">>"))
 			if (cmd->argv[i + 1] == NULL || ft_strlen(cmd->argv[i + 1]) == 0)
 				ret = -1;
-		if (!ft_strcmp(cmd->argv[i], ic) || !ft_strcmp(cmd->argv[i], ia))
+		if (!ft_strcmp(cmd->argv[i], "<") || !ft_strcmp(cmd->argv[i], "<<"))
 			if (cmd->argv[i + 1] == NULL || ft_strlen(cmd->argv[i + 1]) == 0)
 				ret = -1;
 		if (ret == -1)

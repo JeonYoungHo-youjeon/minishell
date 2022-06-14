@@ -6,20 +6,19 @@
 /*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:40:14 by mher              #+#    #+#             */
-/*   Updated: 2022/06/14 01:55:56 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/14 14:41:58 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-int	init_cmd_arg(t_cmd *cmd)
+int	init_heredoc(t_cmd *cmd)
 {
 	t_cmd	*cur;
 
 	cur = cmd;
 	while (cur)
 	{
-		//cur->is_dollar = false;
 		if (heredoc(cur) == -1)
 			return (-1);
 		cur = cur->next;

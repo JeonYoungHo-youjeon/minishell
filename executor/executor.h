@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/06/13 17:33:22 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/14 14:46:51 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int		heredoc(t_cmd *cmd);
 void	close_unused_fd(t_cmd *cmd, pid_t pid);
 int		check_valid_syntax(t_cmd *cmd_head);
 void	wait_child(void);
+int		is_need_fork(t_cmd *cmd);
+void	restore_redirection_char(t_cmd *cmd_head);
 
 char	*get_cmd_path(t_cmd *cmd, t_env *env_head);
 
@@ -41,7 +43,7 @@ void	trim_cmd_argv(t_cmd *cmd, const char *set, int direction);
 
 char	*get_tmp_file_name(void);
 void	delete_tmp_file(void);
-int		init_cmd_arg(t_cmd *cmd);
+int		init_heredoc(t_cmd *cmd);
 void	clear_cmd(t_cmd *cmd_head);
 
 #endif
