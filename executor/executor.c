@@ -6,32 +6,11 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/14 01:21:04 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/14 15:15:25 by mher             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./executor.h"
-
-static int	is_need_fork(t_cmd *cmd)
-{
-	if (cmd->prev != NULL)
-		return (1);
-	if (cmd->is_pipe == true)
-		return (1);
-	if (cmd->infile != -2)
-		return (1);
-	if (cmd->outfile != -2)
-		return (1);
-	if (!ft_strcmp(cmd->argv[0], "cd"))
-		return (0);
-	if (!ft_strcmp(cmd->argv[0], "export"))
-		return (0);
-	if (!ft_strcmp(cmd->argv[0], "unset"))
-		return (0);
-	if (!ft_strcmp(cmd->argv[0], "exit"))
-		return (0);
-	return (1);
-}
+#include "executor.h"
 
 static int	os_builtins(t_cmd *cmd, t_env *env_head, char *envp[])
 {
@@ -98,6 +77,12 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 	return ;
 }
 
+static void	do_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
+{
+	g_exit_code = execute_cmd(cmd, env_head, envp);
+	close_unused_fd(cmd, 1);
+}
+
 void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 {
 	t_cmd	*cmd_cur;
@@ -105,7 +90,7 @@ void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 	cmd_cur = cmd_head;
 	if (check_valid_syntax(cmd_head) == -1)
 		return (clear_cmd(cmd_head));
-	if (init_cmd_arg(cmd_cur) == -1)
+	if (init_heredoc(cmd_cur) == -1)
 		return (clear_cmd(cmd_head));
 	while (cmd_cur)
 	{
@@ -117,10 +102,7 @@ void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 		if (is_need_fork(cmd_cur) == true)
 			do_fork_cmd(cmd_cur, env_head, envp);
 		else
-		{
-			g_exit_code = execute_cmd(cmd_cur, env_head, envp);
-			close_unused_fd(cmd_cur, 1);
-		}
+			do_cmd(cmd_cur, env_head, envp);
 		cmd_cur = cmd_cur->next;
 	}
 	wait_child();
