@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 14:25:10 by youjeon           #+#    #+#             */
-/*   Updated: 2022/06/11 18:47:08 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/15 15:47:04 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ int	main(int argc, char *argv[], char *envp[])
 	char			*line;
 	t_cmd			*cmd;
 	t_env			env_head;
+	struct termios		term;
 
+	tcgetattr(STDIN_FILENO, &term);
 	main_init(argc, argv);
 	init_env_list(&env_head, envp);
 	while (1)
@@ -67,4 +69,5 @@ int	main(int argc, char *argv[], char *envp[])
 		free(line);
 		//system("leaks minishell | grep leaked"); //
 	}
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
