@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mher <mher@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 20:55:17 by mher              #+#    #+#             */
-/*   Updated: 2022/06/08 17:13:14 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/15 16:25:26 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,24 @@ static char	*get_absolute_path(t_cmd *cmd, char *env_path)
 	return (ret);
 }
 
+static int	check_relative(char *str)
+{
+	int	i;
+	int	ret;
+
+	i = 0;
+	ret = 0;
+	while (!ft_isalnum(str[i]))
+	{
+		if (str[i] == '.' || str[i] == '/')
+		{
+			ret = 1;
+		}
+		i++;
+	}
+	return (ret);
+}
+
 char	*get_cmd_path(t_cmd *cmd, t_env *env_head)
 {
 	char	*ret;
@@ -54,7 +72,9 @@ char	*get_cmd_path(t_cmd *cmd, t_env *env_head)
 
 	ret = NULL;
 	env_path = ft_getenv(env_head, "PATH");
-	if (env_path != NULL)
+	if (check_relative(cmd->argv[0]) && is_exist_file(cmd->argv[0]))
+		return (ft_strdup(cmd->argv[0]));
+	else if (env_path != NULL)
 		ret = get_absolute_path(cmd, env_path);
 	if (ret == NULL && is_exist_file(cmd->argv[0]))
 		return (ft_strdup(cmd->argv[0]));
