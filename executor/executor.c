@@ -6,15 +6,46 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 16:46:29 by mher              #+#    #+#             */
-/*   Updated: 2022/06/14 15:40:33 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/16 15:35:04 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-static int	os_builtins(t_cmd *cmd, t_env *env_head, char *envp[])
+static char	**get_envp(t_env *head)
+{
+	int		i;
+	int		size;
+	char	*key;
+	t_env	*tmp;
+	char	**result;
+
+	i = 0;
+	size = 0;
+	tmp = head;
+	while (tmp)
+	{
+		size++;
+		tmp = tmp->next;
+	}
+	result = malloc(sizeof(char *) * size);
+	tmp = head;
+	while (i < size - 1)
+	{
+		key = ft_strjoin(tmp->key, "=");
+		result[i] = ft_strjoin(key, tmp->value);
+		i++;
+		tmp = tmp->next;
+		free(key);
+	}
+	result[i] = NULL;
+	return (result);
+}
+
+static int	os_builtins(t_cmd *cmd, t_env *env_head)
 {
 	char	*env_path;
+	char	**now_env;
 
 	env_path = ft_getenv(env_head, "PATH");
 	if (env_path == NULL && cmd->cmd_path == NULL)
@@ -32,11 +63,12 @@ static int	os_builtins(t_cmd *cmd, t_env *env_head, char *envp[])
 		print_err3(cmd->argv[0], NULL, "command not found");
 		return (127);
 	}
-	ft_execve(cmd->cmd_path, cmd->argv, envp);
+	now_env = get_envp(env_head);
+	ft_execve(cmd->cmd_path, cmd->argv, now_env);
 	return (EXIT_FAILURE);
 }
 
-static int	execute_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
+static int	execute_cmd(t_cmd *cmd, t_env *env_head)
 {
 	restore_redirection_char(cmd);
 	if (!ft_strcmp(cmd->argv[0], "echo"))
@@ -53,10 +85,10 @@ static int	execute_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 		return (ft_env(env_head));
 	if (!ft_strcmp(cmd->argv[0], "exit"))
 		return (ft_exit(cmd));
-	return (os_builtins(cmd, env_head, envp));
+	return (os_builtins(cmd, env_head));
 }
 
-static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
+static void	do_fork_cmd(t_cmd *cmd, t_env *env_head)
 {
 	pid_t	pid;
 	int		exit_code;
@@ -67,7 +99,7 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 	{
 		redirect(cmd);
 		close_unused_fd(cmd, pid);
-		exit_code = execute_cmd(cmd, env_head, envp);
+		exit_code = execute_cmd(cmd, env_head);
 		exit (exit_code);
 	}
 	else
@@ -78,13 +110,13 @@ static void	do_fork_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
 	return ;
 }
 
-static void	do_cmd(t_cmd *cmd, t_env *env_head, char *envp[])
+static void	do_cmd(t_cmd *cmd, t_env *env_head)
 {
-	g_exit_code = execute_cmd(cmd, env_head, envp);
+	g_exit_code = execute_cmd(cmd, env_head);
 	close_unused_fd(cmd, 1);
 }
 
-void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
+void	executor(t_cmd *cmd_head, t_env *env_head)
 {
 	t_cmd	*cmd_cur;
 
@@ -101,9 +133,9 @@ void	executor(t_cmd *cmd_head, t_env *env_head, char *envp[])
 			continue ;
 		}
 		if (is_need_fork(cmd_cur) == true)
-			do_fork_cmd(cmd_cur, env_head, envp);
+			do_fork_cmd(cmd_cur, env_head);
 		else
-			do_cmd(cmd_cur, env_head, envp);
+			do_cmd(cmd_cur, env_head);
 		cmd_cur = cmd_cur->next;
 	}
 	wait_child();

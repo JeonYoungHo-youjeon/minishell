@@ -6,7 +6,7 @@
 /*   By: youjeon <youjeon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:08:04 by mher              #+#    #+#             */
-/*   Updated: 2022/06/14 15:40:27 by mher             ###   ########.fr       */
+/*   Updated: 2022/06/16 15:00:19 by youjeon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "../utiles/utiles.h"
 # include "../builtins/builtin.h"
 
-void	executor(t_cmd *cmd, t_env *env_head, char *envp[]);
+void	executor(t_cmd *cmd, t_env *env_head);
 void	redirect(t_cmd *cmd);
 int		heredoc(t_cmd *cmd);
 void	close_unused_fd(t_cmd *cmd, pid_t pid);
